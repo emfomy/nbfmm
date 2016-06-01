@@ -28,6 +28,6 @@
 //
 namespace nbfmm {
 
-}  // namespace lorasc
+}  // namespace nbfmm
 
 #endif  // NBFMM_CONFIG_HPP_

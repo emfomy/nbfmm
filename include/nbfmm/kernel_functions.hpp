@@ -23,15 +23,20 @@ typedef float2 (*KernelFunction)(const float2, const float);
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// The acceleration of gravity
 ///
-inline float2 KernelGravity( const float2 pos, const float mass ) {
-  float2 acc;
-  float r = sqrt(pos.x * pos.x + pos.y * pos.y);
-  float tmp = mass / (r*r*r);
-  acc.x = pos.x * tmp;
-  acc.y = pos.y * tmp;
-  return acc;
+/// @param  position  the position of particle
+/// @param  weight    the mass of particle
+///
+/// @return           the acceleration of particle
+///
+inline float2 KernelGravity( const float2 position, const float weight ) {
+  float2 effect;
+  float r = sqrt(position.x * position.x + position.y * position.y);
+  float tmp = weight / (r*r*r);
+  effect.x = position.x * tmp;
+  effect.y = position.y * tmp;
+  return effect;
 }
 
-}  // namespace lorasc
+}  // namespace nbfmm
 
 #endif  // NBFMM_KERNEL_FUNCTIONS_HPP_

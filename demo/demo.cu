@@ -19,6 +19,6 @@ int main( int argc, char *argv[] ) {
        << NBFMM_VERSION_MAJOR_STRING << "."
        << NBFMM_VERSION_MINOR_STRING << "."
        << NBFMM_VERSION_PATCH_STRING << " demo" << endl;
-  auto solver = new Solver(16, 256);
+  Solver solver(4, 1024);
   return 0;
 }
