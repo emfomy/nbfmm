@@ -13,7 +13,13 @@
 namespace nbfmm {
 
 // Default constructor
-Solver::Solver() {
+Solver::Solver(
+    const int num_level,
+    const int max_num_point,
+    const KernelFunction kernel_function
+) : num_level_(num_level),
+    max_num_point_(max_num_point),
+    kernel_function_(kernel_function) {
 }
 
 // Default destructor

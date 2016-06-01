@@ -11,3 +11,10 @@ add_custom_target(
   dox
   COMMAND doxygen "${CMAKE_CURRENT_BINARY_DIR}/Doxyfile"
 )
+
+# Add to clean rule
+set_directory_properties(
+  PROPERTIES
+  ADDITIONAL_MAKE_CLEAN_FILES
+  "${CMAKE_BINARY_DIR}/html"
+)

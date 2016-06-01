@@ -10,5 +10,6 @@
 
 #include <nbfmm/config.hpp>
 #include <nbfmm/solver.hpp>
+#include <nbfmm/kernel_functions.hpp>
 
 #endif  // NBFMM_HPP_
