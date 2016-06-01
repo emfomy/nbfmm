@@ -19,6 +19,6 @@ endif()
 set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
 
 # Add subdirectories
-add_subdirectory(source)
-add_subdirectory(demo)
+# add_subdirectory(source)
+# add_subdirectory(demo)
 add_subdirectory(doxygen)
