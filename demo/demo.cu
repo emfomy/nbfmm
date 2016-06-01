@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// @file    demo/demo.cpp
+/// @file    demo/demo.cu
 /// @brief   The demo code
 ///
 /// @author  Mu Yang <emfomy@gmail.com>
@@ -19,6 +19,6 @@ int main( int argc, char *argv[] ) {
        << NBFMM_VERSION_MAJOR_STRING << "."
        << NBFMM_VERSION_MINOR_STRING << "."
        << NBFMM_VERSION_PATCH_STRING << " demo" << endl;
-
+  auto solver = new Solver();
   return 0;
 }

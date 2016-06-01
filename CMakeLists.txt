@@ -11,26 +11,19 @@ set(NBFMM_VERSION_PATCH dev)
 
 # Set Makefile
 set(CMAKE_COLOR_MAKEFILE ON)
-if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+if(CMAKE_BUILD_TYPE STREQUAL Debug)
   set(CMAKE_VERBOSE_MAKEFILE ON)
 endif()
 
-# Set module paths
-set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
+# CUDA
+find_package(CUDA REQUIRED 7.5)
+set(FLAGS "-Wall,-Wextra")
+set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS};-O3;-arch=sm_35;-std=c++11;-Xcompiler;${FLAGS})
+include_directories("${PROJECT_SOURCE_DIR}/include" "${PROJECT_BINARY_DIR}/include")
+link_directories("${PROJECT_BINARY_DIR}/library")
 
 # Add subdirectories
+add_subdirectory(include)
+add_subdirectory(library)
 add_subdirectory(demo)
 add_subdirectory(doxygen)
-
-# Create configure files
-file(
-  GLOB_RECURSE CONFIGFILES
-  RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" "${CMAKE_CURRENT_SOURCE_DIR}/*.in"
-)
-foreach(CONFIGFILE IN LISTS CONFIGFILES)
-  string(REGEX REPLACE "\\.[^.]*$" "" FILE ${CONFIGFILE})
-  configure_file(
-    "${CMAKE_CURRENT_SOURCE_DIR}/${CONFIGFILE}"
-    "${CMAKE_CURRENT_BINARY_DIR}/${FILE}"
-  )
-endforeach()
