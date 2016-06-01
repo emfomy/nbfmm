@@ -19,6 +19,18 @@ endif()
 set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
 
 # Add subdirectories
-# add_subdirectory(source)
-# add_subdirectory(demo)
+add_subdirectory(demo)
 add_subdirectory(doxygen)
+
+# Create configure files
+file(
+  GLOB_RECURSE CONFIGFILES
+  RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" "${CMAKE_CURRENT_SOURCE_DIR}/*.in"
+)
+foreach(CONFIGFILE IN LISTS CONFIGFILES)
+  string(REGEX REPLACE "\\.[^.]*$" "" FILE ${CONFIGFILE})
+  configure_file(
+    "${CMAKE_CURRENT_SOURCE_DIR}/${CONFIGFILE}"
+    "${CMAKE_CURRENT_BINARY_DIR}/${FILE}"
+  )
+endforeach()
