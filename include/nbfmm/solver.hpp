@@ -94,7 +94,7 @@ class Solver {
   void solve( const int num_particle, const float2* gpuptr_position_origin,
               const float* gpuptr_weight_origin, const float2* gpuptr_effect_origin );
 
- private:
+ protected:
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   /// Compute particle to particle

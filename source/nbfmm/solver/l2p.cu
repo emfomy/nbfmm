@@ -11,8 +11,7 @@
 namespace nbfmm {
 
 // L2P
-void Solver::l2p(
-) {
+void Solver::l2p() {
   /// @todo Implement!
 }
 
