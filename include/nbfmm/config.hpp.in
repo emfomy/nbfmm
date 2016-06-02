@@ -14,18 +14,16 @@
 #warning C++11 is required.
 #endif
 
-#ifndef DOXYGEN_SHOULD_SKIP_THIS
 #define NBFMM_VERSION_MAJOR @NBFMM_VERSION_MAJOR@
 #define NBFMM_VERSION_MINOR @NBFMM_VERSION_MINOR@
 #define NBFMM_VERSION_PATCH @NBFMM_VERSION_PATCH@
 #define NBFMM_VERSION_MAJOR_STRING "@NBFMM_VERSION_MAJOR@"
 #define NBFMM_VERSION_MINOR_STRING "@NBFMM_VERSION_MINOR@"
 #define NBFMM_VERSION_PATCH_STRING "@NBFMM_VERSION_PATCH@"
-#endif  // DOXYGEN_SHOULD_SKIP_THIS
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//  The namespace NBFMM
-//
+/// The namespace NBFMM
+///
 namespace nbfmm {
 
 }  // namespace nbfmm

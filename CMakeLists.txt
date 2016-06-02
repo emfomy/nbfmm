@@ -1,6 +1,6 @@
 # The main CMake setting
 
-project(LORASC)
+project(NBFMM)
 
 cmake_minimum_required(VERSION 2.8)
 

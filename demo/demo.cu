@@ -19,6 +19,6 @@ int main( int argc, char *argv[] ) {
        << NBFMM_VERSION_MAJOR_STRING << "."
        << NBFMM_VERSION_MINOR_STRING << "."
        << NBFMM_VERSION_PATCH_STRING << " demo" << endl;
-  Solver solver(4, 1024);
+  Solver solver(4, 1024, make_float4(0, 0, 1, 1));
   return 0;
 }
