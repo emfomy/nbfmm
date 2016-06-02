@@ -48,7 +48,7 @@ class Solver {
   float*  gpuptr_weight;
 
   /// The device pointer of sorted particle indices. @n Vector, 1 by @p max_num_particle_.
-  int*    gpuptr_index;
+  int2*   gpuptr_index;
 
   /// The device pointer of sorted heads of particle indices in each grid. @n Vector, 1 by @p base_size_^2.
   int*    gpuptr_head;
@@ -94,7 +94,7 @@ class Solver {
   void solve( const int num_particle, const float2* gpuptr_position_origin,
               const float* gpuptr_weight_origin, const float2* gpuptr_effect_origin );
 
- private:
+ protected:
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   /// Compute particle to particle
