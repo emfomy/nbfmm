@@ -16,9 +16,9 @@ using namespace nbfmm;
 ///
 int main( int argc, char *argv[] ) {
   cout << "NBFMM "
-       << NBFMM_VERSION_MAJOR_STRING << "."
-       << NBFMM_VERSION_MINOR_STRING << "."
-       << NBFMM_VERSION_PATCH_STRING << " demo" << endl;
+       << NBFMM_VERSION_MAJOR << "."
+       << NBFMM_VERSION_MINOR << "."
+       << NBFMM_VERSION_PATCH << " demo" << endl;
   Solver solver(4, 1024, make_float4(0, 0, 1, 1));
   return 0;
 }

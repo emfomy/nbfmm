@@ -38,35 +38,35 @@ class Solver {
   /// The kernel function
   const KernelFunction kernel_function_;
 
-  /// The pitched pointers of starting particle indices in each grid.
-  cudaPitchedPtr pitchedptr_head;
-
   /// The pitched pointers of multipole grids.
-  cudaPitchedPtr pitchedptr_multipole;
+  cudaPitchedPtr pitchedptr_multipole_;
 
   /// The pitched pointers of local grids.
-  cudaPitchedPtr pitchedptr_local;
+  cudaPitchedPtr pitchedptr_local_;
 
   /// The device pointer of sorted particle positions. @n Vector, 1 by #max_num_particle_.
-  float2*  gpuptr_position;
+  float2*  gpuptr_position_;
 
   /// The device pointer of sorted particle effects. @n Vector, 1 by #max_num_particle_.
-  float2*  gpuptr_effect;
+  float2*  gpuptr_effect_;
 
   /// The device pointer of sorted particle weights. @n Vector, 1 by #max_num_particle_.
-  float*   gpuptr_weight;
+  float*   gpuptr_weight_;
 
-  /// The device pointer of sorted particle indices. @n Vector, 1 by #max_num_particle_.
-  int2*    gpuptr_index;
+  /// The device pointer of particle grid indices. @n Vector, 1 by #max_num_particle_.
+  int2*    gpuptr_index_;
 
-  /// The device pointer of sorted starting particle indices in each grid. @n Matrix, #base_size_ by #base_size_.
-  int2*&   gpuptr_head = reinterpret_cast<int2*&>(pitchedptr_head.ptr);
+  /// The device pointer of particle permutation indices. @n Vector, 1 by #max_num_particle_.
+  int*     gpuptr_perm_;
+
+  /// The device pointer of starting permutation indices of each grid. @n Vector, 1 by (#base_size_^2+1).
+  int*     gpuptr_head_;
 
   /// The device pointer of multipole grids. @n Cube, #base_size_ by #base_size_ by #num_level_.
-  float*&  gpuptr_multipole = reinterpret_cast<float*&>(pitchedptr_multipole.ptr);
+  float*&  gpuptr_multipole_ = reinterpret_cast<float*&>(pitchedptr_multipole_.ptr);
 
   /// The device pointer of local grids. @n Cube, #base_size_ by #base_size_ by #num_level_.
-  float2*& gpuptr_local     = reinterpret_cast<float2*&>(pitchedptr_local.ptr);
+  float2*& gpuptr_local_     = reinterpret_cast<float2*&>(pitchedptr_local_.ptr);
 
  public:
 
