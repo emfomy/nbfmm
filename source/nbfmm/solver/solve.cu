@@ -22,9 +22,9 @@ namespace nbfmm {
 
 // Solve system
 void Solver::solve(
-    const int num_particle,
+    const int     num_particle,
     const float2* gpuptr_position_origin,
-    const float* gpuptr_weight,
+    const float*  gpuptr_weight_origin,
     const float2* gpuptr_effect_origin
 ) {
 	float gridWidth=(position_limits_.z-position_limits_.x)/base_size_;
