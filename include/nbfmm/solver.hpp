@@ -38,9 +38,6 @@ class Solver {
   /// The kernel function
   const KernelFunction kernel_function_;
 
-  /// The pitched pointers of starting particle indices in each grid.
-  cudaPitchedPtr pitchedptr_head;
-
   /// The pitched pointers of multipole grids.
   cudaPitchedPtr pitchedptr_multipole;
 
@@ -56,11 +53,14 @@ class Solver {
   /// The device pointer of sorted particle weights. @n Vector, 1 by #max_num_particle_.
   float*   gpuptr_weight;
 
-  /// The device pointer of sorted particle indices. @n Vector, 1 by #max_num_particle_.
+  /// The device pointer of particle grid indices. @n Vector, 1 by #max_num_particle_.
   int2*    gpuptr_index;
 
-  /// The device pointer of sorted starting particle indices in each grid. @n Matrix, #base_size_ by #base_size_.
-  int2*&   gpuptr_head = reinterpret_cast<int2*&>(pitchedptr_head.ptr);
+  /// The device pointer of particle permutation indices. @n Vector, 1 by #max_num_particle_.
+  int*     gpuptr_perm;
+
+  /// The device pointer of starting permutation indices of each grid. @n Vector, 1 by (#base_size_^2+1).
+  int*     gpuptr_head;
 
   /// The device pointer of multipole grids. @n Cube, #base_size_ by #base_size_ by #num_level_.
   float*&  gpuptr_multipole = reinterpret_cast<float*&>(pitchedptr_multipole.ptr);
