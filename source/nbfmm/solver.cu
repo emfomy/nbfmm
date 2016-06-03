@@ -12,9 +12,9 @@ namespace nbfmm {
 
 // Default constructor
 Solver::Solver(
-    const int num_level,
-    const int max_num_particle,
-    const float4 position_limits,
+    const int            num_level,
+    const int            max_num_particle,
+    const float4         position_limits,
     const KernelFunction kernel_function
 ) : num_level_(num_level),
     base_size_(1 << (num_level-1)),
@@ -25,7 +25,7 @@ Solver::Solver(
   cudaMalloc(&gpuptr_effect,   max_num_particle_ * sizeof(float2));
   cudaMalloc(&gpuptr_weight,   max_num_particle_ * sizeof(float));
   cudaMalloc(&gpuptr_index,    max_num_particle_ * sizeof(int2));
-  cudaMalloc(&gpuptr_head,     base_size_ * base_size_ * sizeof(int));
+  cudaMalloc3D(&pitchedptr_head,      make_cudaExtent(base_size_*sizeof(float),  base_size_, 1));
   cudaMalloc3D(&pitchedptr_multipole, make_cudaExtent(base_size_*sizeof(float),  base_size_, num_level_));
   cudaMalloc3D(&pitchedptr_local,     make_cudaExtent(base_size_*sizeof(float2), base_size_, num_level_));
 }
