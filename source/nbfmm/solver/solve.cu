@@ -8,16 +8,16 @@
 #include <cuda_runtime.h>
 #include <nbfmm/solver.hpp>
 
-__global__ void partical_find_grid(int num_particle,float left_bound,float down_bound,float gridWidth,float gridHeight,int base_size,float2* gpuptr_position_origin,int2* gpuptr_index,int* gpuptr_sortingIndex)
+__global__ void partical_find_grid(int num_particle,float left_bound,float down_bound,float gridWidth,float gridHeight,int base_size,float2* gpuptr_position_origin,int* gpuptr_sortingIndex)
 {
 	int idx = blockIdx.x * blockDim.x + threadIdx.x;
 	if (idx>=num_particle)
 		return;
-	gpuptr_index[idx].x=floorf((gpuptr_position[idx].x-left_bound)/gridWidth);
-	gpuptr_index[idx].y=floorf((gpuptr_position[idx].y-down_bound)/gridHeight);
-	gpuptr_sortingIndex[idx]=gpuptr_index[idx].y*base_size+gpuptr_index[idx].x;
+	int posx=floorf((gpuptr_position[idx].x-left_bound)/gridWidth);
+	int posy=floorf((gpuptr_position[idx].y-down_bound)/gridHeight);
+	gpuptr_sortingIndex[idx]=posy*base_size+posx;
 }
-__global__ void sorting_input(int num_particle,int* gpuptr_perm_,float* gpuptr_position_origin,float* gpuptr_weight_origin,float* gpuptr_position_,float* gpuptr_weight_,int* puptr_sortingIndex,int2* gpuptr_index,int base_size)
+__global__ void sorting_input(int num_particle,int* gpuptr_perm_,float* gpuptr_position_origin,float* gpuptr_weight_origin,float* gpuptr_position_,float* gpuptr_weight_,int* gpuptr_sortingIndex,int2* gpuptr_index,int base_size)
 {
 	int idx = blockIdx.x * blockDim.x + threadIdx.x;
 	if (idx>=num_particle)
@@ -60,7 +60,7 @@ void Solver::solve(
 
 	int* gpuptr_sortingIndex;
 	cudaMalloc(&gpuptr_sortingIndex,num_particle*sizeof(int));
-	partical_find_grid<<<KERNEL_gridSize_pointwise,KERNEL_blockSize_pointwise>>>(num_particle,position_limits_.x,position_limits_.y,gridWidth,gridHeight,base_size_, gpuptr_position_origin,gpuptr_index,gpuptr_sortingIndex);
+	partical_find_grid<<<KERNEL_gridSize_pointwise,KERNEL_blockSize_pointwise>>>(num_particle,position_limits_.x,position_limits_.y,gridWidth,gridHeight,base_size_, gpuptr_position_origin,gpuptr_sortingIndex);
   thrust::device_ptr<int> trst_permu(gpuptr_perm_),trst_sortingIndex(gpuptr_sortingIndex); //step 2 start
 	thrust::sequence(gpuptr_perm_,gpuptr_perm_+num_particle);
 
