@@ -8,7 +8,7 @@
 #include <cuda_runtime.h>
 #include <nbfmm/solver.hpp>
 
-partical_find_grid(int num_particle,float left_bound,float down_bound,float gridWidth,float gridHeight,int base_size,float2* gpuptr_position_origin,int2* gpuptr_index,int* gpuptr_sortingIndex)
+__global__ void partical_find_grid(int num_particle,float left_bound,float down_bound,float gridWidth,float gridHeight,int base_size,float2* gpuptr_position_origin,int2* gpuptr_index,int* gpuptr_sortingIndex)
 {
 	int idx = blockIdx.x * blockDim.x + threadIdx.x;
 	if (idx>=num_particle)
@@ -17,16 +17,32 @@ partical_find_grid(int num_particle,float left_bound,float down_bound,float grid
 	gpuptr_index[idx].y=floorf((gpuptr_position[idx].y-down_bound)/gridHeight);
 	gpuptr_sortingIndex[idx]=gpuptr_index[idx].y*base_size+gpuptr_index[idx].x;
 }
-sorting_input(int num_particle,int* gpuptr_perm_,float* gpuptr_position_origin,float* gpuptr_weight_origin,float* gpuptr_position_,float* gpuptr_weight_)
+__global__ void sorting_input(int num_particle,int* gpuptr_perm_,float* gpuptr_position_origin,float* gpuptr_weight_origin,float* gpuptr_position_,float* gpuptr_weight_,int* puptr_sortingIndex,int2* gpuptr_index,int base_size)
 {
 	int idx = blockIdx.x * blockDim.x + threadIdx.x;
 	if (idx>=num_particle)
 		return;
 	gpuptr_position_[idx]=gpuptr_position_origin[gpuptr_perm_[idx]];
 	gpuptr_weight_[idx]=gpuptr_weight_origin[gpuptr_perm_[idx]];
+	gpuptr_index[idx].x=gpuptr_sortingIndex[idx]%base_size;
+	gpuptr_index[idx].y=gpuptr_sortingIndex[idx]/base_size;
 
 }
 
+__global__ void extract_head(int num_particle,int* gpuptr_sortingIndex,int* gpuptr_head_)
+{
+	int idx = blockIdx.x * blockDim.x + threadIdx.x;
+	if (idx>=num_particle)
+		return;
+	if (idx==0)
+		gpuptr_head_[gpuptr_sortingIndex[idx]]=idx;
+	else
+	{
+		if (gpuptr_sortingIndex[idx]!=gpuptr_sortingIndex[idx-1])
+			gpuptr_head_[gpuptr_sortingIndex[idx]]=idx;
+	}
+	gpuptr_head_[gpuptr_sortingIndex[num_particle]+1]=num_particle+1;
+}
 //  The namespace NBFMM
 namespace nbfmm {
 
@@ -49,7 +65,8 @@ void Solver::solve(
 	thrust::sequence(gpuptr_perm_,gpuptr_perm_+num_particle);
 
 	thrust::sort_by_key(gpuptr_perm_,gpuptr_perm_+num_particle, trst_sortingIndex);
-	sorting_input<<<KERNEL_gridSize_pointwise,KERNEL_blockSize_pointwise>>>(num_particle,gpuptr_perm_,gpuptr_position_origin,gpuptr_weight_origin, gpuptr_position_,gpuptr_weight_);
+	sorting_input<<<KERNEL_gridSize_pointwise,KERNEL_blockSize_pointwise>>>(num_particle,gpuptr_perm_,gpuptr_position_origin,gpuptr_weight_origin, gpuptr_position_,gpuptr_weight_,gpuptr_sortingIndex,gpuptr_index,base_size_);
+	extract_head<<<KERNEL_gridSize_pointwise,KERNEL_blockSize_pointwise>>>(num_particle,gpuptr_sortingIndex,gpuptr_head_); //step3: fill array of starting index
   /// @todo Implement!
 }
 
