@@ -89,13 +89,13 @@ class Solver {
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   /// Solve system
   ///
-  /// @param[in]   num_particle            the maximum number of particles.
+  /// @param[in]   num_particle            the number of particles.
   /// @param[in]   gpuptr_position_origin  the device pointer of original particle positions.
   /// @param[in]   gpuptr_weight_origin    the device pointer of original particle weights.
   /// @param[out]  gpuptr_effect_origin    the device pointer of original particle effects.
   ///
   void solve( const int num_particle, const float2* gpuptr_position_origin,
-              const float* gpuptr_weight_origin, const float2* gpuptr_effect_origin );
+              const float* gpuptr_weight_origin, float2* gpuptr_effect_origin );
 
  protected:
 
