@@ -142,20 +142,13 @@ void Solver::solve(
 ) {
   assert(num_particle <= max_num_particle_);
 
-  typedef thrust::device_ptr<int>    tdp_int;
-  typedef thrust::device_ptr<int2>   tdp_int2;
-  typedef thrust::device_ptr<float>  tdp_float;
-  typedef thrust::device_ptr<float2> tdp_float2;
-
   const int kNumThread = 1024;
   const int kNumBlock  = ((num_particle-1)/kNumThread)+1;
   const float2 grid_size = make_float2((position_limits_.z - position_limits_.x) / base_size_,
                                        (position_limits_.w - position_limits_.y) / base_size_);
   CompareInt2 cmp;
-  tdp_float2 thrust_position(gpuptr_position_);
-  tdp_float  thrust_weight(gpuptr_weight_);
-  tdp_int2   thrust_index(gpuptr_index_);
-  tdp_int    thrust_perm(gpuptr_perm_);
+  thrust::device_ptr<int2> thrust_index(gpuptr_index_);
+  thrust::device_ptr<int>  thrust_perm(gpuptr_perm_);
 
   // Copy input vectors
   cudaMemcpy(gpuptr_position_, gpuptr_position_origin, sizeof(float2) * num_particle, cudaMemcpyDeviceToDevice);
@@ -191,9 +184,9 @@ void Solver::solve(
 #pragma warning
   // Copy input vectors
   cudaMemcpy(const_cast<float2*>(gpuptr_position_origin), gpuptr_position_,
-             sizeof(float2) * num_particle, cudaMemcpyDeviceToDevice);
+             num_particle * sizeof(float2), cudaMemcpyDeviceToDevice);
   cudaMemcpy(const_cast<float*>(gpuptr_weight_origin),    gpuptr_weight_,
-             sizeof(float)  * num_particle, cudaMemcpyDeviceToDevice);
+             num_particle * sizeof(float), cudaMemcpyDeviceToDevice);
   copyIndexEffect<<<kNumBlock, kNumThread>>>(num_particle, gpuptr_index_, gpuptr_effect_origin);
 }
 
