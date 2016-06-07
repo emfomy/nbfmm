@@ -38,35 +38,29 @@ class Solver {
   /// The kernel function
   const KernelFunction kernel_function_;
 
-  /// The pitched pointers of multipole grids.
-  cudaPitchedPtr pitchedptr_multipole_;
-
-  /// The pitched pointers of local grids.
-  cudaPitchedPtr pitchedptr_local_;
-
   /// The device pointer of sorted particle positions. @n Vector, 1 by #max_num_particle_.
-  float2*  gpuptr_position_;
+  float2* gpuptr_position_;
 
   /// The device pointer of sorted particle effects. @n Vector, 1 by #max_num_particle_.
-  float2*  gpuptr_effect_;
+  float2* gpuptr_effect_;
 
   /// The device pointer of sorted particle weights. @n Vector, 1 by #max_num_particle_.
-  float*   gpuptr_weight_;
+  float*  gpuptr_weight_;
 
   /// The device pointer of particle grid indices. @n Vector, 1 by #max_num_particle_.
-  int2*    gpuptr_index_;
+  int2*   gpuptr_index_;
 
   /// The device pointer of particle permutation indices. @n Vector, 1 by #max_num_particle_.
-  int*     gpuptr_perm_;
+  int*    gpuptr_perm_;
 
   /// The device pointer of starting permutation indices of each grid. @n Vector, 1 by (#base_size_^2+1).
-  int*     gpuptr_head_;
+  int*    gpuptr_head_;
 
   /// The device pointer of multipole grids. @n Cube, #base_size_ by #base_size_ by #num_level_.
-  float*&  gpuptr_multipole_ = reinterpret_cast<float*&>(pitchedptr_multipole_.ptr);
+  float*  gpuptr_multipole_;
 
   /// The device pointer of local grids. @n Cube, #base_size_ by #base_size_ by #num_level_.
-  float2*& gpuptr_local_     = reinterpret_cast<float2*&>(pitchedptr_local_.ptr);
+  float2* gpuptr_local_;
 
  public:
 
