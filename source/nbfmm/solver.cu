@@ -21,14 +21,14 @@ Solver::Solver(
     max_num_particle_(max_num_particle),
     position_limits_(position_limits),
     kernel_function_(kernel_function) {
-  cudaMalloc(&gpuptr_position_, max_num_particle_ * sizeof(float2));
-  cudaMalloc(&gpuptr_effect_,   max_num_particle_ * sizeof(float2));
-  cudaMalloc(&gpuptr_weight_,   max_num_particle_ * sizeof(float));
-  cudaMalloc(&gpuptr_index_,    max_num_particle_ * sizeof(int2));
-  cudaMalloc(&gpuptr_perm_,     max_num_particle_ * sizeof(int));
-  cudaMalloc(&gpuptr_head_,     (base_size_*base_size_+1) * sizeof(int));
-  cudaMalloc3D(&pitchedptr_multipole_, make_cudaExtent(base_size_*sizeof(float),  base_size_, num_level_));
-  cudaMalloc3D(&pitchedptr_local_,     make_cudaExtent(base_size_*sizeof(float2), base_size_, num_level_));
+  cudaMalloc(&gpuptr_position_,  max_num_particle_ * sizeof(float2));
+  cudaMalloc(&gpuptr_effect_,    max_num_particle_ * sizeof(float2));
+  cudaMalloc(&gpuptr_weight_,    max_num_particle_ * sizeof(float));
+  cudaMalloc(&gpuptr_index_,     max_num_particle_ * sizeof(int2));
+  cudaMalloc(&gpuptr_perm_,      max_num_particle_ * sizeof(int));
+  cudaMalloc(&gpuptr_head_,      (base_size_ * base_size_ + 1) * sizeof(int));
+  cudaMalloc(&gpuptr_multipole_, base_size_ * base_size_ * num_level_ * sizeof(float));
+  cudaMalloc(&gpuptr_local_,     base_size_ * base_size_ * num_level_ * sizeof(float2));
 }
 
 // Default destructor
