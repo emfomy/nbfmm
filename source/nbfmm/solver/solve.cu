@@ -95,8 +95,10 @@ void Solver::solve(
 ) {
   assert(num_particle <= max_num_particle_);
 
-  const int kNumThread = 1024;
-  const int kNumBlock  = ((num_particle-1)/kNumThread)+1;
+  const int kNumThread_pointwise = 1024;
+  const int kNumBlock_pointwise  = ((num_particle-1)/kNumThread_pointwise)+1;
+  const dim3 kNumThread_gridwise = (32,32,1);
+  const dim3 kNumBlock_gridwise  = (((base_size_-1)/kNumThread_gridwise)+1,((base_size_-1)/kNumThread_gridwise)+1,1);
   const float2 grid_size = make_float2((position_limits_.z - position_limits_.x) / base_size_,
                                        (position_limits_.w - position_limits_.y) / base_size_);
 
@@ -105,7 +107,7 @@ void Solver::solve(
   cudaMemcpy(gpuptr_weight_,   gpuptr_weight_origin,   sizeof(float)  * num_particle, cudaMemcpyDeviceToDevice);
 
   // Compute grid index of each particle
-  computeParticleIndex<<<kNumBlock, kNumThread>>>(num_particle, position_limits_, grid_size, gpuptr_position_, gpuptr_index_);
+  computeParticleIndex<<<kNumBlock_pointwise, kNumThread_pointwise>>>(num_particle, position_limits_, grid_size, gpuptr_position_, gpuptr_index_);
 
   // Sort values
   CompareInt2 cmp;
@@ -119,7 +121,7 @@ void Solver::solve(
   thrust::sort_by_key(thrust_index, thrust_index+num_particle, value_first, cmp);
 
   // Extract heads of grid index of each grid
-  extractHead<<<kNumBlock, kNumThread>>>(num_particle, base_size_, gpuptr_index_, gpuptr_head_);
+  extractHead<<<kNumBlock_pointwise, kNumThread_pointwise>>>(num_particle, base_size_, gpuptr_index_, gpuptr_head_);
 
 #pragma warning
   // Copy input vectors
@@ -127,7 +129,7 @@ void Solver::solve(
              sizeof(float2) * num_particle, cudaMemcpyDeviceToDevice);
   cudaMemcpy(const_cast<float*>(gpuptr_weight_origin),    gpuptr_weight_,
              sizeof(float)  * num_particle, cudaMemcpyDeviceToDevice);
-  copyIndexEffect<<<kNumBlock, kNumThread>>>(num_particle, gpuptr_index_, gpuptr_effect_origin);
+  copyIndexEffect<<<kNumBlock_pointwise, kNumThread_pointwise>>>(num_particle, gpuptr_index_, gpuptr_effect_origin);
 }
 
 }  // namespace nbfmm
