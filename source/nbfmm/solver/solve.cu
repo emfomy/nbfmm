@@ -4,74 +4,130 @@
 ///
 /// @author  Mu Yang <emfomy@gmail.com>
 ///
-#include <math.h>
-#include <cuda_runtime.h>
-#include <nbfmm/solver.hpp>
-#include <thrust/sequence.h>
+
+#include <cmath>
 #include <thrust/device_ptr.h>
-#include <thrust/scan.h>
 #include <thrust/sort.h>
+#include <thrust/tuple.h>
+#include <thrust/iterator/zip_iterator.h>
+#include <nbfmm/solver.hpp>
 
-__global__ void partical_find_grid(int num_particle,float left_bound,float down_bound,float gridWidth,float gridHeight,int base_size,const float2* gpuptr_position_origin,int* gpuptr_sortingIndex)
-{
-	int idx = blockIdx.x * blockDim.x + threadIdx.x;
-	if (idx>=num_particle)
-		return;
-	int posx=floorf((gpuptr_position_origin[idx].x-left_bound)/gridWidth);
-	int posy=floorf((gpuptr_position_origin[idx].y-down_bound)/gridHeight);
-	gpuptr_sortingIndex[idx]=posy*base_size+posx;
-}
-__global__ void sorting_input(int num_particle,int* gpuptr_perm_,const float2* gpuptr_position_origin,const float* gpuptr_weight_origin,float2* gpuptr_position_,float* gpuptr_weight_,int* gpuptr_sortingIndex,int2* gpuptr_index,int base_size)
-{
-	int idx = blockIdx.x * blockDim.x + threadIdx.x;
-	if (idx>=num_particle)
-		return;
-	gpuptr_position_[idx]=gpuptr_position_origin[gpuptr_perm_[idx]];
-	gpuptr_weight_[idx]=gpuptr_weight_origin[gpuptr_perm_[idx]];
-	gpuptr_index[idx].x=gpuptr_sortingIndex[idx]%base_size;
-	gpuptr_index[idx].y=gpuptr_sortingIndex[idx]/base_size;
-
-}
-
-__global__ void extract_head(int num_particle,int* gpuptr_sortingIndex,int* gpuptr_head_)
-{
-	int idx = blockIdx.x * blockDim.x + threadIdx.x;
-	if (idx>=num_particle)
-		return;
-	if (idx==0)
-		gpuptr_head_[gpuptr_sortingIndex[idx]]=idx;
-	else
-	{
-		if (gpuptr_sortingIndex[idx]!=gpuptr_sortingIndex[idx-1])
-			gpuptr_head_[gpuptr_sortingIndex[idx]]=idx;
-	}
-	gpuptr_head_[gpuptr_sortingIndex[num_particle]+1]=num_particle+1;
-}
 //  The namespace NBFMM
 namespace nbfmm {
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// Compute grid index of each particle
+///
+/// @param[in]   num_particle             the number of particles.
+/// @param[in]   position_limits          the limits of positions. [x_min, y_min, x_max, y_max].
+/// @param[in]   grid_size                the size of gird. [width, height].
+/// @param[in]   gpuptr_position_origin   the device pointer of original particle positions.
+/// @param[out]  gpuptr_index             the device pointer of particle grid indices.
+///
+__global__ void computeParticleIndex(
+    const int     num_particle,
+    const float4  position_limits,
+    const float2  grid_size,
+    const float2* gpuptr_position_origin,
+    int2*         gpuptr_index
+) {
+	const int idx = blockIdx.x * blockDim.x + threadIdx.x;
+	if ( idx >= num_particle ) {
+		return;
+	}
+	gpuptr_index[idx].x = floorf((gpuptr_position_origin[idx].x - position_limits.x) / grid_size.x);
+	gpuptr_index[idx].y = floorf((gpuptr_position_origin[idx].y - position_limits.y) / grid_size.y);
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// Extract heads of grid index of each grid
+///
+/// @param[in]   num_particle   the number of particles.
+/// @param[in]   base_size      the number of girds in the base level per side.
+/// @param[in]   gpuptr_index   the device pointer of particle grid indices.
+/// @param[out]  gpuptr_head    the device pointer of starting permutation indices of each grid.
+///
+__global__ void extractHead(
+    const int   num_particle,
+    const int   base_size,
+    const int2* gpuptr_index,
+    int*        gpuptr_head
+) {
+  int idx = blockIdx.x * blockDim.x + threadIdx.x;
+  if ( idx>=num_particle ) {
+    return;
+  }
+  if ( idx == 0 ) {
+    gpuptr_head[0] = idx;
+    gpuptr_head[base_size * base_size] = num_particle;
+  } else if ( gpuptr_index[idx].x != gpuptr_index[idx-1].x && gpuptr_index[idx].y != gpuptr_index[idx-1].y ) {
+    gpuptr_head[gpuptr_index[idx].x + gpuptr_index[idx].y*base_size] = idx;
+  }
+}
+
+
+#pragma warning
+__global__ void copyIndexEffect(
+    const int     num_particle,
+    const int2*   gpuptr_index,
+    float2*       gpuptr_effect_origin
+) {
+  const int idx = blockIdx.x * blockDim.x + threadIdx.x;
+  if ( idx >= num_particle ) {
+    return;
+  }
+  gpuptr_effect_origin[idx].x = gpuptr_index[idx].x;
+  gpuptr_effect_origin[idx].y = gpuptr_index[idx].y;
+}
+
+struct CompareInt2 {
+  __host__ __device__ bool operator()( const int2 a, const int2 b ) {
+    return (a.y != b.y) ? (a.y < b.y) : (a.x < b.x);
+  }
+};
 
 // Solve system
 void Solver::solve(
     const int     num_particle,
     const float2* gpuptr_position_origin,
     const float*  gpuptr_weight_origin,
-    const float2* gpuptr_effect_origin
+    float2*       gpuptr_effect_origin
 ) {
-	float gridWidth=(position_limits_.z-position_limits_.x)/base_size_;
-	float gridHeight=(position_limits_.w-position_limits_.y)/base_size_;
-	int KERNEL_blockSize_pointwise=1024;
-	int KERNEL_gridSize_pointwise=((num_particle-1)/KERNEL_blockSize_pointwise)+1;
+  assert(num_particle <= max_num_particle_);
 
-	int* gpuptr_sortingIndex;
-	cudaMalloc(&gpuptr_sortingIndex,num_particle*sizeof(int));
-	partical_find_grid<<<KERNEL_gridSize_pointwise,KERNEL_blockSize_pointwise>>>(num_particle,position_limits_.x,position_limits_.y,gridWidth,gridHeight,base_size_, gpuptr_position_origin,gpuptr_sortingIndex);
-  thrust::device_ptr<int> trst_permu(gpuptr_perm_),trst_sortingIndex(gpuptr_sortingIndex); //step 2 start
-	thrust::sequence( trst_permu, trst_permu+num_particle);
+  const int kNumThread = 1024;
+  const int kNumBlock  = ((num_particle-1)/kNumThread)+1;
+  const float2 grid_size = make_float2((position_limits_.z - position_limits_.x) / base_size_,
+                                       (position_limits_.w - position_limits_.y) / base_size_);
 
-	thrust::sort_by_key( trst_permu, trst_permu+num_particle, trst_sortingIndex);
-	sorting_input<<<KERNEL_gridSize_pointwise,KERNEL_blockSize_pointwise>>>(num_particle,gpuptr_perm_,gpuptr_position_origin,gpuptr_weight_origin, gpuptr_position_,gpuptr_weight_,gpuptr_sortingIndex,gpuptr_index_,base_size_);
-	extract_head<<<KERNEL_gridSize_pointwise,KERNEL_blockSize_pointwise>>>(num_particle,gpuptr_sortingIndex,gpuptr_head_); //step3: fill array of starting index
-  /// @todo Implement!
+  // Copy input vectors
+  cudaMemcpy(gpuptr_position_, gpuptr_position_origin, sizeof(float2) * num_particle, cudaMemcpyDeviceToDevice);
+  cudaMemcpy(gpuptr_weight_,   gpuptr_weight_origin,   sizeof(float)  * num_particle, cudaMemcpyDeviceToDevice);
+
+  // Compute grid index of each particle
+  computeParticleIndex<<<kNumBlock, kNumThread>>>(num_particle, position_limits_, grid_size, gpuptr_position_, gpuptr_index_);
+
+  // Sort values
+  CompareInt2 cmp;
+  thrust::device_ptr<int2>   thrust_index(gpuptr_index_);
+  thrust::device_ptr<float2> thrust_position(gpuptr_position_);
+  thrust::device_ptr<float>  thrust_weight(gpuptr_weight_);
+  thrust::tuple<thrust::device_ptr<float2>, thrust::device_ptr<float> > value_tuple
+      = thrust::make_tuple(thrust_position, thrust_weight);
+  thrust::zip_iterator<thrust::tuple<thrust::device_ptr<float2>, thrust::device_ptr<float> > > value_first
+      = thrust::make_zip_iterator(value_tuple);
+  thrust::sort_by_key(thrust_index, thrust_index+num_particle, value_first, cmp);
+
+  // Extract heads of grid index of each grid
+  extractHead<<<kNumBlock, kNumThread>>>(num_particle, base_size_, gpuptr_index_, gpuptr_head_);
+
+#pragma warning
+  // Copy input vectors
+  cudaMemcpy(const_cast<float2*>(gpuptr_position_origin), gpuptr_position_,
+             sizeof(float2) * num_particle, cudaMemcpyDeviceToDevice);
+  cudaMemcpy(const_cast<float*>(gpuptr_weight_origin),    gpuptr_weight_,
+             sizeof(float)  * num_particle, cudaMemcpyDeviceToDevice);
+  copyIndexEffect<<<kNumBlock, kNumThread>>>(num_particle, gpuptr_index_, gpuptr_effect_origin);
 }
 
 }  // namespace nbfmm
