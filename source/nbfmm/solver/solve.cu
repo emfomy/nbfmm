@@ -144,8 +144,7 @@ void Solver::solve(
 
   const int kNumThread_pointwise = 1024;
   const int kNumBlock_pointwise  = ((num_particle-1)/kNumThread_pointwise)+1;
-  const dim3 kNumThread_gridwise = (32,32,1);
-  const dim3 kNumBlock_gridwise  = (((base_size_-1)/kNumThread_gridwise)+1,((base_size_-1)/kNumThread_gridwise)+1,1);
+  
   const float2 grid_size = make_float2((position_limits_.z - position_limits_.x) / base_size_,
                                        (position_limits_.w - position_limits_.y) / base_size_);
   CompareInt2 cmp;
@@ -174,7 +173,7 @@ void Solver::solve(
                                                 gpuptr_position_origin, gpuptr_weight_origin, gpuptr_position_, gpuptr_weight_);
 
   // FMM
-  p2p();
+  p2p(num_particle);
   p2m();
   m2m();
   m2l();
