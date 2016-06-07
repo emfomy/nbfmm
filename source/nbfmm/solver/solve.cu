@@ -142,9 +142,11 @@ void Solver::solve(
 ) {
   assert(num_particle <= max_num_particle_);
 
+
   const int kNumThread_pointwise = 1024;
   const int kNumBlock_pointwise  = ((num_particle-1)/kNumThread_pointwise)+1;
   
+
   const float2 grid_size = make_float2((position_limits_.z - position_limits_.x) / base_size_,
                                        (position_limits_.w - position_limits_.y) / base_size_);
   CompareInt2 cmp;
@@ -185,10 +187,12 @@ void Solver::solve(
 #pragma warning
   // Copy input vectors
   cudaMemcpy(const_cast<float2*>(gpuptr_position_origin), gpuptr_position_,
-             sizeof(float2) * num_particle, cudaMemcpyDeviceToDevice);
+             num_particle * sizeof(float2), cudaMemcpyDeviceToDevice);
   cudaMemcpy(const_cast<float*>(gpuptr_weight_origin),    gpuptr_weight_,
+
              sizeof(float)  * num_particle, cudaMemcpyDeviceToDevice);
   copyIndexEffect<<<kNumBlock_pointwise, kNumThread_pointwise>>>(num_particle, gpuptr_index_, gpuptr_effect_origin);
+
 }
 
 }  // namespace nbfmm

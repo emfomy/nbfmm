@@ -15,7 +15,7 @@ namespace nbfmm {
 void Solver::p2m(int num_particle) {
 	const dim3 kNumThread_gridwise = (32,32,1);
   const dim3 kNumBlock_gridwise  = (((base_size_-1)/kNumThread_gridwise)+1,((base_size_-1)/kNumThread_gridwise)+1,1);
-  p2m_kernel<<<kNumBlock_gridwise,kNumThread_gridwise>>>(base_size_,num_particle)
+  p2m_kernel<<<kNumBlock_gridwise,kNumThread_gridwise>>>(base_size_,num_particle,gpuptr_position_,gpuptr_weight_,)
   
   /// @todo Implement!
 }
