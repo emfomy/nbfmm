@@ -24,7 +24,7 @@ Solver::Solver(
   cudaMalloc(&gpuptr_position_, max_num_particle_ * sizeof(float2));
   cudaMalloc(&gpuptr_effect_,   max_num_particle_ * sizeof(float2));
   cudaMalloc(&gpuptr_weight_,   max_num_particle_ * sizeof(float));
-  cudaMalloc(&gpuptr_index_,    max_num_particle_ * sizeof(int));
+  cudaMalloc(&gpuptr_index_,    max_num_particle_ * sizeof(int2));
   cudaMalloc(&gpuptr_perm_,     max_num_particle_ * sizeof(int));
   cudaMalloc(&gpuptr_head_,     (base_size_*base_size_+1) * sizeof(int));
   cudaMalloc3D(&pitchedptr_multipole_, make_cudaExtent(base_size_*sizeof(float),  base_size_, num_level_));
