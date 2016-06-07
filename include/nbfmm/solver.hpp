@@ -38,13 +38,13 @@ class Solver {
   /// The kernel function
   const KernelFunction kernel_function_;
 
-  /// The device pointer of sorted particle positions. @n Vector, 1 by #max_num_particle_.
+  /// The device pointer of particle positions. @n Vector, 1 by #max_num_particle_.
   float2* gpuptr_position_;
 
-  /// The device pointer of sorted particle effects. @n Vector, 1 by #max_num_particle_.
+  /// The device pointer of particle effects. @n Vector, 1 by #max_num_particle_.
   float2* gpuptr_effect_;
 
-  /// The device pointer of sorted particle weights. @n Vector, 1 by #max_num_particle_.
+  /// The device pointer of particle weights. @n Vector, 1 by #max_num_particle_.
   float*  gpuptr_weight_;
 
   /// The device pointer of particle grid indices. @n Vector, 1 by #max_num_particle_.
@@ -56,11 +56,14 @@ class Solver {
   /// The device pointer of starting permutation indices of each grid. @n Vector, 1 by (#base_size_^2+1).
   int*    gpuptr_head_;
 
-  /// The device pointer of multipole grids. @n Cube, #base_size_ by #base_size_ by #num_level_.
-  float*  gpuptr_multipole_;
+  /// The device pointer of grid positions. @n Cube, #base_size_ by #base_size_ by #num_level_.
+  float2* gpuptr_grid_position_;
 
-  /// The device pointer of local grids. @n Cube, #base_size_ by #base_size_ by #num_level_.
-  float2* gpuptr_local_;
+  /// The device pointer of grid effects. @n Cube, #base_size_ by #base_size_ by #num_level_.
+  float2* gpuptr_grid_effect_;
+
+  /// The device pointer of grid weights. @n Cube, #base_size_ by #base_size_ by #num_level_.
+  float*  gpuptr_grid_weight_;
 
  public:
 
