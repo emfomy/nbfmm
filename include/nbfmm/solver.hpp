@@ -142,16 +142,15 @@ class Solver {
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   /// Compute local to particle
   ///
-  /// @pre #gpuptr_position_ (sorted)
+  /// @param  num_particle  the number of particles.
+  ///
   /// @pre #gpuptr_effect_ (sorted, P2P effects only)
-  /// @pre #gpuptr_weight_ (sorted)
   /// @pre #gpuptr_index_ (sorted)
-  /// @pre #gpuptr_head_ (sorted)
   /// @pre #gpuptr_cell_effect_ (all level)
   ///
   /// @post #gpuptr_effect_ (sorted, all effects)
   ///
-  void l2p();
+  void l2p( const int num_particle );
 
 };
 
