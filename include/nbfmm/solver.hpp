@@ -101,6 +101,13 @@ class Solver {
   ///
   /// @param  num_particle  the number of particles.
   ///
+  /// @pre #gpuptr_position_ (sorted)
+  /// @pre #gpuptr_weight_ (sorted)
+  /// @pre #gpuptr_index_ (sorted)
+  /// @pre #gpuptr_head_
+  ///
+  /// @post #gpuptr_effect_ (sorted, P2P effects only)
+  ///
   void p2p( const int num_particle );
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -108,20 +115,48 @@ class Solver {
   ///
   /// @param  num_particle  the number of particles.
   ///
+  /// @pre #gpuptr_position_ (sorted)
+  /// @pre #gpuptr_weight_ (sorted)
+  /// @pre #gpuptr_index_ (sorted)
+  /// @pre #gpuptr_head_
+  ///
+  /// @post #gpuptr_cell_position_ (base level only)
+  /// @post #gpuptr_cell_weight_ (base level only)
+  ///
   void p2m( const int num_particle );
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   /// Compute multipole to multipole
+  ///
+  /// @pre #gpuptr_cell_position_ (base level only)
+  /// @pre #gpuptr_cell_weight_ (base level only)
+  ///
+  /// @post #gpuptr_cell_position_ (all level)
+  /// @post #gpuptr_cell_weight_ (all level)
   ///
   void m2m();
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   /// Compute multipole to local
   ///
+  /// @pre #gpuptr_cell_position_ (all level)
+  /// @pre #gpuptr_cell_weight_ (all level)
+  ///
+  /// @post #gpuptr_cell_effect_ (all level)
+  ///
   void m2l();
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   /// Compute local to particle
+  ///
+  /// @pre #gpuptr_position_ (sorted)
+  /// @pre #gpuptr_effect_ (sorted, P2P effects only)
+  /// @pre #gpuptr_weight_ (sorted)
+  /// @pre #gpuptr_index_ (sorted)
+  /// @pre #gpuptr_head_ (sorted)
+  /// @pre #gpuptr_cell_effect_ (all level)
+  ///
+  /// @post #gpuptr_effect_ (sorted, all effects)
   ///
   void l2p();
 
