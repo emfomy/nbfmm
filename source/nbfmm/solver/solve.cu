@@ -66,8 +66,8 @@ __global__ void permuteInputVector(
 ///
 /// @param[in]   num_particle     the number of particles.
 /// @param[in]   perm             the particle permutation indices.
-/// @param[out]  position_origin  the original particle effects.
-/// @param[in]   position         the particle effects.
+/// @param[out]  effect_origin    the original particle effects.
+/// @param[in]   effect           the particle effects.
 ///
 __global__ void permuteOutputVector(
     const int     num_particle,
@@ -113,6 +113,7 @@ __global__ void extractHead(
 /// The less than operator of int2
 ///
 struct LessThanInt2 {
+  /// The less than operator of int2
   __host__ __device__ bool operator()( const int2 a, const int2 b ) {
     return (a.y != b.y) ? (a.y < b.y) : (a.x < b.x);
   }
@@ -167,7 +168,8 @@ void Solver::solve(
   p2m(num_particle);
   m2m();
   m2l();
-  l2p();
+  l2l();
+  l2p(num_particle);
 
   // Permute output vectors
   permuteOutputVector<<<kNumBlock_pointwise, kNumThread_pointwise>>>(num_particle, gpuptr_perm_,
