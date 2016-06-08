@@ -10,9 +10,6 @@
 #include <thrust/sort.h>
 #include <nbfmm/solver.hpp>
 
-//  The namespace NBFMM
-namespace nbfmm {
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Compute cell index of each particle
 ///
@@ -112,26 +109,17 @@ __global__ void extractHead(
   }
 }
 
-#pragma warning
-__global__ void copyIndexEffect(
-    const int     num_particle,
-    const int2*   index,
-    float2*       effect_origin
-) {
-  const int idx = blockIdx.x * blockDim.x + threadIdx.x;
-  if ( idx >= num_particle ) {
-    return;
-  }
-  effect_origin[idx].x = index[idx].x;
-  effect_origin[idx].y = index[idx].y;
-}
-
-// The less than operator of int2
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// The less than operator of int2
+///
 struct LessThanInt2 {
   __host__ __device__ bool operator()( const int2 a, const int2 b ) {
     return (a.y != b.y) ? (a.y < b.y) : (a.x < b.x);
   }
 };
+
+//  The namespace NBFMM
+namespace nbfmm {
 
 // Solve system
 void Solver::solve(
@@ -184,14 +172,6 @@ void Solver::solve(
   // Permute output vectors
   permuteOutputVector<<<kNumBlock_pointwise, kNumThread_pointwise>>>(num_particle, gpuptr_perm_,
                                                                      gpuptr_effect_origin, gpuptr_effect_);
-
-#pragma warning
-  // Copy input vectors
-  cudaMemcpy(const_cast<float2*>(gpuptr_position_origin), gpuptr_position_,
-             num_particle * sizeof(float2), cudaMemcpyDeviceToDevice);
-  cudaMemcpy(const_cast<float*>(gpuptr_weight_origin),    gpuptr_weight_,
-             num_particle * sizeof(float), cudaMemcpyDeviceToDevice);
-  copyIndexEffect<<<kNumBlock_pointwise, kNumThread_pointwise>>>(num_particle, gpuptr_index_, gpuptr_effect_origin);
 }
 
 }  // namespace nbfmm

@@ -14,13 +14,16 @@ namespace nbfmm {
 Solver::Solver(
     const int            num_level,
     const int            max_num_particle,
-    const float4         position_limits,
-    const KernelFunction kernel_function
+    const float4         position_limits
 ) : num_level_(num_level),
     base_size_(1 << (num_level-1)),
     max_num_particle_(max_num_particle),
-    position_limits_(position_limits),
-    kernel_function_(kernel_function) {
+    position_limits_(position_limits) {
+  assert(num_level > 0);
+  assert(max_num_particle > 0);
+  assert(position_limits.x < position_limits.z);
+  assert(position_limits.y < position_limits.w);
+
   cudaMalloc(&gpuptr_position_,      max_num_particle_ * sizeof(float2));
   cudaMalloc(&gpuptr_effect_,        max_num_particle_ * sizeof(float2));
   cudaMalloc(&gpuptr_weight_,        max_num_particle_ * sizeof(float));

@@ -35,9 +35,6 @@ class Solver {
   /// The limits of positions. [x_min, y_min, x_max, y_max].
   const float4 position_limits_;
 
-  /// The kernel function
-  const KernelFunction kernel_function_;
-
   /// The device pointer of particle positions. @n Vector, 1 by #max_num_particle_.
   float2* gpuptr_position_;
 
@@ -73,10 +70,8 @@ class Solver {
   /// @param  num_level         the number of cell levels.
   /// @param  max_num_particle  the maximum number of particles.
   /// @param  position_limits   the limits of positions. [x_min, y_min, x_max, y_max].
-  /// @param  kernel_function   the kernel function, default as nbfmm::kernelGravity.
   ///
-  Solver( const int num_level, const int max_num_particle,
-          const float4 position_limits, const KernelFunction kernel_function = kernelGravity );
+  Solver( const int num_level, const int max_num_particle, const float4 position_limits );
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   /// Default destructor
@@ -101,6 +96,12 @@ class Solver {
   ///
   /// @param  num_particle  the number of particles.
   ///
+  /// @pre #gpuptr_position_ (sorted)
+  /// @pre #gpuptr_weight_ (sorted)
+  /// @pre #gpuptr_head_
+  ///
+  /// @post #gpuptr_effect_ (sorted, P2P effects only)
+  ///
   void p2p( const int num_particle );
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -108,20 +109,47 @@ class Solver {
   ///
   /// @param  num_particle  the number of particles.
   ///
+  /// @pre #gpuptr_position_ (sorted)
+  /// @pre #gpuptr_weight_ (sorted)
+  /// @pre #gpuptr_head_
+  ///
+  /// @post #gpuptr_cell_position_ (base level only)
+  /// @post #gpuptr_cell_weight_ (base level only)
+  ///
   void p2m( const int num_particle );
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   /// Compute multipole to multipole
+  ///
+  /// @pre #gpuptr_cell_position_ (base level only)
+  /// @pre #gpuptr_cell_weight_ (base level only)
+  ///
+  /// @post #gpuptr_cell_position_ (all level)
+  /// @post #gpuptr_cell_weight_ (all level)
   ///
   void m2m();
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   /// Compute multipole to local
   ///
+  /// @pre #gpuptr_cell_position_ (all level)
+  /// @pre #gpuptr_cell_weight_ (all level)
+  ///
+  /// @post #gpuptr_cell_effect_ (all level)
+  ///
   void m2l();
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   /// Compute local to particle
+  ///
+  /// @pre #gpuptr_position_ (sorted)
+  /// @pre #gpuptr_effect_ (sorted, P2P effects only)
+  /// @pre #gpuptr_weight_ (sorted)
+  /// @pre #gpuptr_index_ (sorted)
+  /// @pre #gpuptr_head_ (sorted)
+  /// @pre #gpuptr_cell_effect_ (all level)
+  ///
+  /// @post #gpuptr_effect_ (sorted, all effects)
   ///
   void l2p();
 
