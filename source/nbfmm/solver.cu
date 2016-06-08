@@ -27,9 +27,9 @@ Solver::Solver(
   cudaMalloc(&gpuptr_index_,         max_num_particle_ * sizeof(int2));
   cudaMalloc(&gpuptr_perm_,          max_num_particle_ * sizeof(int));
   cudaMalloc(&gpuptr_head_,          (base_size_ * base_size_ + 1) * sizeof(int));
-  cudaMalloc(&gpuptr_grid_position_, base_size_ * base_size_ * num_level_ * sizeof(float2));
-  cudaMalloc(&gpuptr_grid_effect_,   base_size_ * base_size_ * num_level_ * sizeof(float2));
-  cudaMalloc(&gpuptr_grid_weight_,   base_size_ * base_size_ * num_level_ * sizeof(float));
+  cudaMalloc(&gpuptr_cell_position_, base_size_ * base_size_ * num_level_ * sizeof(float2));
+  cudaMalloc(&gpuptr_cell_effect_,   base_size_ * base_size_ * num_level_ * sizeof(float2));
+  cudaMalloc(&gpuptr_cell_weight_,   base_size_ * base_size_ * num_level_ * sizeof(float));
 }
 
 // Default destructor
@@ -40,9 +40,9 @@ Solver::~Solver() {
   cudaFree(gpuptr_index_);
   cudaFree(gpuptr_perm_);
   cudaFree(gpuptr_head_);
-  cudaFree(gpuptr_grid_position_);
-  cudaFree(gpuptr_grid_effect_);
-  cudaFree(gpuptr_grid_weight_);
+  cudaFree(gpuptr_cell_position_);
+  cudaFree(gpuptr_cell_effect_);
+  cudaFree(gpuptr_cell_weight_);
 }
 
 }  // namespace nbfmm

@@ -23,10 +23,10 @@ class Solver {
 
  protected:
 
-  /// The number of grid levels.
+  /// The number of cell levels.
   const int num_level_;
 
-  /// The number of girds in the base level per side.
+  /// The number of cells in the base level per side.
   const int base_size_;
 
   /// The maximum number of particles
@@ -47,30 +47,30 @@ class Solver {
   /// The device pointer of particle weights. @n Vector, 1 by #max_num_particle_.
   float*  gpuptr_weight_;
 
-  /// The device pointer of particle grid indices. @n Vector, 1 by #max_num_particle_.
+  /// The device pointer of particle cell indices. @n Vector, 1 by #max_num_particle_.
   int2*   gpuptr_index_;
 
   /// The device pointer of particle permutation indices. @n Vector, 1 by #max_num_particle_.
   int*    gpuptr_perm_;
 
-  /// The device pointer of starting permutation indices of each grid. @n Vector, 1 by (#base_size_^2+1).
+  /// The device pointer of starting permutation indices of each cell. @n Vector, 1 by (#base_size_^2+1).
   int*    gpuptr_head_;
 
-  /// The device pointer of grid positions. @n Cube, #base_size_ by #base_size_ by #num_level_.
-  float2* gpuptr_grid_position_;
+  /// The device pointer of cell positions. @n Cube, #base_size_ by #base_size_ by #num_level_.
+  float2* gpuptr_cell_position_;
 
-  /// The device pointer of grid effects. @n Cube, #base_size_ by #base_size_ by #num_level_.
-  float2* gpuptr_grid_effect_;
+  /// The device pointer of cell effects. @n Cube, #base_size_ by #base_size_ by #num_level_.
+  float2* gpuptr_cell_effect_;
 
-  /// The device pointer of grid weights. @n Cube, #base_size_ by #base_size_ by #num_level_.
-  float*  gpuptr_grid_weight_;
+  /// The device pointer of cell weights. @n Cube, #base_size_ by #base_size_ by #num_level_.
+  float*  gpuptr_cell_weight_;
 
  public:
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   /// Default constructor
   ///
-  /// @param  num_level         the number of grid levels.
+  /// @param  num_level         the number of cell levels.
   /// @param  max_num_particle  the maximum number of particles.
   /// @param  position_limits   the limits of positions. [x_min, y_min, x_max, y_max].
   /// @param  kernel_function   the kernel function, default as nbfmm::kernelGravity.
@@ -99,12 +99,16 @@ class Solver {
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   /// Compute particle to particle
   ///
-  void p2p();
+  /// @param  num_particle  the number of particles.
+  ///
+  void p2p( const int num_particle );
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   /// Compute particle to multipole
   ///
-  void p2m();
+  /// @param  num_particle  the number of particles.
+  ///
+  void p2m( const int num_particle );
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   /// Compute multipole to multipole

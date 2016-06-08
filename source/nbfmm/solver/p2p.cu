@@ -11,7 +11,7 @@
 namespace nbfmm {
 
 // P2P
-void Solver::p2p() {
+void Solver::p2p( const int num_perticle ) {
   /// @todo Implement!
 }
 

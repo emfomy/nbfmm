@@ -18,10 +18,18 @@
 #define NBFMM_VERSION_MINOR @NBFMM_VERSION_MINOR@
 #define NBFMM_VERSION_PATCH @NBFMM_VERSION_PATCH@
 
+#include <cassert>
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// The namespace NBFMM
 ///
 namespace nbfmm {
+
+/// The maximum number of threads per block
+const int kMaxBlockDim = 1024;
+
+/// The maximum number of blocks per grid
+const int kMaxGridDim  = 65535;
 
 }  // namespace nbfmm
 
