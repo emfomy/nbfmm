@@ -142,9 +142,9 @@ void Solver::solve(
 ) {
   assert(num_particle <= max_num_particle_);
 
-  const int block_dim = kMaxBlockDim;
-  const int grid_dim  = ((num_particle-1)/block_dim)+1;
-  assert(grid_dim <= kMaxGridDim);
+  const int kNumThread_pointwise = kMaxBlockDim;
+  const int kNumBlock_pointwise  = ((num_particle-1)/kNumThread_pointwise)+1;
+  assert(kNumBlock_pointwise <= kMaxGridDim);
 
   const float2 cell_size = make_float2((position_limits_.z - position_limits_.x) / base_size_,
                                        (position_limits_.w - position_limits_.y) / base_size_);
@@ -157,7 +157,8 @@ void Solver::solve(
   cudaMemcpy(gpuptr_weight_,   gpuptr_weight_origin,   sizeof(float)  * num_particle, cudaMemcpyDeviceToDevice);
 
   // Compute cell index of each particle
-  computeParticleIndex<<<grid_dim, block_dim>>>(num_particle, position_limits_, cell_size, gpuptr_position_, gpuptr_index_);
+  computeParticleIndex<<<kNumBlock_pointwise, kNumThread_pointwise>>>(num_particle, position_limits_, cell_size,
+                                                                     gpuptr_position_, gpuptr_index_);
 
   // Fill particle permutation vector
   thrust::counting_iterator<int> count_iter(0);
@@ -167,21 +168,22 @@ void Solver::solve(
   thrust::sort_by_key(thrust_index, thrust_index+num_particle, thrust_perm, cmp);
 
   // Extract heads of cell index of each cell
-  extractHead<<<grid_dim, block_dim>>>(num_particle, base_size_, gpuptr_index_, gpuptr_head_);
+  extractHead<<<kNumBlock_pointwise, kNumThread_pointwise>>>(num_particle, base_size_, gpuptr_index_, gpuptr_head_);
 
   // Permute input vectors
-  permuteInputVector<<<grid_dim, block_dim>>>(num_particle, gpuptr_perm_,
-                                                gpuptr_position_origin, gpuptr_weight_origin, gpuptr_position_, gpuptr_weight_);
+  permuteInputVector<<<kNumBlock_pointwise, kNumThread_pointwise>>>(num_particle, gpuptr_perm_, gpuptr_position_origin,
+                                                                    gpuptr_weight_origin, gpuptr_position_, gpuptr_weight_);
 
   // FMM
-  p2p();
-  p2m();
+  p2p(num_particle);
+  p2m(num_particle);
   m2m();
   m2l();
   l2p();
 
   // Permute output vectors
-  permuteOutputVector<<<grid_dim, block_dim>>>(num_particle, gpuptr_perm_, gpuptr_effect_origin, gpuptr_effect_);
+  permuteOutputVector<<<kNumBlock_pointwise, kNumThread_pointwise>>>(num_particle, gpuptr_perm_,
+                                                                     gpuptr_effect_origin, gpuptr_effect_);
 
 #pragma warning
   // Copy input vectors
@@ -189,7 +191,7 @@ void Solver::solve(
              num_particle * sizeof(float2), cudaMemcpyDeviceToDevice);
   cudaMemcpy(const_cast<float*>(gpuptr_weight_origin),    gpuptr_weight_,
              num_particle * sizeof(float), cudaMemcpyDeviceToDevice);
-  copyIndexEffect<<<grid_dim, block_dim>>>(num_particle, gpuptr_index_, gpuptr_effect_origin);
+  copyIndexEffect<<<kNumBlock_pointwise, kNumThread_pointwise>>>(num_particle, gpuptr_index_, gpuptr_effect_origin);
 }
 
 }  // namespace nbfmm

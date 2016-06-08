@@ -26,10 +26,10 @@
 namespace nbfmm {
 
 /// The maximum number of threads per block
-const int kMaxNumThread = 1024;
+const int kMaxBlockDim = 1024;
 
 /// The maximum number of blocks per grid
-const int kMaxNumBlock  = 65535;
+const int kMaxGridDim  = 65535;
 
 }  // namespace nbfmm
 
