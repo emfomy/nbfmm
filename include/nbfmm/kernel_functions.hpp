@@ -28,7 +28,8 @@ typedef float2 (*KernelFunction)(const float2, const float);
 ///
 /// @return           the acceleration of particle
 ///
-inline float2 kernelGravity( const float2 position, const float weight ) {
+__device__
+float2 kernelGravity( const float2 position, const float weight ) {
   float2 effect;
   float r = sqrt(position.x * position.x + position.y * position.y);
   float tmp = weight / (r*r*r);
