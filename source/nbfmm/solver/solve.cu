@@ -168,6 +168,7 @@ void Solver::solve(
   p2m(num_particle);
   m2m();
   m2l();
+  l2l();
   l2p(num_particle);
 
   // Permute output vectors
