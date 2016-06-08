@@ -48,7 +48,7 @@ int main( int argc, char *argv[] ) {
     weight[i]     = weight_rand(generator);
   }
   for ( auto i = 0; i < num_particle; ++i ) {
-    printf("(%6.3f, %6.3f) \t%6.3f\n", position[i].x, position[i].y, weight[i]);
+    printf("(%12.8f, %12.8f) \t%12.8f\n", position[i].x, position[i].y, weight[i]);
   }
   printf("\n");
   cudaMemcpy(gpuptr_position, position, num_particle * sizeof(float2), cudaMemcpyHostToDevice);
@@ -60,7 +60,7 @@ int main( int argc, char *argv[] ) {
   cudaMemcpy(weight,   gpuptr_weight,   num_particle * sizeof(float),  cudaMemcpyDeviceToHost);
   cudaMemcpy(effect,   gpuptr_effect,   num_particle * sizeof(float2), cudaMemcpyDeviceToHost);
   for ( auto i = 0; i < num_particle; ++i ) {
-    printf("(%6.3f, %6.3f) \t%6.3f \t(%6.0f, %6.0f)\n", position[i].x, position[i].y, weight[i], effect[i].x, effect[i].y);
+    printf("(%12.8f, %12.8f) \t%12.8f \t(%12.8f, %12.8f)\n", position[i].x, position[i].y, weight[i], effect[i].x, effect[i].y);
   }
   return 0;
 }

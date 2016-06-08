@@ -16,11 +16,6 @@
 namespace nbfmm {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// The type alias of kernel function
-///
-typedef float2 (*KernelFunction)(const float2, const float);
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// The kernel function of gravity
 ///
 /// @param  position  the position of particle
@@ -28,7 +23,14 @@ typedef float2 (*KernelFunction)(const float2, const float);
 ///
 /// @return           the acceleration of particle
 ///
-__device__ float2 kernelGravity( const float2 position, const float weight );
+
+// The kernel function of gravity
+__device__ inline
+float2 kernelFunction( const float2 position, const float weight ) {
+  float r = sqrt(position.x * position.x + position.y * position.y);
+  float tmp = weight / (r*r*r);
+  return make_float2(position.x * tmp, position.y * tmp);
+}
 
 }  // namespace nbfmm
 
