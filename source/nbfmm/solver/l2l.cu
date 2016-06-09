@@ -10,9 +10,9 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Compute local to local
 ///
-/// @param[in]      num_level    the number of cell levels.
-/// @param[in]      base_size    the number of girds in the base level per side.
-/// @param[in/out]  cell_effect  the cell effects.
+/// @param[in]  num_level    the number of cell levels.
+/// @param[in]  base_size    the number of girds in the base level per side.
+/// @param      cell_effect  the cell effects.
 ///
 __global__ void l2lDevice(
     const int num_level,
