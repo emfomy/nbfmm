@@ -28,5 +28,5 @@
 *.app
 
 # Other
-build
+build/*
 !build/documentation
