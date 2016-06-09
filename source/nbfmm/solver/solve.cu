@@ -109,15 +109,14 @@ __global__ void extractHead(
   }
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// The less than operator of int2
-///
+/// @cond
+//The less than operator of int2
 struct LessThanInt2 {
-  /// The less than operator of int2
   __host__ __device__ bool operator()( const int2 a, const int2 b ) {
     return (a.y != b.y) ? (a.y < b.y) : (a.x < b.x);
   }
 };
+/// @endcond
 
 //  The namespace NBFMM
 namespace nbfmm {

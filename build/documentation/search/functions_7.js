@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['solve',['solve',['../classnbfmm_1_1_solver.html#a988541a50db3c588d54b86446fbb93bb',1,'nbfmm::Solver']]],
-  ['solver',['Solver',['../classnbfmm_1_1_solver.html#a45f77ebe0607b724c21a636727a9df98',1,'nbfmm::Solver']]]
+  ['_7esolver',['~Solver',['../classnbfmm_1_1_solver.html#ad9da3ba7bd7900ddc8aee88607b51838',1,'nbfmm::Solver']]]
 ];

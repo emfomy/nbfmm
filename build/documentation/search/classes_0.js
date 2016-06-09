@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['lessthanint2',['LessThanInt2',['../struct_less_than_int2.html',1,'']]]
+  ['solver',['Solver',['../classnbfmm_1_1_solver.html',1,'nbfmm']]]
 ];
