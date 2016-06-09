@@ -30,7 +30,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">NBFMM
-   &#160;<span id="projectnumber">0.1.12</span>
+   &#160;<span id="projectnumber">0.1.14</span>
    </div>
    <div id="projectbrief">N-Body simulation using Fast Multipole Method</div>
   </td>
@@ -108,6 +108,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <code>#include &lt;thrust/fill.h&gt;</code><br />
 <code>#include &lt;thrust/sort.h&gt;</code><br />
 <code>#include &lt;<a class="el" href="solver_8hpp_source.html">nbfmm/solver.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="utility_8hpp_source.html">nbfmm/utility.hpp</a>&gt;</code><br />
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
 Namespaces</h2></td></tr>
@@ -120,15 +121,15 @@ Functions</h2></td></tr>
 <tr class="memitem:a796b45eebcba3e9f16bffbb74970a4a4"><td class="memItemLeft" align="right" valign="top">__global__ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="solve_8cu.html#a796b45eebcba3e9f16bffbb74970a4a4">computeParticleIndex</a> (const int num_particle, const float4 position_limits, const float2 cell_size, const float2 *position_origin, int2 *index)</td></tr>
 <tr class="memdesc:a796b45eebcba3e9f16bffbb74970a4a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute cell index of each particle.  <a href="#a796b45eebcba3e9f16bffbb74970a4a4">More...</a><br /></td></tr>
 <tr class="separator:a796b45eebcba3e9f16bffbb74970a4a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af7100eac6b06b5cec682e4e878632072"><td class="memItemLeft" align="right" valign="top">__global__ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="solve_8cu.html#af7100eac6b06b5cec682e4e878632072">extractHead</a> (const int num_particle, const int base_size, const int2 *index, int *head)</td></tr>
+<tr class="memdesc:af7100eac6b06b5cec682e4e878632072"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extract heads of cell index of each cell.  <a href="#af7100eac6b06b5cec682e4e878632072">More...</a><br /></td></tr>
+<tr class="separator:af7100eac6b06b5cec682e4e878632072"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad2e46e98ddf26ef493044ed2ce93d5e1"><td class="memItemLeft" align="right" valign="top">__global__ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="solve_8cu.html#ad2e46e98ddf26ef493044ed2ce93d5e1">permuteInputVector</a> (const int num_particle, const int *perm, const float2 *position_origin, const float *weight_origin, float2 *position, float *weight)</td></tr>
 <tr class="memdesc:ad2e46e98ddf26ef493044ed2ce93d5e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Permute input vectors.  <a href="#ad2e46e98ddf26ef493044ed2ce93d5e1">More...</a><br /></td></tr>
 <tr class="separator:ad2e46e98ddf26ef493044ed2ce93d5e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a159b141593acbbbfd3713f98f5fb32e7"><td class="memItemLeft" align="right" valign="top">__global__ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="solve_8cu.html#a159b141593acbbbfd3713f98f5fb32e7">permuteOutputVector</a> (const int num_particle, const int *perm, float2 *effect_origin, const float2 *effect)</td></tr>
 <tr class="memdesc:a159b141593acbbbfd3713f98f5fb32e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Permute output vector.  <a href="#a159b141593acbbbfd3713f98f5fb32e7">More...</a><br /></td></tr>
 <tr class="separator:a159b141593acbbbfd3713f98f5fb32e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af7100eac6b06b5cec682e4e878632072"><td class="memItemLeft" align="right" valign="top">__global__ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="solve_8cu.html#af7100eac6b06b5cec682e4e878632072">extractHead</a> (const int num_particle, const int base_size, const int2 *index, int *head)</td></tr>
-<tr class="memdesc:af7100eac6b06b5cec682e4e878632072"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extract heads of cell index of each cell.  <a href="#af7100eac6b06b5cec682e4e878632072">More...</a><br /></td></tr>
-<tr class="separator:af7100eac6b06b5cec682e4e878632072"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Solve system. </p>
@@ -354,7 +355,7 @@ Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Jun 9 2016 20:15:04 for NBFMM by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Jun 10 2016 00:46:34 for NBFMM by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.11
 </small></address>
