@@ -21,7 +21,9 @@ namespace nbfmm {
 ///
 class Solver {
 
- protected:
+#pragma warning
+ public:
+ // protected:
 
   /// The number of cell levels.
   const int num_level_;
@@ -92,12 +94,39 @@ class Solver {
  protected:
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  /// Do preliminary works
+  ///
+  /// @param[in] num_particle            the number of particles.
+  /// @param[in] gpuptr_position_origin  the device pointer of original particle positions.
+  /// @param[in] gpuptr_weight_origin    the device pointer of original particle weights.
+  ///
+  /// @post #gpuptr_position_ (sorted)
+  /// @post #gpuptr_weight_ (sorted)
+  /// @post #gpuptr_index_ (sorted)
+  /// @post #gpuptr_head_
+  /// @post #gpuptr_perm_
+  ///
+  void predo( const int num_particle, const float2* gpuptr_position_origin, const float* gpuptr_weight_origin );
+
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  /// Do preliminary works
+  ///
+  /// @param[in]   num_particle          the number of particles.
+  /// @param[out]  gpuptr_effect_origin  the device pointer of original particle effects.
+  ///
+  /// @pre #gpuptr_effect_ (sorted, all effects)
+  /// @pre #gpuptr_perm_
+  ///
+  void postdo( const int num_particle, float2* gpuptr_effect_origin );
+
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   /// Compute particle to particle
   ///
   /// @param  num_particle  the number of particles.
   ///
   /// @pre #gpuptr_position_ (sorted)
   /// @pre #gpuptr_weight_ (sorted)
+  /// @pre #gpuptr_index_ (sorted)
   /// @pre #gpuptr_head_
   ///
   /// @post #gpuptr_effect_ (sorted, P2P effects only)
@@ -111,6 +140,7 @@ class Solver {
   ///
   /// @pre #gpuptr_position_ (sorted)
   /// @pre #gpuptr_weight_ (sorted)
+  /// @pre #gpuptr_index_ (sorted)
   /// @pre #gpuptr_head_
   ///
   /// @post #gpuptr_cell_position_ (base level only)

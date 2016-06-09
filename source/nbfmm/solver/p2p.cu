@@ -28,13 +28,13 @@ void NaiveP2P(
     // Go through each surrounding cell
     for(int i = -1; i <= 1; ++i) {
       for(int j = -1; j <= 1; ++j) {
-        
+
         // Check whether this cell exists
         if(par_idx.x + i <  cell_side_size &&
            par_idx.x + i >= 0              &&
            par_idx.y + i <  cell_side_size &&
            par_idx.y + i >= 0) {
-          
+
           // Go through each particle in this cell
           int cell_idx  = par_idx.x*cell_side_size + par_idx.y;
           int start_idx = head[cell_idx];
@@ -52,7 +52,7 @@ void NaiveP2P(
 
     effect[idx] = total_effect;
   }
-  
+
 }
 
 //  The namespace NBFMM
