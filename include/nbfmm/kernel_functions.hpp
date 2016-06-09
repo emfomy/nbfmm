@@ -25,7 +25,7 @@ namespace nbfmm {
 ///
 
 // The kernel function of gravity
-__device__ inline
+__host__ __device__ inline
 float2 kernelFunction( const float2 position, const float weight ) {
   float r = sqrt(position.x * position.x + position.y * position.y);
   float tmp = weight / (r*r*r);

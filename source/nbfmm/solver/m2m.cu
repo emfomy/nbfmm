@@ -54,7 +54,6 @@ void Solver::m2m() {
   }
   const int block_dim_side = (base_size_ < kMaxBlockDim) ? base_size_ : kMaxBlockDim;
   const int grid_dim_side  = (base_size_ < kMaxBlockDim) ? 1 : (base_size_ / block_dim_side);
-  assert(grid_dim_side <= kMaxGridDim);
   const dim3 block_dim(block_dim_side, block_dim_side);
   const dim3 grid_dim(grid_dim_side, grid_dim_side);
   m2mDevice<<<block_dim, grid_dim>>>(base_size_, gpuptr_cell_position_, gpuptr_cell_weight_);
