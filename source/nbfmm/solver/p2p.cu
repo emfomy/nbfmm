@@ -3,27 +3,68 @@
 /// @brief   Compute particle to particle
 ///
 /// @author  Mu Yang <emfomy@gmail.com>
+///          Da-Wei Chang <davidzan830@gmail.com>
 ///
 
 #include <nbfmm/solver.hpp>
 
 __global__
-void test(
+void NaiveP2P(
+  const int     num_particle,
+  const int     cell_side_size,
   const float2* position,
   const float*  weight,
+  const int2*   index,
+  const int*    head,
   float2*       effect
 ) {
   int idx = blockIdx.x * blockDim.x + threadIdx.x;
-  effect[idx] = nbfmm::kernelFunction(position[idx], weight[idx]);
+  float2 total_effect; total_effect.x = 0; total_effect.y = 0;
+  float2 temp_effect;
+
+  if(idx < num_particle) {
+    int2 par_idx = index[idx];
+
+    // Go through each surrounding cell
+    for(int i = -1; i <= 1; ++i) {
+      for(int j = -1; j <= 1; ++j) {
+        
+        // Check whether this cell exists
+        if(par_idx.x + i <  cell_side_size &&
+           par_idx.x + i >= 0              &&
+           par_idx.y + i <  cell_side_size &&
+           par_idx.y + i >= 0) {
+          
+          // Go through each particle in this cell
+          int cell_idx  = par_idx.x*cell_side_size + par_idx.y;
+          int start_idx = head[cell_idx];
+          int end_idx   = head[cell_idx + 1];
+          for(int k = start_idx; k < end_idx; ++k) {
+            temp_effect = nbfmm::kernelFunction(position[k], weight[k]);
+            total_effect.x += temp_effect.x;
+            total_effect.y += temp_effect.y;
+          }
+
+        }
+
+      }
+    }
+
+    effect[idx] = total_effect;
+  }
+  
 }
 
 //  The namespace NBFMM
 namespace nbfmm {
 
 // P2P
-void Solver::p2p( const int num_perticle ) {
-  test<<<1, num_perticle>>>(gpuptr_position_, gpuptr_weight_, gpuptr_effect_);
-  /// @todo Implement!
+void Solver::p2p( const int num_particle ) {
+  const int block_size = 512;
+  const int num_block = num_particle/block_size + 1;
+
+  NaiveP2P<<<num_block, block_size>>>(num_particle, base_size_,
+    gpuptr_position_, gpuptr_weight_, gpuptr_index_, gpuptr_head_, gpuptr_effect_);
 }
 
 }  // namespace nbfmm
