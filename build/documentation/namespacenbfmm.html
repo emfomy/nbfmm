@@ -30,7 +30,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">NBFMM
-   &#160;<span id="projectnumber">0.1.14</span>
+   &#160;<span id="projectnumber">0.1.15</span>
    </div>
    <div id="projectbrief">N-Body simulation using Fast Multipole Method</div>
   </td>
@@ -104,15 +104,25 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Data Structures</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structnbfmm_1_1_equal_int2.html">EqualInt2</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structnbfmm_1_1_plus_int2.html">PlusInt2</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classnbfmm_1_1_solver.html">Solver</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The NBFMM solver class.  <a href="classnbfmm_1_1_solver.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ade017c6321256a2c4f82dd57797c84ea"><td class="memItemLeft" align="right" valign="top">__device__ float2&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacenbfmm.html#ade017c6321256a2c4f82dd57797c84ea">kernelFunction</a> (const float2 position, const float weight)</td></tr>
-<tr class="memdesc:ade017c6321256a2c4f82dd57797c84ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">The kernel function of gravity.  <a href="#ade017c6321256a2c4f82dd57797c84ea">More...</a><br /></td></tr>
-<tr class="separator:ade017c6321256a2c4f82dd57797c84ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a10b22569f4ac75aee4b6f819ee06a344"><td class="memItemLeft" align="right" valign="top">__host__ __device__ float2&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacenbfmm.html#a10b22569f4ac75aee4b6f819ee06a344">kernelFunction</a> (const float2 position, const float weight)</td></tr>
+<tr class="memdesc:a10b22569f4ac75aee4b6f819ee06a344"><td class="mdescLeft">&#160;</td><td class="mdescRight">The kernel function of gravity.  <a href="#a10b22569f4ac75aee4b6f819ee06a344">More...</a><br /></td></tr>
+<tr class="separator:a10b22569f4ac75aee4b6f819ee06a344"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeda503cf1b256d1c7ebb686b6759cdbe"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aeda503cf1b256d1c7ebb686b6759cdbe"></a>
+__global__ void&#160;</td><td class="memItemRight" valign="bottom"><b>p2m_weighting</b> (int num_particle, float2 *gpuptr_position_, float *gpuptr_weight_, float2 *p2m_buffer)</td></tr>
+<tr class="separator:aeda503cf1b256d1c7ebb686b6759cdbe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afaea50b6d62e50d85908a801a1d50c7b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="afaea50b6d62e50d85908a801a1d50c7b"></a>
+__global__ void&#160;</td><td class="memItemRight" valign="bottom"><b>p2m_averaging</b> (int base_size_, float2 *gpuptr_cell_position_, float *gpuptr_cell_weight_)</td></tr>
+<tr class="separator:afaea50b6d62e50d85908a801a1d50c7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
@@ -128,7 +138,7 @@ const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The namespace NBFMM. </p>
 </div><h2 class="groupheader">Function Documentation</h2>
-<a class="anchor" id="ade017c6321256a2c4f82dd57797c84ea"></a>
+<a class="anchor" id="a10b22569f4ac75aee4b6f819ee06a344"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -136,7 +146,7 @@ const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">__device__ float2 nbfmm::kernelFunction </td>
+          <td class="memname">__host__ __device__ float2 nbfmm::kernelFunction </td>
           <td>(</td>
           <td class="paramtype">const float2&#160;</td>
           <td class="paramname"><em>position</em>, </td>
@@ -175,7 +185,7 @@ const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jun 10 2016 00:46:34 for NBFMM by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Jun 10 2016 04:38:54 for NBFMM by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.11
 </small></address>

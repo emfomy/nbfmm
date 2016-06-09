@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['solver',['Solver',['../classnbfmm_1_1_solver.html',1,'nbfmm']]]
+  ['equalint2',['EqualInt2',['../structnbfmm_1_1_equal_int2.html',1,'nbfmm']]]
 ];
