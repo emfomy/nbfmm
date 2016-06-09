@@ -30,7 +30,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">NBFMM
-   &#160;<span id="projectnumber">0.1.15</span>
+   &#160;<span id="projectnumber">0.1.16</span>
    </div>
    <div id="projectbrief">N-Body simulation using Fast Multipole Method</div>
   </td>
@@ -104,7 +104,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="ttc" id="classnbfmm_1_1_solver_html_a5e209178b2c2516410c58ae3fdce273c"><div class="ttname"><a href="classnbfmm_1_1_solver.html#a5e209178b2c2516410c58ae3fdce273c">nbfmm::Solver::l2p</a></div><div class="ttdeci">void l2p(const int num_particle)</div><div class="ttdoc">Compute local to particle. </div><div class="ttdef"><b>Definition:</b> l2p.cu:39</div></div>
 <div class="ttc" id="classnbfmm_1_1_solver_html_a988541a50db3c588d54b86446fbb93bb"><div class="ttname"><a href="classnbfmm_1_1_solver.html#a988541a50db3c588d54b86446fbb93bb">nbfmm::Solver::solve</a></div><div class="ttdeci">void solve(const int num_particle, const float2 *gpuptr_position_origin, const float *gpuptr_weight_origin, float2 *gpuptr_effect_origin)</div><div class="ttdoc">Solve system. </div><div class="ttdef"><b>Definition:</b> solve.cu:14</div></div>
 <div class="ttc" id="classnbfmm_1_1_solver_html_a26f2fb01381f4330f1adf855492872be"><div class="ttname"><a href="classnbfmm_1_1_solver.html#a26f2fb01381f4330f1adf855492872be">nbfmm::Solver::gpuptr_cell_effect_</a></div><div class="ttdeci">float2 * gpuptr_cell_effect_</div><div class="ttdoc">The device pointer of cell effects.   Cube, base_size_ by base_size_ by num_level_. </div><div class="ttdef"><b>Definition:</b> solver.hpp:62</div></div>
-<div class="ttc" id="classnbfmm_1_1_solver_html_a639c31f18fd8a99c9e33a586e7f84dbc"><div class="ttname"><a href="classnbfmm_1_1_solver.html#a639c31f18fd8a99c9e33a586e7f84dbc">nbfmm::Solver::p2m</a></div><div class="ttdeci">void p2m(const int num_particle)</div><div class="ttdoc">Compute particle to multipole. </div><div class="ttdef"><b>Definition:</b> p2m.cu:51</div></div>
+<div class="ttc" id="classnbfmm_1_1_solver_html_a639c31f18fd8a99c9e33a586e7f84dbc"><div class="ttname"><a href="classnbfmm_1_1_solver.html#a639c31f18fd8a99c9e33a586e7f84dbc">nbfmm::Solver::p2m</a></div><div class="ttdeci">void p2m(const int num_particle)</div><div class="ttdoc">Compute particle to multipole. </div><div class="ttdef"><b>Definition:</b> p2m.cu:53</div></div>
 <div class="ttc" id="classnbfmm_1_1_solver_html"><div class="ttname"><a href="classnbfmm_1_1_solver.html">nbfmm::Solver</a></div><div class="ttdoc">The NBFMM solver class. </div><div class="ttdef"><b>Definition:</b> solver.hpp:22</div></div>
 <div class="ttc" id="classnbfmm_1_1_solver_html_ad5168756cd4781ef4f0a349e5e11acf9"><div class="ttname"><a href="classnbfmm_1_1_solver.html#ad5168756cd4781ef4f0a349e5e11acf9">nbfmm::Solver::gpuptr_cell_weight_</a></div><div class="ttdeci">float * gpuptr_cell_weight_</div><div class="ttdoc">The device pointer of cell weights.   Cube, base_size_ by base_size_ by num_level_. </div><div class="ttdef"><b>Definition:</b> solver.hpp:65</div></div>
 <div class="ttc" id="classnbfmm_1_1_solver_html_a8db8cc44fa2a7b7797e72f5e963b02ac"><div class="ttname"><a href="classnbfmm_1_1_solver.html#a8db8cc44fa2a7b7797e72f5e963b02ac">nbfmm::Solver::num_level_</a></div><div class="ttdeci">const int num_level_</div><div class="ttdoc">The number of cell levels. </div><div class="ttdef"><b>Definition:</b> solver.hpp:29</div></div>
@@ -124,12 +124,12 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="ttc" id="classnbfmm_1_1_solver_html_aaadf0df4c5b0d220a57b7bfbf5a43079"><div class="ttname"><a href="classnbfmm_1_1_solver.html#aaadf0df4c5b0d220a57b7bfbf5a43079">nbfmm::Solver::l2l</a></div><div class="ttdeci">void l2l()</div><div class="ttdoc">Compute local to particle. </div><div class="ttdef"><b>Definition:</b> l2l.cu:46</div></div>
 <div class="ttc" id="classnbfmm_1_1_solver_html_af0cc8ff6a6ed2e933f21cf5ba331ec86"><div class="ttname"><a href="classnbfmm_1_1_solver.html#af0cc8ff6a6ed2e933f21cf5ba331ec86">nbfmm::Solver::gpuptr_effect_</a></div><div class="ttdeci">float2 * gpuptr_effect_</div><div class="ttdoc">The device pointer of particle effects.   Vector, 1 by max_num_particle_. </div><div class="ttdef"><b>Definition:</b> solver.hpp:44</div></div>
 <div class="ttc" id="classnbfmm_1_1_solver_html_a89ae2aead9c280b48b6b4c5848766ae7"><div class="ttname"><a href="classnbfmm_1_1_solver.html#a89ae2aead9c280b48b6b4c5848766ae7">nbfmm::Solver::gpuptr_index_</a></div><div class="ttdeci">int2 * gpuptr_index_</div><div class="ttdoc">The device pointer of particle cell indices.   Vector, 1 by max_num_particle_. </div><div class="ttdef"><b>Definition:</b> solver.hpp:50</div></div>
-<div class="ttc" id="classnbfmm_1_1_solver_html_a4b62760cb97a798193b5d422d8356513"><div class="ttname"><a href="classnbfmm_1_1_solver.html#a4b62760cb97a798193b5d422d8356513">nbfmm::Solver::p2p</a></div><div class="ttdeci">void p2p(const int num_particle)</div><div class="ttdoc">Compute particle to particle. </div><div class="ttdef"><b>Definition:</b> p2p.cu:62</div></div>
+<div class="ttc" id="classnbfmm_1_1_solver_html_a4b62760cb97a798193b5d422d8356513"><div class="ttname"><a href="classnbfmm_1_1_solver.html#a4b62760cb97a798193b5d422d8356513">nbfmm::Solver::p2p</a></div><div class="ttdeci">void p2p(const int num_particle)</div><div class="ttdoc">Compute particle to particle. </div><div class="ttdef"><b>Definition:</b> p2p.cu:71</div></div>
 <div class="ttc" id="classnbfmm_1_1_solver_html_aa698d959738ea265bb5ef508b038383f"><div class="ttname"><a href="classnbfmm_1_1_solver.html#aa698d959738ea265bb5ef508b038383f">nbfmm::Solver::predo</a></div><div class="ttdeci">void predo(const int num_particle, const float2 *gpuptr_position_origin, const float *gpuptr_weight_origin)</div><div class="ttdoc">Do preliminary works. </div><div class="ttdef"><b>Definition:</b> predo.cu:94</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jun 10 2016 04:38:54 for NBFMM by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Jun 10 2016 04:53:38 for NBFMM by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.11
 </small></address>

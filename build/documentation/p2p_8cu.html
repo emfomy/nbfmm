@@ -30,7 +30,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">NBFMM
-   &#160;<span id="projectnumber">0.1.15</span>
+   &#160;<span id="projectnumber">0.1.16</span>
    </div>
    <div id="projectbrief">N-Body simulation using Fast Multipole Method</div>
   </td>
@@ -114,17 +114,88 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:aad3971189adb411aa52e70e23f9b49d6"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aad3971189adb411aa52e70e23f9b49d6"></a>
-__global__ void&#160;</td><td class="memItemRight" valign="bottom"><b>NaiveP2P</b> (const int num_particle, const int cell_side_size, const float2 *position, const float *weight, const int2 *index, const int *head, float2 *effect)</td></tr>
+<tr class="memitem:aad3971189adb411aa52e70e23f9b49d6"><td class="memItemLeft" align="right" valign="top">__global__ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="p2p_8cu.html#aad3971189adb411aa52e70e23f9b49d6">NaiveP2P</a> (const int num_particle, const int cell_side_size, const float2 *position, const float *weight, const int2 *index, const int *head, float2 *effect)</td></tr>
+<tr class="memdesc:aad3971189adb411aa52e70e23f9b49d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute particle to particle.  <a href="#aad3971189adb411aa52e70e23f9b49d6">More...</a><br /></td></tr>
 <tr class="separator:aad3971189adb411aa52e70e23f9b49d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Compute particle to particle. </p>
 <dl class="section author"><dt>Author</dt><dd>Mu Yang <a href="#" onclick="location.href='mai'+'lto:'+'emf'+'om'+'y@g'+'ma'+'il.'+'co'+'m'; return false;">emfom<span style="display: none;">.nosp@m.</span>y@gm<span style="display: none;">.nosp@m.</span>ail.c<span style="display: none;">.nosp@m.</span>om</a> Da-Wei Chang <a href="#" onclick="location.href='mai'+'lto:'+'dav'+'id'+'zan'+'83'+'0@g'+'ma'+'il.'+'co'+'m'; return false;">david<span style="display: none;">.nosp@m.</span>zan8<span style="display: none;">.nosp@m.</span>30@gm<span style="display: none;">.nosp@m.</span>ail.<span style="display: none;">.nosp@m.</span>com</a> </dd></dl>
-</div></div><!-- contents -->
+</div><h2 class="groupheader">Function Documentation</h2>
+<a class="anchor" id="aad3971189adb411aa52e70e23f9b49d6"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">__global__ void NaiveP2P </td>
+          <td>(</td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>num_particle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>cell_side_size</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const float2 *&#160;</td>
+          <td class="paramname"><em>position</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const float *&#160;</td>
+          <td class="paramname"><em>weight</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int2 *&#160;</td>
+          <td class="paramname"><em>index</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int *&#160;</td>
+          <td class="paramname"><em>head</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float2 *&#160;</td>
+          <td class="paramname"><em>effect</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Compute particle to particle. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">num_particle</td><td>the number of particles. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">cell_side_size</td><td>the number of girds in the base level per side. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">position</td><td>the particle positions. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">weight</td><td>the particle weights. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">index</td><td>the particle cell indices. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">head</td><td>the starting permutation indices of each cell. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">effect</td><td>the particle effects. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+</div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jun 10 2016 04:38:54 for NBFMM by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Jun 10 2016 04:53:39 for NBFMM by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.11
 </small></address>
