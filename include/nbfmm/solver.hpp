@@ -109,7 +109,7 @@ class Solver {
   void predo( const int num_particle, const float2* gpuptr_position_origin, const float* gpuptr_weight_origin );
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  /// Do preliminary works
+  /// Do postliminary works
   ///
   /// @param[in]   num_particle          the number of particles.
   /// @param[out]  gpuptr_effect_origin  the device pointer of original particle effects.

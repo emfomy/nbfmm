@@ -8,6 +8,17 @@
 
 #include <nbfmm/solver.hpp>
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// Compute particle to particle
+///
+/// @param[in]   num_particle    the number of particles.
+/// @param[in]   cell_side_size  the number of girds in the base level per side.
+/// @param[in]   position        the particle positions.
+/// @param[in]   weight          the particle weights.
+/// @param[in]   index           the particle cell indices.
+/// @param[in]   head            the starting permutation indices of each cell.
+/// @param[out]  effect          the particle effects.
+///
 __global__
 void NaiveP2P(
   const int     num_particle,
@@ -46,10 +57,8 @@ void NaiveP2P(
           }
 
         }
-
       }
     }
-
     effect[idx] = total_effect;
   }
 
