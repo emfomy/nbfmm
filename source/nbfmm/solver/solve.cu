@@ -9,6 +9,7 @@
 #include <thrust/fill.h>
 #include <thrust/sort.h>
 #include <nbfmm/solver.hpp>
+#include <nbfmm/utility.hpp>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Compute cell index of each particle
@@ -35,6 +36,32 @@ __global__ void computeParticleIndex(
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// Extract heads of cell index of each cell
+///
+/// @param[in]   num_particle  the number of particles.
+/// @param[in]   base_size     the number of girds in the base level per side.
+/// @param[in]   index         the particle cell indices.
+/// @param[out]  head          the starting permutation indices of each cell.
+///
+__global__ void extractHead(
+    const int   num_particle,
+    const int   base_size,
+    const int2* index,
+    int*        head
+) {
+  int idx = blockIdx.x * blockDim.x + threadIdx.x;
+  if ( idx>=num_particle ) {
+    return;
+  }
+  if ( idx == 0 ) {
+    head[0] = idx;
+    head[base_size * base_size] = num_particle;
+  } else if ( index[idx] != index[idx-1] ) {
+    head[index[idx].x + index[idx].y*base_size] = idx;
+  }
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Permute input vectors
 ///
 /// @param[in]   num_particle     the number of particles.
@@ -56,9 +83,8 @@ __global__ void permuteInputVector(
   if ( idx >= num_particle ) {
     return;
   }
-  position[idx].x = position_origin[perm[idx]].x;
-  position[idx].y = position_origin[perm[idx]].y;
-  weight[idx]     = weight_origin[perm[idx]];
+  position[idx] = position_origin[perm[idx]];
+  weight[idx]   = weight_origin[perm[idx]];
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -79,45 +105,8 @@ __global__ void permuteOutputVector(
   if ( idx >= num_particle ) {
     return;
   }
-  effect_origin[perm[idx]].x = effect[idx].x;
-  effect_origin[perm[idx]].y = effect[idx].y;
+  effect_origin[perm[idx]] = effect[idx];
 }
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// Extract heads of cell index of each cell
-///
-/// @param[in]   num_particle  the number of particles.
-/// @param[in]   base_size     the number of girds in the base level per side.
-/// @param[in]   index         the particle cell indices.
-/// @param[out]  head          the starting permutation indices of each cell.
-///
-__global__ void extractHead(
-    const int   num_particle,
-    const int   base_size,
-    const int2* index,
-    int*        head
-) {
-  int idx = blockIdx.x * blockDim.x + threadIdx.x;
-  if ( idx>=num_particle ) {
-    return;
-  }
-  if ( idx == 0 ) {
-    head[0] = idx;
-    head[base_size * base_size] = num_particle;
-  } else if ( index[idx].x == index[idx-1].x && index[idx].y != index[idx-1].y ) {
-    head[index[idx].x + index[idx].y*base_size] = idx;
-  }
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// The less than operator of int2
-///
-struct LessThanInt2 {
-  /// The less than operator of int2
-  __host__ __device__ bool operator()( const int2 a, const int2 b ) {
-    return (a.y != b.y) ? (a.y < b.y) : (a.x < b.x);
-  }
-};
 
 //  The namespace NBFMM
 namespace nbfmm {
@@ -131,37 +120,32 @@ void Solver::solve(
 ) {
   assert(num_particle <= max_num_particle_);
 
-  const int kNumThread_pointwise = kMaxBlockDim;
-  const int kNumBlock_pointwise  = ((num_particle-1)/kNumThread_pointwise)+1;
-  assert(kNumBlock_pointwise <= kMaxGridDim);
+  const int block_dim = kMaxBlockDim;
+  const int grid_dim  = ((num_particle-1)/block_dim)+1;
+  assert(grid_dim <= kMaxGridDim);
 
   const float2 cell_size = make_float2((position_limits_.z - position_limits_.x) / base_size_,
                                        (position_limits_.w - position_limits_.y) / base_size_);
-  LessThanInt2 cmp;
-  thrust::device_ptr<int2> thrust_index(gpuptr_index_);
-  thrust::device_ptr<int>  thrust_perm(gpuptr_perm_);
-
-  // Copy input vectors
-  cudaMemcpy(gpuptr_position_, gpuptr_position_origin, sizeof(float2) * num_particle, cudaMemcpyDeviceToDevice);
-  cudaMemcpy(gpuptr_weight_,   gpuptr_weight_origin,   sizeof(float)  * num_particle, cudaMemcpyDeviceToDevice);
 
   // Compute cell index of each particle
-  computeParticleIndex<<<kNumBlock_pointwise, kNumThread_pointwise>>>(num_particle, position_limits_, cell_size,
-                                                                     gpuptr_position_, gpuptr_index_);
+  computeParticleIndex<<<grid_dim, block_dim>>>(num_particle, position_limits_, cell_size,
+                                                gpuptr_position_origin, gpuptr_index_);
 
   // Fill particle permutation vector
+  thrust::device_ptr<int2> thrust_index(gpuptr_index_);
+  thrust::device_ptr<int>  thrust_perm(gpuptr_perm_);
   thrust::counting_iterator<int> count_iter(0);
   thrust::copy_n(count_iter, num_particle, thrust_perm);
 
   // Sort values
-  thrust::sort_by_key(thrust_index, thrust_index+num_particle, thrust_perm, cmp);
+  thrust::sort_by_key(thrust_index, thrust_index+num_particle, thrust_perm);
 
   // Extract heads of cell index of each cell
-  extractHead<<<kNumBlock_pointwise, kNumThread_pointwise>>>(num_particle, base_size_, gpuptr_index_, gpuptr_head_);
+  extractHead<<<grid_dim, block_dim>>>(num_particle, base_size_, gpuptr_index_, gpuptr_head_);
 
   // Permute input vectors
-  permuteInputVector<<<kNumBlock_pointwise, kNumThread_pointwise>>>(num_particle, gpuptr_perm_, gpuptr_position_origin,
-                                                                    gpuptr_weight_origin, gpuptr_position_, gpuptr_weight_);
+  permuteInputVector<<<grid_dim, block_dim>>>(num_particle, gpuptr_perm_,gpuptr_position_origin,
+                                              gpuptr_weight_origin, gpuptr_position_, gpuptr_weight_);
 
   // FMM
   p2p(num_particle);
@@ -172,8 +156,7 @@ void Solver::solve(
   l2p(num_particle);
 
   // Permute output vectors
-  permuteOutputVector<<<kNumBlock_pointwise, kNumThread_pointwise>>>(num_particle, gpuptr_perm_,
-                                                                     gpuptr_effect_origin, gpuptr_effect_);
+  permuteOutputVector<<<grid_dim, block_dim>>>(num_particle, gpuptr_perm_, gpuptr_effect_origin, gpuptr_effect_);
 }
 
 }  // namespace nbfmm

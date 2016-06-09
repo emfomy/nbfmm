@@ -6,15 +6,16 @@
 ///
 
 #include <nbfmm/solver.hpp>
+#include <nbfmm/utility.hpp>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Compute local to particle
 ///
-/// @param[in]      num_particle  the number of particles.
-/// @param[in]      base_size     the number of girds in the base level per side.
-/// @param[in]      index         the particle cell indices.
-/// @param[in]      cell_effect   the cell effects.
-/// @param[in/out]  effect        the particle effects.
+/// @param[in]  num_particle  the number of particles.
+/// @param[in]  base_size     the number of girds in the base level per side.
+/// @param[in]  index         the particle cell indices.
+/// @param[in]  cell_effect   the cell effects.
+/// @param      effect        the particle effects.
 ///
 __global__ void l2pDevice(
     const int     num_particle,
@@ -28,8 +29,7 @@ __global__ void l2pDevice(
     return;
   }
   const int cell_idx = index[idx].x + index[idx].y * base_size;
-  effect[idx].x += cell_effect[cell_idx].x;
-  effect[idx].y += cell_effect[cell_idx].y;
+  effect[idx] += cell_effect[cell_idx];
 }
 
 //  The namespace NBFMM
