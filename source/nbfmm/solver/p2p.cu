@@ -36,6 +36,9 @@ void NaiveP2P(
   if(idx < num_particle) {
     int2 par_idx = index[idx];
 
+    float2 self_position = position[idx];
+    float self_weight   = weight[idx];
+
     // Go through each surrounding cell
     for(int i = -1; i <= 1; ++i) {
       for(int j = -1; j <= 1; ++j) {
@@ -51,9 +54,17 @@ void NaiveP2P(
           int start_idx = head[cell_idx];
           int end_idx   = head[cell_idx + 1];
           for(int k = start_idx; k < end_idx; ++k) {
-            temp_effect = nbfmm::kernelFunction(position[k], weight[k]);
-            total_effect.x += temp_effect.x;
-            total_effect.y += temp_effect.y;
+            
+            // Cannot calculate action to self 
+            if(k != idx) {
+              float2 dist;
+              dist.x = position[k].x - self_position.x;
+              dist.y = position[k].y - self_position.y;
+              temp_effect = nbfmm::kernelFunction(dist, weight[k]*self_weight);
+              total_effect.x += temp_effect.x;
+              total_effect.y += temp_effect.y;
+            }
+            
           }
 
         }
