@@ -8,6 +8,7 @@
 #include <cstdio>
 #include <iostream>
 #include <random>
+#include <omp.h>
 #include <nbfmm/core.hpp>
 #include <nbfmm/utility.hpp>
 
@@ -49,11 +50,12 @@ int main( int argc, char *argv[] ) {
     position[i].x = position_x_rand(generator);
     position[i].y = position_y_rand(generator);
     weight[i]     = weight_rand(generator);
-    effect0[i]    = make_float2(0.0f, 0.0f);
   }
 
   // Compute effects
+  #pragma omp for
   for ( auto i = 0; i < num_particle; ++i ) {
+    effect0[i] = make_float2(0.0f, 0.0f);
     for ( auto j = 0; j < num_particle; ++j ) {
       if ( i != j ) {
         effect0[i] += kernelFunction(position[i], position[j], weight[j]);
