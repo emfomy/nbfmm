@@ -1,15 +1,15 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// @file    include/nbfmm/solver.hpp
+/// @file    include/nbfmm/core/solver.hpp
 /// @brief   The definition of the FMM solver.
 ///
 /// @author  Mu Yang <emfomy@gmail.com>
 ///
 
-#ifndef NBFMM_SOLVER_HPP_
-#define NBFMM_SOLVER_HPP_
+#ifndef NBFMM_CORE_SOLVER_HPP_
+#define NBFMM_CORE_SOLVER_HPP_
 
 #include <nbfmm/config.hpp>
-#include <nbfmm/kernel_functions.hpp>
+#include <nbfmm/core/kernel_function.hpp>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //  The namespace NBFMM.
@@ -195,4 +195,4 @@ class Solver {
 
 }  // namespace nbfmm
 
-#endif  // NBFMM_SOLVER_HPP_
+#endif  // NBFMM_CORE_SOLVER_HPP_

@@ -1,11 +1,11 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// @file    source/nbfmm/solver/m2l.cu
+/// @file    source/nbfmm/core/solver/m2l.cu
 /// @brief   Compute multipole to local
 ///
 /// @author  Mu Yang <emfomy@gmail.com>
 ///
 
-#include <nbfmm/solver.hpp>
+#include <nbfmm/core.hpp>
 
 //  The namespace NBFMM
 namespace nbfmm {
