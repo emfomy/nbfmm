@@ -6,7 +6,7 @@
 ///          Da-Wei Chang <davidzan830@gmail.com>
 ///
 
-#include <nbfmm/solver.hpp>
+#include <nbfmm/core.hpp>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Compute particle to particle
@@ -51,7 +51,7 @@ void NaiveP2P(
           int start_idx = head[cell_idx];
           int end_idx   = head[cell_idx + 1];
           for(int k = start_idx; k < end_idx; ++k) {
-            temp_effect = nbfmm::kernelFunction(position[k], weight[k]);
+            temp_effect = nbfmm::kernelFunction(position[idx], position[k], weight[k]);
             total_effect.x += temp_effect.x;
             total_effect.y += temp_effect.y;
           }

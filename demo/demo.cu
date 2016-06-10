@@ -8,7 +8,7 @@
 #include <cstdio>
 #include <iostream>
 #include <random>
-#include <nbfmm.hpp>
+#include <nbfmm/core.hpp>
 #include <nbfmm/utility.hpp>
 
 using namespace std;
@@ -56,7 +56,7 @@ int main( int argc, char *argv[] ) {
   for ( auto i = 0; i < num_particle; ++i ) {
     for ( auto j = 0; j < num_particle; ++j ) {
       if ( i != j ) {
-        effect0[i] += kernelFunction(position[j] - position[i], weight[j]);
+        effect0[i] += kernelFunction(position[i], position[j], weight[j]);
       }
     }
   }

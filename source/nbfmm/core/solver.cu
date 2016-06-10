@@ -5,7 +5,7 @@
 /// @author  Mu Yang <emfomy@gmail.com>
 ///
 
-#include <nbfmm/solver.hpp>
+#include <nbfmm/core/solver.hpp>
 
 //  The namespace NBFMM
 namespace nbfmm {
