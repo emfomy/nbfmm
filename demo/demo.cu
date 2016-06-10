@@ -18,7 +18,7 @@ using namespace nbfmm;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Main function
 ///
-int main( int argc, char *argv[] ) {
+int main() {
   cout << "NBFMM "
        << NBFMM_VERSION_MAJOR << "."
        << NBFMM_VERSION_MINOR << "."
@@ -80,6 +80,7 @@ int main( int argc, char *argv[] ) {
   }
 
   // Display data
+  printf("\tPosition\t\t    Weight\t    Index\t\tEffect(CPU)\t\t\tEffect(FMM)\n");
   for ( auto i = 0; i < num_particle; ++i ) {
     printf("(%12.8f, %12.8f) \t%12.8f \t(%4d, %4d) \t(%12.8f, %12.8f) \t(%12.8f, %12.8f)\n",
            position[i].x, position[i].y, weight[i], index[i].x, index[i].y,
