@@ -8,6 +8,7 @@
 
 #include <nbfmm/core.hpp>
 #include <nbfmm/utility.hpp>
+#include <cstdio>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Compute particle to particle
@@ -49,7 +50,7 @@ void NaiveP2P(
            par_idx.y + j >= 0) {
 
           // Go through each particle in this cell
-          int cell_idx  = par_idx.x + par_idx.y * cell_side_size;
+          int cell_idx  = (par_idx.x+i) + (par_idx.y+j) * cell_side_size;
           int start_idx = head[cell_idx];
           int end_idx   = head[cell_idx + 1];
           for(int k = start_idx; k < end_idx; ++k) {
