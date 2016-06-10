@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['kernel_5ffunctions_2ehpp',['kernel_functions.hpp',['../kernel__functions_8hpp.html',1,'']]]
+  ['kernel_5ffunction_2ehpp',['kernel_function.hpp',['../kernel__function_8hpp.html',1,'']]]
 ];

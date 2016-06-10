@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.11"/>
-<title>NBFMM: include/nbfmm/kernel_functions.hpp File Reference</title>
+<title>NBFMM: include/nbfmm/core.hpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -30,7 +30,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">NBFMM
-   &#160;<span id="projectnumber">0.1.16</span>
+   &#160;<span id="projectnumber">0.1.17</span>
    </div>
    <div id="projectbrief">N-Body simulation using Fast Multipole Method</div>
   </td>
@@ -94,39 +94,17 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 </div><!-- top -->
 <div class="header">
-  <div class="summary">
-<a href="#namespaces">Namespaces</a> &#124;
-<a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
-<div class="title">kernel_functions.hpp File Reference</div>  </div>
+<div class="title">core.hpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-
-<p>The definition of kernel functions.  
-<a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;<a class="el" href="config_8hpp_source.html">nbfmm/config.hpp</a>&gt;</code><br />
-</div>
-<p><a href="kernel__functions_8hpp_source.html">Go to the source code of this file.</a></p>
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
-Namespaces</h2></td></tr>
-<tr class="memitem:namespacenbfmm"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacenbfmm.html">nbfmm</a></td></tr>
-<tr class="memdesc:namespacenbfmm"><td class="mdescLeft">&#160;</td><td class="mdescRight">The namespace NBFMM. <br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:a10b22569f4ac75aee4b6f819ee06a344"><td class="memItemLeft" align="right" valign="top">__host__ __device__ float2&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacenbfmm.html#a10b22569f4ac75aee4b6f819ee06a344">nbfmm::kernelFunction</a> (const float2 position, const float weight)</td></tr>
-<tr class="memdesc:a10b22569f4ac75aee4b6f819ee06a344"><td class="mdescLeft">&#160;</td><td class="mdescRight">The kernel function of gravity.  <a href="namespacenbfmm.html#a10b22569f4ac75aee4b6f819ee06a344">More...</a><br /></td></tr>
-<tr class="separator:a10b22569f4ac75aee4b6f819ee06a344"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>The definition of kernel functions. </p>
-<dl class="section author"><dt>Author</dt><dd>Mu Yang <a href="#" onclick="location.href='mai'+'lto:'+'emf'+'om'+'y@g'+'ma'+'il.'+'co'+'m'; return false;">emfom<span style="display: none;">.nosp@m.</span>y@gm<span style="display: none;">.nosp@m.</span>ail.c<span style="display: none;">.nosp@m.</span>om</a> </dd></dl>
-</div></div><!-- contents -->
+<a href="core_8hpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;</div><div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#ifndef NBFMM_CORE_HPP_</span></div><div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#define NBFMM_CORE_HPP_</span></div><div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div><div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="config_8hpp.html">nbfmm/config.hpp</a>&gt;</span></div><div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="solver_8hpp.html">nbfmm/core/solver.hpp</a>&gt;</span></div><div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="kernel__function_8hpp.html">nbfmm/core/kernel_function.hpp</a>&gt;</span></div><div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div><div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#endif  // NBFMM_CORE_HPP_</span></div><div class="ttc" id="solver_8hpp_html"><div class="ttname"><a href="solver_8hpp.html">solver.hpp</a></div><div class="ttdoc">The definition of the FMM solver. </div></div>
+<div class="ttc" id="config_8hpp_html"><div class="ttname"><a href="config_8hpp.html">config.hpp</a></div><div class="ttdoc">The configured options and settings. </div></div>
+<div class="ttc" id="kernel__function_8hpp_html"><div class="ttname"><a href="kernel__function_8hpp.html">kernel_function.hpp</a></div><div class="ttdoc">The definition of kernel functions. </div></div>
+</div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jun 10 2016 04:53:39 for NBFMM by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Jun 10 2016 13:58:27 for NBFMM by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.11
 </small></address>

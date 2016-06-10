@@ -1,7 +1,6 @@
 var searchData=
 [
-  ['p2m_2ecu',['p2m.cu',['../p2m_8cu.html',1,'']]],
-  ['p2p_2ecu',['p2p.cu',['../p2p_8cu.html',1,'']]],
-  ['postdo_2ecu',['postdo.cu',['../postdo_8cu.html',1,'']]],
-  ['predo_2ecu',['predo.cu',['../predo_8cu.html',1,'']]]
+  ['solve_2ecu',['solve.cu',['../solve_8cu.html',1,'']]],
+  ['solver_2ecu',['solver.cu',['../solver_8cu.html',1,'']]],
+  ['solver_2ehpp',['solver.hpp',['../solver_8hpp.html',1,'']]]
 ];

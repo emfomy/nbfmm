@@ -2,7 +2,7 @@
 
 # Set target
 cuda_add_executable(demo demo.cu)
-target_link_libraries(demo nbfmm)
+target_link_libraries(demo nbfmm_core)
 
 # Add rule 'run'
 add_custom_target(

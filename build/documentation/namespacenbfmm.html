@@ -30,7 +30,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">NBFMM
-   &#160;<span id="projectnumber">0.1.16</span>
+   &#160;<span id="projectnumber">0.1.17</span>
    </div>
    <div id="projectbrief">N-Body simulation using Fast Multipole Method</div>
   </td>
@@ -110,9 +110,9 @@ Data Structures</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a10b22569f4ac75aee4b6f819ee06a344"><td class="memItemLeft" align="right" valign="top">__host__ __device__ float2&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacenbfmm.html#a10b22569f4ac75aee4b6f819ee06a344">kernelFunction</a> (const float2 position, const float weight)</td></tr>
-<tr class="memdesc:a10b22569f4ac75aee4b6f819ee06a344"><td class="mdescLeft">&#160;</td><td class="mdescRight">The kernel function of gravity.  <a href="#a10b22569f4ac75aee4b6f819ee06a344">More...</a><br /></td></tr>
-<tr class="separator:a10b22569f4ac75aee4b6f819ee06a344"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a166d53df1bb480cd32d6637587e8c203"><td class="memItemLeft" align="right" valign="top">__host__ __device__ float2&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacenbfmm.html#a166d53df1bb480cd32d6637587e8c203">kernelFunction</a> (const float2 position_target, const float2 position_source, const float weight_source)</td></tr>
+<tr class="memdesc:a166d53df1bb480cd32d6637587e8c203"><td class="mdescLeft">&#160;</td><td class="mdescRight">The kernel function of gravitation.  <a href="#a166d53df1bb480cd32d6637587e8c203">More...</a><br /></td></tr>
+<tr class="separator:a166d53df1bb480cd32d6637587e8c203"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
@@ -128,7 +128,7 @@ const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The namespace NBFMM. </p>
 </div><h2 class="groupheader">Function Documentation</h2>
-<a class="anchor" id="a10b22569f4ac75aee4b6f819ee06a344"></a>
+<a class="anchor" id="a166d53df1bb480cd32d6637587e8c203"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -139,13 +139,19 @@ const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
           <td class="memname">__host__ __device__ float2 nbfmm::kernelFunction </td>
           <td>(</td>
           <td class="paramtype">const float2&#160;</td>
-          <td class="paramname"><em>position</em>, </td>
+          <td class="paramname"><em>position_target</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const float2&#160;</td>
+          <td class="paramname"><em>position_source</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const float&#160;</td>
-          <td class="paramname"><em>weight</em>&#160;</td>
+          <td class="paramname"><em>weight_source</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -160,22 +166,23 @@ const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 </table>
 </div><div class="memdoc">
 
-<p>The kernel function of gravity. </p>
+<p>The kernel function of gravitation. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">position</td><td>the position of particle </td></tr>
-    <tr><td class="paramname">weight</td><td>the mass of particle</td></tr>
+    <tr><td class="paramname">position_target</td><td>the position of target particle </td></tr>
+    <tr><td class="paramname">position_source</td><td>the position of source particle </td></tr>
+    <tr><td class="paramname">weight_source</td><td>the mass of source particle</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>the acceleration of particle </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>acceleration of target particle </dd></dl>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jun 10 2016 04:53:39 for NBFMM by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Jun 10 2016 13:58:27 for NBFMM by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.11
 </small></address>

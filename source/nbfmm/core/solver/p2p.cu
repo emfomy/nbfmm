@@ -1,12 +1,12 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// @file    source/nbfmm/solver/p2p.cu
+/// @file    source/nbfmm/core/solver/p2p.cu
 /// @brief   Compute particle to particle
 ///
 /// @author  Mu Yang <emfomy@gmail.com>
 ///          Da-Wei Chang <davidzan830@gmail.com>
 ///
 
-#include <nbfmm/solver.hpp>
+#include <nbfmm/core.hpp>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Compute particle to particle
@@ -36,6 +36,8 @@ void NaiveP2P(
   if(idx < num_particle) {
     int2 par_idx = index[idx];
 
+    float2 self_position = position[idx];
+
     // Go through each surrounding cell
     for(int i = -1; i <= 1; ++i) {
       for(int j = -1; j <= 1; ++j) {
@@ -51,9 +53,12 @@ void NaiveP2P(
           int start_idx = head[cell_idx];
           int end_idx   = head[cell_idx + 1];
           for(int k = start_idx; k < end_idx; ++k) {
-            temp_effect = nbfmm::kernelFunction(position[k], weight[k]);
-            total_effect.x += temp_effect.x;
-            total_effect.y += temp_effect.y;
+            // Cannot calculate action to self
+            if(k != idx) {
+              temp_effect = nbfmm::kernelFunction(self_position, position[k], weight[k]);
+              total_effect.x += temp_effect.x;
+              total_effect.y += temp_effect.y;
+            }
           }
 
         }
