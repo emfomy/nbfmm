@@ -1,12 +1,13 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// @file    source/nbfmm/solver/p2p.cu
+/// @file    source/nbfmm/core/solver/p2p.cu
 /// @brief   Compute particle to particle
 ///
 /// @author  Mu Yang <emfomy@gmail.com>
 ///          Da-Wei Chang <davidzan830@gmail.com>
 ///
 
-#include <nbfmm/solver.hpp>
+#include <nbfmm/core.hpp>
+#include <nbfmm/utility.hpp>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Compute particle to particle
@@ -30,11 +31,12 @@ void NaiveP2P(
   float2*       effect
 ) {
   int idx = blockIdx.x * blockDim.x + threadIdx.x;
-  float2 total_effect; total_effect.x = 0; total_effect.y = 0;
-  float2 temp_effect;
+  float2 total_effect = make_float2(0.0f, 0.0f);
 
   if(idx < num_particle) {
     int2 par_idx = index[idx];
+
+    float2 self_position = position[idx];
 
     // Go through each surrounding cell
     for(int i = -1; i <= 1; ++i) {
@@ -43,17 +45,18 @@ void NaiveP2P(
         // Check whether this cell exists
         if(par_idx.x + i <  cell_side_size &&
            par_idx.x + i >= 0              &&
-           par_idx.y + i <  cell_side_size &&
-           par_idx.y + i >= 0) {
+           par_idx.y + j <  cell_side_size &&
+           par_idx.y + j >= 0) {
 
           // Go through each particle in this cell
-          int cell_idx  = par_idx.x*cell_side_size + par_idx.y;
+          int cell_idx  = par_idx.x + par_idx.y * cell_side_size;
           int start_idx = head[cell_idx];
           int end_idx   = head[cell_idx + 1];
           for(int k = start_idx; k < end_idx; ++k) {
-            temp_effect = nbfmm::kernelFunction(position[k], weight[k]);
-            total_effect.x += temp_effect.x;
-            total_effect.y += temp_effect.y;
+            // Cannot calculate action to self
+            if(k != idx) {
+              total_effect += nbfmm::kernelFunction(self_position, position[k], weight[k]);
+            }
           }
 
         }

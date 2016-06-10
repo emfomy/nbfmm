@@ -1,6 +1,12 @@
 # The CMake setting of 'library/'
 
 file(
-  GLOB_RECURSE FILES "${CMAKE_SOURCE_DIR}/source/*.cu"
+  GLOB directory "${CMAKE_SOURCE_DIR}/source/nbfmm/*"
 )
-cuda_add_library(nbfmm ${FILES})
+foreach(dir IN LISTS directory)
+  if(IS_DIRECTORY ${dir})
+    get_filename_component(dirname ${dir} NAME)
+    file(GLOB_RECURSE files "${dir}/*.cu")
+    cuda_add_library("nbfmm_${dirname}" ${files})
+  endif()
+endforeach()

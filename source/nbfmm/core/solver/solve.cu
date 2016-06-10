@@ -1,11 +1,11 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// @file    source/nbfmm/solver/solve.cu
+/// @file    source/nbfmm/core/solver/solve.cu
 /// @brief   Solve system
 ///
 /// @author  Mu Yang <emfomy@gmail.com>
 ///
 
-#include <nbfmm/solver.hpp>
+#include <nbfmm/core.hpp>
 
 //  The namespace NBFMM
 namespace nbfmm {

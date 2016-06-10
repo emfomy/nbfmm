@@ -1,11 +1,11 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// @file    source/nbfmm/solver.cu
+/// @file    source/nbfmm/core/solver.cu
 /// @brief   The implementation of the FMM solver
 ///
 /// @author  Mu Yang <emfomy@gmail.com>
 ///
 
-#include <nbfmm/solver.hpp>
+#include <nbfmm/core/solver.hpp>
 
 //  The namespace NBFMM
 namespace nbfmm {
