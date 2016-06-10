@@ -70,8 +70,14 @@ int main( int argc, char *argv[] ) {
   cudaMemcpy(effect,   gpuptr_effect,   num_particle * sizeof(float2), cudaMemcpyDeviceToHost);
 
 #pragma warning
-  int2 *index = (int2*) malloc(max_num_particle * sizeof(int2));
-  cudaMemcpy(index, solver.gpuptr_index_, num_particle * sizeof(int2), cudaMemcpyDeviceToHost);
+  int2 *index_sorted = (int2*) malloc(max_num_particle * sizeof(int2));
+  int2 *index        = (int2*) malloc(max_num_particle * sizeof(int2));
+  int  *perm         = (int*)  malloc(max_num_particle * sizeof(int));
+  cudaMemcpy(index_sorted, solver.gpuptr_index_, num_particle * sizeof(int2), cudaMemcpyDeviceToHost);
+  cudaMemcpy(perm,         solver.gpuptr_perm_,  num_particle * sizeof(int),  cudaMemcpyDeviceToHost);
+  for ( auto i = 0; i < num_particle; ++i ) {
+    index[perm[i]] = index_sorted[i];
+  }
 
   // Display data
   for ( auto i = 0; i < num_particle; ++i ) {
