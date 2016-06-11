@@ -73,6 +73,9 @@ void Solver::p2m( const int num_particle ) {
   thrust::reduce_by_key(thrust_index, thrust_index + num_particle, thrust_weighted, thrust_working, thrust_cellPos);
   thrust::reduce_by_key(thrust_index, thrust_index + num_particle, thrust_weight, thrust_working, thrust_cellWei);
   p2m_averaging<<<kNumBlock_cellwise,kNumThread_cellwise>>>(base_size_,gpuptr_cell_position_,gpuptr_cell_weight_);
+
+  cudaFree(p2m_buffer);
+  cudaFree(p2m_workingspace);
 }
 
 }  // namespace nbfmm
