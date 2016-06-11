@@ -22,7 +22,7 @@ __global__ void permuteOutputVector(
     float2*       effect_origin,
     const float2* effect
 ) {
-  const int idx = blockIdx.x * blockDim.x + threadIdx.x;
+  const int idx = threadIdx.x + blockIdx.x * blockDim.x;
   if ( idx >= num_particle ) {
     return;
   }

@@ -30,7 +30,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">NBFMM
-   &#160;<span id="projectnumber">0.1.17</span>
+   &#160;<span id="projectnumber">0.1.20</span>
    </div>
    <div id="projectbrief">N-Body simulation using Fast Multipole Method</div>
   </td>
@@ -46,7 +46,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
-      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
@@ -121,9 +120,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a796b45eebcba3e9f16bffbb74970a4a4"><td class="memItemLeft" align="right" valign="top">__global__ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="predo_8cu.html#a796b45eebcba3e9f16bffbb74970a4a4">computeParticleIndex</a> (const int num_particle, const float4 position_limits, const float2 cell_size, const float2 *position_origin, int2 *index)</td></tr>
 <tr class="memdesc:a796b45eebcba3e9f16bffbb74970a4a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute cell index of each particle.  <a href="#a796b45eebcba3e9f16bffbb74970a4a4">More...</a><br /></td></tr>
 <tr class="separator:a796b45eebcba3e9f16bffbb74970a4a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af7100eac6b06b5cec682e4e878632072"><td class="memItemLeft" align="right" valign="top">__global__ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="predo_8cu.html#af7100eac6b06b5cec682e4e878632072">extractHead</a> (const int num_particle, const int base_size, const int2 *index, int *head)</td></tr>
-<tr class="memdesc:af7100eac6b06b5cec682e4e878632072"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extract heads of cell index of each cell.  <a href="#af7100eac6b06b5cec682e4e878632072">More...</a><br /></td></tr>
-<tr class="separator:af7100eac6b06b5cec682e4e878632072"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afdd66e25f84b28dccda910c51c062cb3"><td class="memItemLeft" align="right" valign="top">__global__ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="predo_8cu.html#afdd66e25f84b28dccda910c51c062cb3">extractHead</a> (const int num_particle, const int base_dim, const int2 *index, int *head)</td></tr>
+<tr class="memdesc:afdd66e25f84b28dccda910c51c062cb3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extract heads of cell index of each cell.  <a href="#afdd66e25f84b28dccda910c51c062cb3">More...</a><br /></td></tr>
+<tr class="separator:afdd66e25f84b28dccda910c51c062cb3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad2e46e98ddf26ef493044ed2ce93d5e1"><td class="memItemLeft" align="right" valign="top">__global__ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="predo_8cu.html#ad2e46e98ddf26ef493044ed2ce93d5e1">permuteInputVector</a> (const int num_particle, const int *perm, const float2 *position_origin, const float *weight_origin, float2 *position, float *weight)</td></tr>
 <tr class="memdesc:ad2e46e98ddf26ef493044ed2ce93d5e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Permute input vectors.  <a href="#ad2e46e98ddf26ef493044ed2ce93d5e1">More...</a><br /></td></tr>
 <tr class="separator:ad2e46e98ddf26ef493044ed2ce93d5e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -188,7 +187,7 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="af7100eac6b06b5cec682e4e878632072"></a>
+<a class="anchor" id="afdd66e25f84b28dccda910c51c062cb3"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -202,7 +201,7 @@ Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const int&#160;</td>
-          <td class="paramname"><em>base_size</em>, </td>
+          <td class="paramname"><em>base_dim</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -228,7 +227,7 @@ Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">num_particle</td><td>the number of particles. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">base_size</td><td>the number of girds in the base level per side. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">base_dim</td><td>the number of cells in the base level per side. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">index</td><td>the particle cell indices. </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">head</td><td>the starting permutation indices of each cell. </td></tr>
   </table>
@@ -303,7 +302,7 @@ Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jun 10 2016 13:58:27 for NBFMM by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jun 12 2016 05:21:32 for NBFMM by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.11
 </small></address>

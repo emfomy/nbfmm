@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['utility_2ehpp',['utility.hpp',['../utility_8hpp.html',1,'']]]
+  ['_7esolver',['~Solver',['../classnbfmm_1_1_solver.html#ad9da3ba7bd7900ddc8aee88607b51838',1,'nbfmm::Solver']]]
 ];

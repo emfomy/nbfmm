@@ -21,15 +21,17 @@ namespace nbfmm {
 ///
 class Solver {
 
-#pragma warning
+#ifdef NBFMM_CHECK
  public:
- // protected:
+#else
+ protected:
+#endif
 
   /// The number of cell levels.
   const int num_level_;
 
   /// The number of cells in the base level per side.
-  const int base_size_;
+  const int base_dim_;
 
   /// The maximum number of particles
   const int max_num_particle_;
@@ -52,16 +54,16 @@ class Solver {
   /// The device pointer of particle permutation indices. @n Vector, 1 by #max_num_particle_.
   int*    gpuptr_perm_;
 
-  /// The device pointer of starting permutation indices of each cell. @n Vector, 1 by (#base_size_^2+1).
+  /// The device pointer of starting permutation indices of each cell. @n Vector, 1 by (#base_dim_^2+1).
   int*    gpuptr_head_;
 
-  /// The device pointer of cell positions. @n Cube, #base_size_ by #base_size_ by #num_level_.
+  /// The device pointer of cell positions. @n Cube, #base_dim_ by #base_dim_ by #num_level_.
   float2* gpuptr_cell_position_;
 
-  /// The device pointer of cell effects. @n Cube, #base_size_ by #base_size_ by #num_level_.
+  /// The device pointer of cell effects. @n Cube, #base_dim_ by #base_dim_ by #num_level_.
   float2* gpuptr_cell_effect_;
 
-  /// The device pointer of cell weights. @n Cube, #base_size_ by #base_size_ by #num_level_.
+  /// The device pointer of cell weights. @n Cube, #base_dim_ by #base_dim_ by #num_level_.
   float*  gpuptr_cell_weight_;
 
  public:
@@ -91,7 +93,11 @@ class Solver {
   void solve( const int num_particle, const float2* gpuptr_position_origin,
               const float* gpuptr_weight_origin, float2* gpuptr_effect_origin );
 
+#ifdef NBFMM_CHECK
+ public:
+#else
  protected:
+#endif
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   /// Do preliminary works

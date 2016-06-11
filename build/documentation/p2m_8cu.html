@@ -30,7 +30,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">NBFMM
-   &#160;<span id="projectnumber">0.1.17</span>
+   &#160;<span id="projectnumber">0.1.20</span>
    </div>
    <div id="projectbrief">N-Body simulation using Fast Multipole Method</div>
   </td>
@@ -46,7 +46,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
-      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
@@ -120,15 +119,15 @@ Functions</h2></td></tr>
 <tr class="memitem:a7665c8ea14a0f1839632ebe98a8b2dbe"><td class="memItemLeft" align="right" valign="top">__global__ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="p2m_8cu.html#a7665c8ea14a0f1839632ebe98a8b2dbe">p2m_weighting</a> (int num_particle, float2 *gpuptr_position, float *gpuptr_weight, float2 *p2m_buffer)</td></tr>
 <tr class="memdesc:a7665c8ea14a0f1839632ebe98a8b2dbe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute particle to multipole weighting.  <a href="#a7665c8ea14a0f1839632ebe98a8b2dbe">More...</a><br /></td></tr>
 <tr class="separator:a7665c8ea14a0f1839632ebe98a8b2dbe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac8cddcb5eeb39f773520eed692b21101"><td class="memItemLeft" align="right" valign="top">__global__ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="p2m_8cu.html#ac8cddcb5eeb39f773520eed692b21101">p2m_averaging</a> (int base_size, float2 *gpuptr_cell_position, float *gpuptr_cell_weight)</td></tr>
-<tr class="memdesc:ac8cddcb5eeb39f773520eed692b21101"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute particle to multipole averaging.  <a href="#ac8cddcb5eeb39f773520eed692b21101">More...</a><br /></td></tr>
-<tr class="separator:ac8cddcb5eeb39f773520eed692b21101"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae51ac4151e5110242059ad56fbb0a3fe"><td class="memItemLeft" align="right" valign="top">__global__ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="p2m_8cu.html#ae51ac4151e5110242059ad56fbb0a3fe">p2m_averaging</a> (int base_dim, float2 *gpuptr_cell_position, float *gpuptr_cell_weight)</td></tr>
+<tr class="memdesc:ae51ac4151e5110242059ad56fbb0a3fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute particle to multipole averaging.  <a href="#ae51ac4151e5110242059ad56fbb0a3fe">More...</a><br /></td></tr>
+<tr class="separator:ae51ac4151e5110242059ad56fbb0a3fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Compute particle to multipole. </p>
 <dl class="section author"><dt>Author</dt><dd>Mu Yang <a href="#" onclick="location.href='mai'+'lto:'+'emf'+'om'+'y@g'+'ma'+'il.'+'co'+'m'; return false;">emfom<span style="display: none;">.nosp@m.</span>y@gm<span style="display: none;">.nosp@m.</span>ail.c<span style="display: none;">.nosp@m.</span>om</a> </dd></dl>
 </div><h2 class="groupheader">Function Documentation</h2>
-<a class="anchor" id="ac8cddcb5eeb39f773520eed692b21101"></a>
+<a class="anchor" id="ae51ac4151e5110242059ad56fbb0a3fe"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -136,7 +135,7 @@ Functions</h2></td></tr>
           <td class="memname">__global__ void p2m_averaging </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>base_size</em>, </td>
+          <td class="paramname"><em>base_dim</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -161,7 +160,7 @@ Functions</h2></td></tr>
 <p>Compute particle to multipole averaging. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">base_size</td><td>the number of girds in the base level per side. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">base_dim</td><td>the number of cells in the base level per side. </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">gpuptr_cell_position</td><td>the cell positions. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">gpuptr_cell_weight</td><td>the cell positions. </td></tr>
   </table>
@@ -222,7 +221,7 @@ Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jun 10 2016 13:58:27 for NBFMM by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jun 12 2016 05:21:32 for NBFMM by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.11
 </small></address>

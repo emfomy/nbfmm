@@ -30,7 +30,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">NBFMM
-   &#160;<span id="projectnumber">0.1.17</span>
+   &#160;<span id="projectnumber">0.1.20</span>
    </div>
    <div id="projectbrief">N-Body simulation using Fast Multipole Method</div>
   </td>
@@ -46,7 +46,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
-      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
@@ -97,8 +96,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pub-attribs">Data Fields</a> &#124;
-<a href="#pro-methods">Protected Member Functions</a>  </div>
+<a href="#pro-methods">Protected Member Functions</a> &#124;
+<a href="#pro-attribs">Protected Attributes</a>  </div>
   <div class="headertitle">
 <div class="title">nbfmm::Solver Class Reference</div>  </div>
 </div><!--header-->
@@ -122,16 +121,43 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a988541a50db3c588d54b86446fbb93bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Solve system.  <a href="#a988541a50db3c588d54b86446fbb93bb">More...</a><br /></td></tr>
 <tr class="separator:a988541a50db3c588d54b86446fbb93bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
-Data Fields</h2></td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
+Protected Member Functions</h2></td></tr>
+<tr class="memitem:aa698d959738ea265bb5ef508b038383f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classnbfmm_1_1_solver.html#aa698d959738ea265bb5ef508b038383f">predo</a> (const int num_particle, const float2 *gpuptr_position_origin, const float *gpuptr_weight_origin)</td></tr>
+<tr class="memdesc:aa698d959738ea265bb5ef508b038383f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Do preliminary works.  <a href="#aa698d959738ea265bb5ef508b038383f">More...</a><br /></td></tr>
+<tr class="separator:aa698d959738ea265bb5ef508b038383f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac704cebf1ba729131ed4f31ab9c46764"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classnbfmm_1_1_solver.html#ac704cebf1ba729131ed4f31ab9c46764">postdo</a> (const int num_particle, float2 *gpuptr_effect_origin)</td></tr>
+<tr class="memdesc:ac704cebf1ba729131ed4f31ab9c46764"><td class="mdescLeft">&#160;</td><td class="mdescRight">Do postliminary works.  <a href="#ac704cebf1ba729131ed4f31ab9c46764">More...</a><br /></td></tr>
+<tr class="separator:ac704cebf1ba729131ed4f31ab9c46764"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4b62760cb97a798193b5d422d8356513"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classnbfmm_1_1_solver.html#a4b62760cb97a798193b5d422d8356513">p2p</a> (const int num_particle)</td></tr>
+<tr class="memdesc:a4b62760cb97a798193b5d422d8356513"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute particle to particle.  <a href="#a4b62760cb97a798193b5d422d8356513">More...</a><br /></td></tr>
+<tr class="separator:a4b62760cb97a798193b5d422d8356513"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a639c31f18fd8a99c9e33a586e7f84dbc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classnbfmm_1_1_solver.html#a639c31f18fd8a99c9e33a586e7f84dbc">p2m</a> (const int num_particle)</td></tr>
+<tr class="memdesc:a639c31f18fd8a99c9e33a586e7f84dbc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute particle to multipole.  <a href="#a639c31f18fd8a99c9e33a586e7f84dbc">More...</a><br /></td></tr>
+<tr class="separator:a639c31f18fd8a99c9e33a586e7f84dbc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9f66db4f9427cd880100b79ede424865"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classnbfmm_1_1_solver.html#a9f66db4f9427cd880100b79ede424865">m2m</a> ()</td></tr>
+<tr class="memdesc:a9f66db4f9427cd880100b79ede424865"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute multipole to multipole.  <a href="#a9f66db4f9427cd880100b79ede424865">More...</a><br /></td></tr>
+<tr class="separator:a9f66db4f9427cd880100b79ede424865"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aad12010c2b53e264b7c608a9c14e581d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classnbfmm_1_1_solver.html#aad12010c2b53e264b7c608a9c14e581d">m2l</a> ()</td></tr>
+<tr class="memdesc:aad12010c2b53e264b7c608a9c14e581d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute multipole to local.  <a href="#aad12010c2b53e264b7c608a9c14e581d">More...</a><br /></td></tr>
+<tr class="separator:aad12010c2b53e264b7c608a9c14e581d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaadf0df4c5b0d220a57b7bfbf5a43079"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classnbfmm_1_1_solver.html#aaadf0df4c5b0d220a57b7bfbf5a43079">l2l</a> ()</td></tr>
+<tr class="memdesc:aaadf0df4c5b0d220a57b7bfbf5a43079"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute local to particle.  <a href="#aaadf0df4c5b0d220a57b7bfbf5a43079">More...</a><br /></td></tr>
+<tr class="separator:aaadf0df4c5b0d220a57b7bfbf5a43079"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5e209178b2c2516410c58ae3fdce273c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classnbfmm_1_1_solver.html#a5e209178b2c2516410c58ae3fdce273c">l2p</a> (const int num_particle)</td></tr>
+<tr class="memdesc:a5e209178b2c2516410c58ae3fdce273c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute local to particle.  <a href="#a5e209178b2c2516410c58ae3fdce273c">More...</a><br /></td></tr>
+<tr class="separator:a5e209178b2c2516410c58ae3fdce273c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
+Protected Attributes</h2></td></tr>
 <tr class="memitem:a8db8cc44fa2a7b7797e72f5e963b02ac"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8db8cc44fa2a7b7797e72f5e963b02ac"></a>
 const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classnbfmm_1_1_solver.html#a8db8cc44fa2a7b7797e72f5e963b02ac">num_level_</a></td></tr>
 <tr class="memdesc:a8db8cc44fa2a7b7797e72f5e963b02ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">The number of cell levels. <br /></td></tr>
 <tr class="separator:a8db8cc44fa2a7b7797e72f5e963b02ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a34e9563fbc7c606865a44592134b21f2"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a34e9563fbc7c606865a44592134b21f2"></a>
-const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classnbfmm_1_1_solver.html#a34e9563fbc7c606865a44592134b21f2">base_size_</a></td></tr>
-<tr class="memdesc:a34e9563fbc7c606865a44592134b21f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">The number of cells in the base level per side. <br /></td></tr>
-<tr class="separator:a34e9563fbc7c606865a44592134b21f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a17f7ab427295b3c924c17140df3df4d7"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a17f7ab427295b3c924c17140df3df4d7"></a>
+const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classnbfmm_1_1_solver.html#a17f7ab427295b3c924c17140df3df4d7">base_dim_</a></td></tr>
+<tr class="memdesc:a17f7ab427295b3c924c17140df3df4d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">The number of cells in the base level per side. <br /></td></tr>
+<tr class="separator:a17f7ab427295b3c924c17140df3df4d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aba81afb28c4677afdda23651719d1bcf"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aba81afb28c4677afdda23651719d1bcf"></a>
 const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classnbfmm_1_1_solver.html#aba81afb28c4677afdda23651719d1bcf">max_num_particle_</a></td></tr>
 <tr class="memdesc:aba81afb28c4677afdda23651719d1bcf"><td class="mdescLeft">&#160;</td><td class="mdescRight">The maximum number of particles. <br /></td></tr>
@@ -168,50 +194,23 @@ int *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 <tr class="memitem:ad0ffdde53c6396a150be28c7aaa48423"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad0ffdde53c6396a150be28c7aaa48423"></a>
 int *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classnbfmm_1_1_solver.html#ad0ffdde53c6396a150be28c7aaa48423">gpuptr_head_</a></td></tr>
 <tr class="memdesc:ad0ffdde53c6396a150be28c7aaa48423"><td class="mdescLeft">&#160;</td><td class="mdescRight">The device pointer of starting permutation indices of each cell. <br />
- Vector, 1 by (<a class="el" href="classnbfmm_1_1_solver.html#a34e9563fbc7c606865a44592134b21f2" title="The number of cells in the base level per side. ">base_size_</a>^2+1). <br /></td></tr>
+ Vector, 1 by (<a class="el" href="classnbfmm_1_1_solver.html#a17f7ab427295b3c924c17140df3df4d7" title="The number of cells in the base level per side. ">base_dim_</a>^2+1). <br /></td></tr>
 <tr class="separator:ad0ffdde53c6396a150be28c7aaa48423"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af2e0e03af419e3e6d4c285ab9832bd5d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af2e0e03af419e3e6d4c285ab9832bd5d"></a>
 float2 *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classnbfmm_1_1_solver.html#af2e0e03af419e3e6d4c285ab9832bd5d">gpuptr_cell_position_</a></td></tr>
 <tr class="memdesc:af2e0e03af419e3e6d4c285ab9832bd5d"><td class="mdescLeft">&#160;</td><td class="mdescRight">The device pointer of cell positions. <br />
- Cube, <a class="el" href="classnbfmm_1_1_solver.html#a34e9563fbc7c606865a44592134b21f2" title="The number of cells in the base level per side. ">base_size_</a> by <a class="el" href="classnbfmm_1_1_solver.html#a34e9563fbc7c606865a44592134b21f2" title="The number of cells in the base level per side. ">base_size_</a> by <a class="el" href="classnbfmm_1_1_solver.html#a8db8cc44fa2a7b7797e72f5e963b02ac" title="The number of cell levels. ">num_level_</a>. <br /></td></tr>
+ Cube, <a class="el" href="classnbfmm_1_1_solver.html#a17f7ab427295b3c924c17140df3df4d7" title="The number of cells in the base level per side. ">base_dim_</a> by <a class="el" href="classnbfmm_1_1_solver.html#a17f7ab427295b3c924c17140df3df4d7" title="The number of cells in the base level per side. ">base_dim_</a> by <a class="el" href="classnbfmm_1_1_solver.html#a8db8cc44fa2a7b7797e72f5e963b02ac" title="The number of cell levels. ">num_level_</a>. <br /></td></tr>
 <tr class="separator:af2e0e03af419e3e6d4c285ab9832bd5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a26f2fb01381f4330f1adf855492872be"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a26f2fb01381f4330f1adf855492872be"></a>
 float2 *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classnbfmm_1_1_solver.html#a26f2fb01381f4330f1adf855492872be">gpuptr_cell_effect_</a></td></tr>
 <tr class="memdesc:a26f2fb01381f4330f1adf855492872be"><td class="mdescLeft">&#160;</td><td class="mdescRight">The device pointer of cell effects. <br />
- Cube, <a class="el" href="classnbfmm_1_1_solver.html#a34e9563fbc7c606865a44592134b21f2" title="The number of cells in the base level per side. ">base_size_</a> by <a class="el" href="classnbfmm_1_1_solver.html#a34e9563fbc7c606865a44592134b21f2" title="The number of cells in the base level per side. ">base_size_</a> by <a class="el" href="classnbfmm_1_1_solver.html#a8db8cc44fa2a7b7797e72f5e963b02ac" title="The number of cell levels. ">num_level_</a>. <br /></td></tr>
+ Cube, <a class="el" href="classnbfmm_1_1_solver.html#a17f7ab427295b3c924c17140df3df4d7" title="The number of cells in the base level per side. ">base_dim_</a> by <a class="el" href="classnbfmm_1_1_solver.html#a17f7ab427295b3c924c17140df3df4d7" title="The number of cells in the base level per side. ">base_dim_</a> by <a class="el" href="classnbfmm_1_1_solver.html#a8db8cc44fa2a7b7797e72f5e963b02ac" title="The number of cell levels. ">num_level_</a>. <br /></td></tr>
 <tr class="separator:a26f2fb01381f4330f1adf855492872be"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad5168756cd4781ef4f0a349e5e11acf9"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad5168756cd4781ef4f0a349e5e11acf9"></a>
 float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classnbfmm_1_1_solver.html#ad5168756cd4781ef4f0a349e5e11acf9">gpuptr_cell_weight_</a></td></tr>
 <tr class="memdesc:ad5168756cd4781ef4f0a349e5e11acf9"><td class="mdescLeft">&#160;</td><td class="mdescRight">The device pointer of cell weights. <br />
- Cube, <a class="el" href="classnbfmm_1_1_solver.html#a34e9563fbc7c606865a44592134b21f2" title="The number of cells in the base level per side. ">base_size_</a> by <a class="el" href="classnbfmm_1_1_solver.html#a34e9563fbc7c606865a44592134b21f2" title="The number of cells in the base level per side. ">base_size_</a> by <a class="el" href="classnbfmm_1_1_solver.html#a8db8cc44fa2a7b7797e72f5e963b02ac" title="The number of cell levels. ">num_level_</a>. <br /></td></tr>
+ Cube, <a class="el" href="classnbfmm_1_1_solver.html#a17f7ab427295b3c924c17140df3df4d7" title="The number of cells in the base level per side. ">base_dim_</a> by <a class="el" href="classnbfmm_1_1_solver.html#a17f7ab427295b3c924c17140df3df4d7" title="The number of cells in the base level per side. ">base_dim_</a> by <a class="el" href="classnbfmm_1_1_solver.html#a8db8cc44fa2a7b7797e72f5e963b02ac" title="The number of cell levels. ">num_level_</a>. <br /></td></tr>
 <tr class="separator:ad5168756cd4781ef4f0a349e5e11acf9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
-Protected Member Functions</h2></td></tr>
-<tr class="memitem:aa698d959738ea265bb5ef508b038383f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classnbfmm_1_1_solver.html#aa698d959738ea265bb5ef508b038383f">predo</a> (const int num_particle, const float2 *gpuptr_position_origin, const float *gpuptr_weight_origin)</td></tr>
-<tr class="memdesc:aa698d959738ea265bb5ef508b038383f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Do preliminary works.  <a href="#aa698d959738ea265bb5ef508b038383f">More...</a><br /></td></tr>
-<tr class="separator:aa698d959738ea265bb5ef508b038383f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac704cebf1ba729131ed4f31ab9c46764"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classnbfmm_1_1_solver.html#ac704cebf1ba729131ed4f31ab9c46764">postdo</a> (const int num_particle, float2 *gpuptr_effect_origin)</td></tr>
-<tr class="memdesc:ac704cebf1ba729131ed4f31ab9c46764"><td class="mdescLeft">&#160;</td><td class="mdescRight">Do postliminary works.  <a href="#ac704cebf1ba729131ed4f31ab9c46764">More...</a><br /></td></tr>
-<tr class="separator:ac704cebf1ba729131ed4f31ab9c46764"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4b62760cb97a798193b5d422d8356513"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classnbfmm_1_1_solver.html#a4b62760cb97a798193b5d422d8356513">p2p</a> (const int num_particle)</td></tr>
-<tr class="memdesc:a4b62760cb97a798193b5d422d8356513"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute particle to particle.  <a href="#a4b62760cb97a798193b5d422d8356513">More...</a><br /></td></tr>
-<tr class="separator:a4b62760cb97a798193b5d422d8356513"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a639c31f18fd8a99c9e33a586e7f84dbc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classnbfmm_1_1_solver.html#a639c31f18fd8a99c9e33a586e7f84dbc">p2m</a> (const int num_particle)</td></tr>
-<tr class="memdesc:a639c31f18fd8a99c9e33a586e7f84dbc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute particle to multipole.  <a href="#a639c31f18fd8a99c9e33a586e7f84dbc">More...</a><br /></td></tr>
-<tr class="separator:a639c31f18fd8a99c9e33a586e7f84dbc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9f66db4f9427cd880100b79ede424865"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classnbfmm_1_1_solver.html#a9f66db4f9427cd880100b79ede424865">m2m</a> ()</td></tr>
-<tr class="memdesc:a9f66db4f9427cd880100b79ede424865"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute multipole to multipole.  <a href="#a9f66db4f9427cd880100b79ede424865">More...</a><br /></td></tr>
-<tr class="separator:a9f66db4f9427cd880100b79ede424865"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aad12010c2b53e264b7c608a9c14e581d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classnbfmm_1_1_solver.html#aad12010c2b53e264b7c608a9c14e581d">m2l</a> ()</td></tr>
-<tr class="memdesc:aad12010c2b53e264b7c608a9c14e581d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute multipole to local.  <a href="#aad12010c2b53e264b7c608a9c14e581d">More...</a><br /></td></tr>
-<tr class="separator:aad12010c2b53e264b7c608a9c14e581d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaadf0df4c5b0d220a57b7bfbf5a43079"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classnbfmm_1_1_solver.html#aaadf0df4c5b0d220a57b7bfbf5a43079">l2l</a> ()</td></tr>
-<tr class="memdesc:aaadf0df4c5b0d220a57b7bfbf5a43079"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute local to particle.  <a href="#aaadf0df4c5b0d220a57b7bfbf5a43079">More...</a><br /></td></tr>
-<tr class="separator:aaadf0df4c5b0d220a57b7bfbf5a43079"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5e209178b2c2516410c58ae3fdce273c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classnbfmm_1_1_solver.html#a5e209178b2c2516410c58ae3fdce273c">l2p</a> (const int num_particle)</td></tr>
-<tr class="memdesc:a5e209178b2c2516410c58ae3fdce273c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute local to particle.  <a href="#a5e209178b2c2516410c58ae3fdce273c">More...</a><br /></td></tr>
-<tr class="separator:a5e209178b2c2516410c58ae3fdce273c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The NBFMM solver class. </p>
@@ -281,8 +280,8 @@ Protected Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Compute local to particle. </p>
-<dl class="section pre"><dt>Precondition</dt><dd><a class="el" href="classnbfmm_1_1_solver.html#a26f2fb01381f4330f1adf855492872be" title="The device pointer of cell effects.   Cube, base_size_ by base_size_ by num_level_. ">gpuptr_cell_effect_</a> (all level)</dd></dl>
-<dl class="section post"><dt>Postcondition</dt><dd><a class="el" href="classnbfmm_1_1_solver.html#a26f2fb01381f4330f1adf855492872be" title="The device pointer of cell effects.   Cube, base_size_ by base_size_ by num_level_. ">gpuptr_cell_effect_</a> (summed to base level) </dd></dl>
+<dl class="section pre"><dt>Precondition</dt><dd><a class="el" href="classnbfmm_1_1_solver.html#a26f2fb01381f4330f1adf855492872be" title="The device pointer of cell effects.   Cube, base_dim_ by base_dim_ by num_level_. ...">gpuptr_cell_effect_</a> (all level)</dd></dl>
+<dl class="section post"><dt>Postcondition</dt><dd><a class="el" href="classnbfmm_1_1_solver.html#a26f2fb01381f4330f1adf855492872be" title="The device pointer of cell effects.   Cube, base_dim_ by base_dim_ by num_level_. ...">gpuptr_cell_effect_</a> (summed to base level) </dd></dl>
 
 </div>
 </div>
@@ -319,7 +318,7 @@ Protected Member Functions</h2></td></tr>
 <dd>
 <a class="el" href="classnbfmm_1_1_solver.html#a89ae2aead9c280b48b6b4c5848766ae7" title="The device pointer of particle cell indices.   Vector, 1 by max_num_particle_. ">gpuptr_index_</a> (sorted) </dd>
 <dd>
-<a class="el" href="classnbfmm_1_1_solver.html#a26f2fb01381f4330f1adf855492872be" title="The device pointer of cell effects.   Cube, base_size_ by base_size_ by num_level_. ">gpuptr_cell_effect_</a> (summed to base level)</dd></dl>
+<a class="el" href="classnbfmm_1_1_solver.html#a26f2fb01381f4330f1adf855492872be" title="The device pointer of cell effects.   Cube, base_dim_ by base_dim_ by num_level_. ...">gpuptr_cell_effect_</a> (summed to base level)</dd></dl>
 <dl class="section post"><dt>Postcondition</dt><dd><a class="el" href="classnbfmm_1_1_solver.html#af0cc8ff6a6ed2e933f21cf5ba331ec86" title="The device pointer of particle effects.   Vector, 1 by max_num_particle_. ">gpuptr_effect_</a> (sorted, all effects) </dd></dl>
 
 </div>
@@ -346,11 +345,10 @@ Protected Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Compute multipole to local. </p>
-<dl class="section pre"><dt>Precondition</dt><dd><a class="el" href="classnbfmm_1_1_solver.html#af2e0e03af419e3e6d4c285ab9832bd5d" title="The device pointer of cell positions.   Cube, base_size_ by base_size_ by num_level_. ">gpuptr_cell_position_</a> (all level) </dd>
+<dl class="section pre"><dt>Precondition</dt><dd><a class="el" href="classnbfmm_1_1_solver.html#af2e0e03af419e3e6d4c285ab9832bd5d" title="The device pointer of cell positions.   Cube, base_dim_ by base_dim_ by num_level_. ">gpuptr_cell_position_</a> (all level) </dd>
 <dd>
-<a class="el" href="classnbfmm_1_1_solver.html#ad5168756cd4781ef4f0a349e5e11acf9" title="The device pointer of cell weights.   Cube, base_size_ by base_size_ by num_level_. ">gpuptr_cell_weight_</a> (all level)</dd></dl>
-<dl class="section post"><dt>Postcondition</dt><dd><a class="el" href="classnbfmm_1_1_solver.html#a26f2fb01381f4330f1adf855492872be" title="The device pointer of cell effects.   Cube, base_size_ by base_size_ by num_level_. ">gpuptr_cell_effect_</a> (all level) </dd></dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000001">Todo:</a></b></dt><dd>Implement! </dd></dl>
+<a class="el" href="classnbfmm_1_1_solver.html#ad5168756cd4781ef4f0a349e5e11acf9" title="The device pointer of cell weights.   Cube, base_dim_ by base_dim_ by num_level_. ...">gpuptr_cell_weight_</a> (all level)</dd></dl>
+<dl class="section post"><dt>Postcondition</dt><dd><a class="el" href="classnbfmm_1_1_solver.html#a26f2fb01381f4330f1adf855492872be" title="The device pointer of cell effects.   Cube, base_dim_ by base_dim_ by num_level_. ...">gpuptr_cell_effect_</a> (all level) </dd></dl>
 
 </div>
 </div>
@@ -376,12 +374,12 @@ Protected Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Compute multipole to multipole. </p>
-<dl class="section pre"><dt>Precondition</dt><dd><a class="el" href="classnbfmm_1_1_solver.html#af2e0e03af419e3e6d4c285ab9832bd5d" title="The device pointer of cell positions.   Cube, base_size_ by base_size_ by num_level_. ">gpuptr_cell_position_</a> (base level only) </dd>
+<dl class="section pre"><dt>Precondition</dt><dd><a class="el" href="classnbfmm_1_1_solver.html#af2e0e03af419e3e6d4c285ab9832bd5d" title="The device pointer of cell positions.   Cube, base_dim_ by base_dim_ by num_level_. ">gpuptr_cell_position_</a> (base level only) </dd>
 <dd>
-<a class="el" href="classnbfmm_1_1_solver.html#ad5168756cd4781ef4f0a349e5e11acf9" title="The device pointer of cell weights.   Cube, base_size_ by base_size_ by num_level_. ">gpuptr_cell_weight_</a> (base level only)</dd></dl>
-<dl class="section post"><dt>Postcondition</dt><dd><a class="el" href="classnbfmm_1_1_solver.html#af2e0e03af419e3e6d4c285ab9832bd5d" title="The device pointer of cell positions.   Cube, base_size_ by base_size_ by num_level_. ">gpuptr_cell_position_</a> (all level) </dd>
+<a class="el" href="classnbfmm_1_1_solver.html#ad5168756cd4781ef4f0a349e5e11acf9" title="The device pointer of cell weights.   Cube, base_dim_ by base_dim_ by num_level_. ...">gpuptr_cell_weight_</a> (base level only)</dd></dl>
+<dl class="section post"><dt>Postcondition</dt><dd><a class="el" href="classnbfmm_1_1_solver.html#af2e0e03af419e3e6d4c285ab9832bd5d" title="The device pointer of cell positions.   Cube, base_dim_ by base_dim_ by num_level_. ">gpuptr_cell_position_</a> (all level) </dd>
 <dd>
-<a class="el" href="classnbfmm_1_1_solver.html#ad5168756cd4781ef4f0a349e5e11acf9" title="The device pointer of cell weights.   Cube, base_size_ by base_size_ by num_level_. ">gpuptr_cell_weight_</a> (all level) </dd></dl>
+<a class="el" href="classnbfmm_1_1_solver.html#ad5168756cd4781ef4f0a349e5e11acf9" title="The device pointer of cell weights.   Cube, base_dim_ by base_dim_ by num_level_. ...">gpuptr_cell_weight_</a> (all level) </dd></dl>
 
 </div>
 </div>
@@ -420,10 +418,10 @@ Protected Member Functions</h2></td></tr>
 <dd>
 <a class="el" href="classnbfmm_1_1_solver.html#a89ae2aead9c280b48b6b4c5848766ae7" title="The device pointer of particle cell indices.   Vector, 1 by max_num_particle_. ">gpuptr_index_</a> (sorted) </dd>
 <dd>
-<a class="el" href="classnbfmm_1_1_solver.html#ad0ffdde53c6396a150be28c7aaa48423" title="The device pointer of starting permutation indices of each cell.   Vector, 1 by (base_size_^2+1). ">gpuptr_head_</a></dd></dl>
-<dl class="section post"><dt>Postcondition</dt><dd><a class="el" href="classnbfmm_1_1_solver.html#af2e0e03af419e3e6d4c285ab9832bd5d" title="The device pointer of cell positions.   Cube, base_size_ by base_size_ by num_level_. ">gpuptr_cell_position_</a> (base level only) </dd>
+<a class="el" href="classnbfmm_1_1_solver.html#ad0ffdde53c6396a150be28c7aaa48423" title="The device pointer of starting permutation indices of each cell.   Vector, 1 by (base_dim_^2+1). ">gpuptr_head_</a></dd></dl>
+<dl class="section post"><dt>Postcondition</dt><dd><a class="el" href="classnbfmm_1_1_solver.html#af2e0e03af419e3e6d4c285ab9832bd5d" title="The device pointer of cell positions.   Cube, base_dim_ by base_dim_ by num_level_. ">gpuptr_cell_position_</a> (base level only) </dd>
 <dd>
-<a class="el" href="classnbfmm_1_1_solver.html#ad5168756cd4781ef4f0a349e5e11acf9" title="The device pointer of cell weights.   Cube, base_size_ by base_size_ by num_level_. ">gpuptr_cell_weight_</a> (base level only) </dd></dl>
+<a class="el" href="classnbfmm_1_1_solver.html#ad5168756cd4781ef4f0a349e5e11acf9" title="The device pointer of cell weights.   Cube, base_dim_ by base_dim_ by num_level_. ...">gpuptr_cell_weight_</a> (base level only) </dd></dl>
 
 </div>
 </div>
@@ -462,7 +460,7 @@ Protected Member Functions</h2></td></tr>
 <dd>
 <a class="el" href="classnbfmm_1_1_solver.html#a89ae2aead9c280b48b6b4c5848766ae7" title="The device pointer of particle cell indices.   Vector, 1 by max_num_particle_. ">gpuptr_index_</a> (sorted) </dd>
 <dd>
-<a class="el" href="classnbfmm_1_1_solver.html#ad0ffdde53c6396a150be28c7aaa48423" title="The device pointer of starting permutation indices of each cell.   Vector, 1 by (base_size_^2+1). ">gpuptr_head_</a></dd></dl>
+<a class="el" href="classnbfmm_1_1_solver.html#ad0ffdde53c6396a150be28c7aaa48423" title="The device pointer of starting permutation indices of each cell.   Vector, 1 by (base_dim_^2+1). ">gpuptr_head_</a></dd></dl>
 <dl class="section post"><dt>Postcondition</dt><dd><a class="el" href="classnbfmm_1_1_solver.html#af0cc8ff6a6ed2e933f21cf5ba331ec86" title="The device pointer of particle effects.   Vector, 1 by max_num_particle_. ">gpuptr_effect_</a> (sorted, P2P effects only) </dd></dl>
 
 </div>
@@ -566,7 +564,7 @@ Protected Member Functions</h2></td></tr>
 <dd>
 <a class="el" href="classnbfmm_1_1_solver.html#a89ae2aead9c280b48b6b4c5848766ae7" title="The device pointer of particle cell indices.   Vector, 1 by max_num_particle_. ">gpuptr_index_</a> (sorted) </dd>
 <dd>
-<a class="el" href="classnbfmm_1_1_solver.html#ad0ffdde53c6396a150be28c7aaa48423" title="The device pointer of starting permutation indices of each cell.   Vector, 1 by (base_size_^2+1). ">gpuptr_head_</a> </dd>
+<a class="el" href="classnbfmm_1_1_solver.html#ad0ffdde53c6396a150be28c7aaa48423" title="The device pointer of starting permutation indices of each cell.   Vector, 1 by (base_dim_^2+1). ">gpuptr_head_</a> </dd>
 <dd>
 <a class="el" href="classnbfmm_1_1_solver.html#ae0c1ac718bcc02524e06effcc776ee59" title="The device pointer of particle permutation indices.   Vector, 1 by max_num_particle_. ">gpuptr_perm_</a> </dd></dl>
 
@@ -637,7 +635,7 @@ Protected Member Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jun 10 2016 13:58:27 for NBFMM by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jun 12 2016 05:21:32 for NBFMM by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.11
 </small></address>

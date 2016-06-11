@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['base_5fsize_5f',['base_size_',['../classnbfmm_1_1_solver.html#a34e9563fbc7c606865a44592134b21f2',1,'nbfmm::Solver']]]
+  ['base_5fdim_5f',['base_dim_',['../classnbfmm_1_1_solver.html#a17f7ab427295b3c924c17140df3df4d7',1,'nbfmm::Solver']]]
 ];
