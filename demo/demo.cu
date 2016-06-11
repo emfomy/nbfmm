@@ -18,7 +18,7 @@ using namespace nbfmm;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Main function
 ///
-int main( int argc, char *argv[] ) {
+int main() {
   cout << "NBFMM "
        << NBFMM_VERSION_MAJOR << "."
        << NBFMM_VERSION_MINOR << "."
@@ -70,10 +70,17 @@ int main( int argc, char *argv[] ) {
   cudaMemcpy(effect,   gpuptr_effect,   num_particle * sizeof(float2), cudaMemcpyDeviceToHost);
 
 #pragma warning
-  int2 *index = (int2*) malloc(max_num_particle * sizeof(int2));
-  cudaMemcpy(index, solver.gpuptr_index_, num_particle * sizeof(int2), cudaMemcpyDeviceToHost);
+  int2 *index_sorted = (int2*) malloc(max_num_particle * sizeof(int2));
+  int2 *index        = (int2*) malloc(max_num_particle * sizeof(int2));
+  int  *perm         = (int*)  malloc(max_num_particle * sizeof(int));
+  cudaMemcpy(index_sorted, solver.gpuptr_index_, num_particle * sizeof(int2), cudaMemcpyDeviceToHost);
+  cudaMemcpy(perm,         solver.gpuptr_perm_,  num_particle * sizeof(int),  cudaMemcpyDeviceToHost);
+  for ( auto i = 0; i < num_particle; ++i ) {
+    index[perm[i]] = index_sorted[i];
+  }
 
   // Display data
+  printf("\tPosition\t\t    Weight\t    Index\t\tEffect(CPU)\t\t\tEffect(FMM)\n");
   for ( auto i = 0; i < num_particle; ++i ) {
     printf("(%12.8f, %12.8f) \t%12.8f \t(%4d, %4d) \t(%12.8f, %12.8f) \t(%12.8f, %12.8f)\n",
            position[i].x, position[i].y, weight[i], index[i].x, index[i].y,

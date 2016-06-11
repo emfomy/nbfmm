@@ -39,26 +39,22 @@ void NaiveP2P(
     float2 self_position = position[idx];
 
     // Go through each surrounding cell
-    for(int i = -1; i <= 1; ++i) {
-      for(int j = -1; j <= 1; ++j) {
+    for ( int i = par_idx.x-1; i <= par_idx.x+1; ++i ) {
+      for ( int j = par_idx.y-1; j <= par_idx.y+1; ++j ) {
 
         // Check whether this cell exists
-        if(par_idx.x + i <  cell_side_size &&
-           par_idx.x + i >= 0              &&
-           par_idx.y + j <  cell_side_size &&
-           par_idx.y + j >= 0) {
+        if ( i < cell_side_size && i >= 0 && j < cell_side_size && j >= 0 ) {
 
           // Go through each particle in this cell
-          int cell_idx  = par_idx.x + par_idx.y * cell_side_size;
+          int cell_idx  = i + j * cell_side_size;
           int start_idx = head[cell_idx];
-          int end_idx   = head[cell_idx + 1];
-          for(int k = start_idx; k < end_idx; ++k) {
+          int end_idx   = head[cell_idx+1];
+          for( int k = start_idx; k < end_idx; ++k ) {
             // Cannot calculate action to self
-            if(k != idx) {
+            if( k != idx ) {
               total_effect += nbfmm::kernelFunction(self_position, position[k], weight[k]);
             }
           }
-
         }
       }
     }
