@@ -21,12 +21,11 @@ void Solver::solve(
 
   predo(num_particle, gpuptr_position_origin, gpuptr_weight_origin);
   p2p(num_particle);
-#pragma warning
-  // p2m(num_particle);
-  // m2m();
-  // m2l();
-  // l2l();
-  // l2p(num_particle);
+  p2m(num_particle);
+  m2m();
+  m2l();
+  l2l();
+  l2p(num_particle);
   postdo(num_particle, gpuptr_effect_origin);
 }
 

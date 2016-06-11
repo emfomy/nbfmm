@@ -27,7 +27,7 @@ __global__ void computeParticleIndex(
     const float2* position_origin,
     int2*         index
 ) {
-  const int idx = blockIdx.x * blockDim.x + threadIdx.x;
+  const int idx = threadIdx.x + blockIdx.x * blockDim.x;
   if ( idx >= num_particle ) {
     return;
   }
@@ -39,25 +39,25 @@ __global__ void computeParticleIndex(
 /// Extract heads of cell index of each cell
 ///
 /// @param[in]   num_particle  the number of particles.
-/// @param[in]   base_size     the number of girds in the base level per side.
+/// @param[in]   base_dim      the number of cells in the base level per side.
 /// @param[in]   index         the particle cell indices.
 /// @param[out]  head          the starting permutation indices of each cell.
 ///
 __global__ void extractHead(
     const int   num_particle,
-    const int   base_size,
+    const int   base_dim,
     const int2* index,
     int*        head
 ) {
-  int idx = blockIdx.x * blockDim.x + threadIdx.x;
+  int idx = threadIdx.x + blockIdx.x * blockDim.x;
   if ( idx>=num_particle ) {
     return;
   }
   if ( idx == 0 ) {
     head[0] = idx;
-    head[base_size * base_size] = num_particle;
+    head[base_dim * base_dim] = num_particle;
   } else if ( index[idx] != index[idx-1] ) {
-    head[index[idx].x + index[idx].y*base_size] = idx;
+    head[index[idx].x + index[idx].y*base_dim] = idx;
   }
 }
 
@@ -79,7 +79,7 @@ __global__ void permuteInputVector(
     float2*       position,
     float*        weight
 ) {
-  const int idx = blockIdx.x * blockDim.x + threadIdx.x;
+  const int idx = threadIdx.x + blockIdx.x * blockDim.x;
   if ( idx >= num_particle ) {
     return;
   }
@@ -98,8 +98,8 @@ void Solver::predo(
 ) {
   const int block_dim = kMaxBlockDim;
   const int grid_dim  = ((num_particle-1)/block_dim)+1;
-  const float2 cell_size = make_float2((position_limits_.z - position_limits_.x) / base_size_,
-                                       (position_limits_.w - position_limits_.y) / base_size_);
+  const float2 cell_size = make_float2((position_limits_.z - position_limits_.x) / base_dim_,
+                                       (position_limits_.w - position_limits_.y) / base_dim_);
   thrust::device_ptr<int2> thrust_index(gpuptr_index_);
   thrust::device_ptr<int>  thrust_perm(gpuptr_perm_);
 
@@ -115,7 +115,7 @@ void Solver::predo(
   thrust::sort_by_key(thrust_index, thrust_index+num_particle, thrust_perm);
 
   // Extract heads of cell index of each cell
-  extractHead<<<grid_dim, block_dim>>>(num_particle, base_size_, gpuptr_index_, gpuptr_head_);
+  extractHead<<<grid_dim, block_dim>>>(num_particle, base_dim_, gpuptr_index_, gpuptr_head_);
 
   // Permute input vectors
   permuteInputVector<<<grid_dim, block_dim>>>(num_particle, gpuptr_perm_,gpuptr_position_origin,

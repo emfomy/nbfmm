@@ -23,8 +23,36 @@ set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS};-isystem;${CUDA_INCLUDE_DIRS})
 include_directories("${PROJECT_SOURCE_DIR}/include" "${PROJECT_BINARY_DIR}/include")
 link_directories("${PROJECT_BINARY_DIR}/library")
 
+# GOMP library
+message(STATUS "Looking for GOMP libraries")
+find_library(GOMP_LIBRARY NAMES gomp)
+if(GOMP_LIBRARY STREQUAL GOMP_LIBRARY-NOTFOUND)
+  message(FATAL_ERROR "Could NOT find GOMP libraries")
+endif()
+message(STATUS "Looking for GOMP libraries - found")
+
+# CPPUNIT root
+set(CPPUNIT_ROOT "" CACHE PATH "The root path of CppUnit.")
+
+# CPPUNIT include
+message(STATUS "Looking for CppUnit headers")
+find_path(CPPUNIT_INCLUDE NAMES cppunit PATHS ${CPPUNIT_ROOT})
+if(CPPUNIT_INCLUDE STREQUAL CPPUNIT_INCLUDE-NOTFOUND)
+  message(FATAL_ERROR "Could NOT find CppUnit headers")
+endif()
+message(STATUS "Looking for CppUnit headers - found")
+
+# CPPUNIT library
+message(STATUS "Looking for CppUnit libraries")
+find_library(CPPUNIT_LIBRARY NAMES cppunit PATHS ${CPPUNIT_ROOT})
+if(CPPUNIT_LIBRARY STREQUAL CPPUNIT_LIBRARY-NOTFOUND)
+  message(FATAL_ERROR "Could NOT find CppUnit libraries")
+endif()
+message(STATUS "Looking for CppUnit libraries - found")
+
 # Add subdirectories
 add_subdirectory(include)
 add_subdirectory(library)
 add_subdirectory(demo)
+add_subdirectory(check)
 add_subdirectory(doxygen)
