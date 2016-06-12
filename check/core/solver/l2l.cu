@@ -7,8 +7,6 @@
 
 #include "../solver.hpp"
 
-using namespace nbfmm;
-
 void TestNbfmmSolver::l2l() {
   CPPUNIT_ASSERT(false && "Not tested yet!");
 }

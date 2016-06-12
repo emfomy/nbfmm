@@ -33,6 +33,9 @@ class Solver {
   /// The number of cells in the base level per side.
   const int base_dim_;
 
+  /// The number of cells in the base level plus 1.
+  const int num_cell_p1_;
+
   /// The maximum number of particles
   const int max_num_particle_;
 
@@ -54,7 +57,7 @@ class Solver {
   /// The device pointer of particle permutation indices. @n Vector, 1 by #max_num_particle_.
   int*    gpuptr_perm_;
 
-  /// The device pointer of starting permutation indices of each cell. @n Vector, 1 by (#base_dim_^2+1).
+  /// The device pointer of starting permutation indices of each cell. @n Vector, 1 by #num_cell_p1_.
   int*    gpuptr_head_;
 
   /// The device pointer of cell positions. @n Cube, #base_dim_ by #base_dim_ by #num_level_.
