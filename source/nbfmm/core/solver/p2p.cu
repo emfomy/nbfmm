@@ -30,41 +30,36 @@ void NaiveP2P(
   const int*    head,
   float2*       effect
 ) {
-  int idx = threadIdx.x + blockIdx.x * blockDim.x;
+  const int idx = threadIdx.x + blockIdx.x * blockDim.x;
+  if ( idx >= num_particle ) {
+    return;
+  }
   float2 total_effect = make_float2(0.0f, 0.0f);
+  int2 par_idx = index[idx];
 
-  if(idx < num_particle) {
-    int2 par_idx = index[idx];
+  float2 self_position = position[idx];
 
-    float2 self_position = position[idx];
+  // Go through each surrounding cell
+  for ( int j = par_idx.y-1; j <= par_idx.y+1; ++j ) {
+    for ( int i = par_idx.x-1; i <= par_idx.x+1; ++i ) {
 
-    // Go through each surrounding cell
-    for ( int j = par_idx.y-1; j <= par_idx.y+1; ++j ) {
-      for ( int i = par_idx.x-1; i <= par_idx.x+1; ++i ) {
+      // Check whether this cell exists
+      if( i >= 0 && i < cell_side_size && j >= 0 && j < cell_side_size ) {
 
-        // Check whether this cell exists
-        if(par_idx.x + i <  cell_side_size &&
-           par_idx.x + i >= 0              &&
-           par_idx.y + j <  cell_side_size &&
-           par_idx.y + j >= 0) {
-
-          // Go through each particle in this cell
-          int cell_idx  = par_idx.x + par_idx.y * cell_side_size;
-          int start_idx = head[cell_idx];
-          int end_idx   = head[cell_idx + 1];
-          for(int k = start_idx; k < end_idx; ++k) {
-            // Cannot calculate action to self
-            if(k != idx) {
-              total_effect += nbfmm::kernelFunction(self_position, position[k], weight[k]);
-            }
+        // Go through each particle in this cell
+        int cell_idx  = par_idx.x + par_idx.y * cell_side_size;
+        int start_idx = head[cell_idx];
+        int end_idx   = head[cell_idx + 1];
+        for(int k = start_idx; k < end_idx; ++k) {
+          // Cannot calculate action to self
+          if(k != idx) {
+            total_effect += nbfmm::kernelFunction(self_position, position[k], weight[k]);
           }
-
         }
       }
     }
-    effect[idx] = total_effect;
   }
-
+  effect[idx] = total_effect;
 }
 
 //  The namespace NBFMM
