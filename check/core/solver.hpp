@@ -37,7 +37,7 @@ class TestNbfmmSolver : public CppUnit::TestFixture {
   const int    base_dim         = 1 << (num_level-1);
   const int    max_num_particle = 64;
   const int    num_particle     = 60;
-  const int    num_cellp1       = base_dim * base_dim + 1;
+  const int    num_cell_p1      = base_dim * base_dim + 1;
   const float4 position_limits  = make_float4(0, -1, 8, 2);
   const float2 base_cell_size   = make_float2((position_limits.z - position_limits.x) / base_dim,
                                               (position_limits.w - position_limits.y) / base_dim);

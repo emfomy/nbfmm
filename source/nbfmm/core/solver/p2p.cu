@@ -46,9 +46,9 @@ void NaiveP2P(
       if( i >= 0 && i < base_dim && j >= 0 && j < base_dim ) {
 
         // Go through particles in this cell
-        int cell_idx  = parent_idx.x + parent_idx.y * base_dim;
+        int cell_idx  = i + j * base_dim;
         int start_idx = head[cell_idx];
-        int end_idx   = head[cell_idx + 1];
+        int end_idx   = head[cell_idx+1];
         for ( int k = start_idx; k < end_idx; ++k ) {
           // Cannot calculate action to self
           if ( k != idx ) {

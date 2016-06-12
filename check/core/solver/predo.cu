@@ -19,7 +19,7 @@ void TestNbfmmSolver::predo() {
   float  weight[num_particle];
   int2   index[num_particle];
   int    perm[num_particle];
-  int    head[num_cellp1];
+  int    head[num_cell_p1];
 
   // Alias vectors
   auto position_origin = random_uniform2;
@@ -45,7 +45,7 @@ void TestNbfmmSolver::predo() {
   CPPUNIT_ASSERT(cuda_status == cudaSuccess);
   cuda_status = cudaMemcpy(perm,     solver.gpuptr_perm_,     num_particle * sizeof(int),    cudaMemcpyDeviceToHost);
   CPPUNIT_ASSERT(cuda_status == cudaSuccess);
-  cuda_status = cudaMemcpy(head,     solver.gpuptr_head_,     num_cellp1   * sizeof(int),    cudaMemcpyDeviceToHost);
+  cuda_status = cudaMemcpy(head,     solver.gpuptr_head_,     num_cell_p1  * sizeof(int),    cudaMemcpyDeviceToHost);
   CPPUNIT_ASSERT(cuda_status == cudaSuccess);
 
   // Check
