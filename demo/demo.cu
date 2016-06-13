@@ -56,7 +56,7 @@ int main( int argc, char *argv[] ) {
   }
 
   // Compute effects
-  #pragma omp for
+  #pragma omp parallel for
   for ( auto i = 0; i < num_particle; ++i ) {
     effect0[i] = make_float2(0.0f, 0.0f);
     for ( auto j = 0; j < num_particle; ++j ) {

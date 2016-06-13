@@ -15,8 +15,6 @@ void TestNbfmmSolver::p2p() {
   Solver& solver = *ptr_solver;
   cudaError_t cuda_status;
 
-  int num_particle = 2;
-
   // Alias vectors
   auto position = random_uniform2;
   auto weight   = random_exponential;
@@ -29,9 +27,9 @@ void TestNbfmmSolver::p2p() {
 
   // Fill index and head
   int num0 = 0;
-  int num1 = num_particle;
-  int num2 = num_particle;
-  int num3 = num_particle;
+  int num1 = num_particle * .25;
+  int num2 = num_particle * .5;
+  int num3 = num_particle * .75;
   int num4 = num_particle;
   head[0]          = num0;
   head[1]          = num1;
@@ -45,7 +43,7 @@ void TestNbfmmSolver::p2p() {
   fill(index+num3, index+num4, make_int2(1, 1));
 
   // Compute effects
-  #pragma omp for
+  #pragma omp parallel for
   for ( auto i = 0; i < num_particle; ++i ) {
     effect0[i] = make_float2(0.0f, 0.0f);
     for ( auto j = 0; j < num_particle; ++j ) {
@@ -65,7 +63,7 @@ void TestNbfmmSolver::p2p() {
   cuda_status = cudaMemcpy(solver.gpuptr_head_,     head,     num_cell_p1  * sizeof(int),    cudaMemcpyHostToDevice);
   CPPUNIT_ASSERT(cuda_status == cudaSuccess);
 
-  // Run predo
+  // Run p2p
   solver.p2p(num_particle);
 
   // Copy output vectors
