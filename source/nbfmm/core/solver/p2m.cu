@@ -83,12 +83,12 @@ void Solver::p2m( const int num_particle ) {
   thrust::device_ptr<float> thrust_cellWei(gpuptr_cell_weight_);
 
 
-  thrust::pair<int2*,float*> p2m_dummy;
+  thrust::pair<thrust::device_ptr<int2>,thrust::device_ptr<float>> p2m_dummy;
 
   thrust::reduce_by_key(thrust_index, thrust_index + num_particle, thrust_weighted, thrust_assigninging, thrust_cellPos+base_dim_ * base_dim_);
   p2m_dummy=thrust::reduce_by_key(thrust_index, thrust_index + num_particle, thrust_weight, thrust_assigninging, thrust_cellWei+base_dim_ * base_dim_);
 
-  int assigning_length=p2m_dummy.second;
+  int assigning_length=p2m_dummy.second-(thrust_cellWei+base_dim_ * base_dim_);
   p2m_assigning<<<kNumBlock_cellwise,kNumThread_cellwise>>>(base_dim_,gpuptr_cell_position_,gpuptr_cell_weight_,assigning_length,p2m_assigningIndex);
 
   cudaFree(p2m_buffer);
