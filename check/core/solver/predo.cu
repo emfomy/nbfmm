@@ -11,8 +11,9 @@ using namespace nbfmm;
 using namespace std;
 
 void TestNbfmmSolver::predo() {
-  Solver& solver = *ptr_solver;
   cudaError_t cuda_status;
+  const float2 base_cell_size = make_float2((position_limits.z - position_limits.x) / base_dim,
+                                            (position_limits.w - position_limits.y) / base_dim);
 
   // Allocate memory
   float2 position[num_particle];

@@ -6,13 +6,11 @@
 ///
 
 #include "../solver.hpp"
-#include <algorithm>
 
 using namespace nbfmm;
 using namespace std;
 
 void TestNbfmmSolver::p2p() {
-  Solver& solver = *ptr_solver;
   cudaError_t cuda_status;
 
   // Alias vectors
@@ -36,7 +34,6 @@ void TestNbfmmSolver::p2p() {
   CPPUNIT_ASSERT(cuda_status == cudaSuccess);
 
   // Compute effects
-  #pragma omp parallel for
   for ( auto i = 0; i < num_particle; ++i ) {
     effect0[i] = make_float2(0.0f, 0.0f);
     for ( auto j = 0; j < num_particle; ++j ) {

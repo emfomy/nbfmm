@@ -7,6 +7,7 @@
 
 #include "solver.hpp"
 #include <algorithm>
+#include <numeric>
 #include <random>
 
 using namespace nbfmm;
@@ -14,16 +15,12 @@ using namespace std;
 
 CPPUNIT_TEST_SUITE_NAMED_REGISTRATION(TestNbfmmSolver, "Solver");
 
-TestNbfmmSolver::TestNbfmmSolver() {
-  ptr_solver = new Solver(num_level, max_num_particle, position_limits);
+const float4 TestNbfmmSolver::position_limits  = make_float4(0, -1, 8, 2);
 
+TestNbfmmSolver::TestNbfmmSolver() : solver(num_level, num_particle, position_limits) {
   // Allocate memory
-  random_position = (float2*) malloc(max_num_particle * sizeof(float2));
-  random_weight   = (float*)  malloc(max_num_particle * sizeof(float));
-  random_index    = (int2*)   malloc(max_num_particle * sizeof(int2));
-  random_head     = (int*)    malloc(num_cell_p1 * sizeof(int));
-  cudaMalloc(&gpuptr_float2, max_num_particle * sizeof(float2));
-  cudaMalloc(&gpuptr_float,  max_num_particle * sizeof(float));
+  cudaMalloc(&gpuptr_float2, num_particle * sizeof(float2));
+  cudaMalloc(&gpuptr_float,  num_particle * sizeof(float));
 
   // Create random generator
   default_random_engine generator;
@@ -38,6 +35,18 @@ TestNbfmmSolver::TestNbfmmSolver() {
     random_position[i].y = rand_position_y(generator);
     random_weight[i]     = rand_weight(generator);
   }
+  float2 (*cell_position)[base_dim][base_dim] = (float2(*)[base_dim][base_dim]) random_cell_position;
+  float  (*cell_weight)[base_dim][base_dim]   = (float (*)[base_dim][base_dim]) random_cell_weight;
+  for ( auto l = 0; l < num_level; ++l ) {
+    int cell_size = 1 << l;
+    for ( auto j = 0; j < base_dim; j += cell_size ) {
+      for ( auto i = 0; i < base_dim; i += cell_size ) {
+        cell_position[l][j][i].x = rand_position_x(generator);
+        cell_position[l][j][i].y = rand_position_y(generator);
+        cell_weight[l][j][i]     = rand_weight(generator);
+      }
+    }
+  }
 
   // Generate head
   random_head[0] = 0;
@@ -46,24 +55,21 @@ TestNbfmmSolver::TestNbfmmSolver() {
     rand_sum += rand_head(generator);
     random_head[i] = rand_sum * num_particle;
   }
-  #pragma omp parallel for
   for ( auto i = 0; i < num_cell_p1; ++i ) {
     random_head[i] /= rand_sum;
   }
 
+  // Create random permutation
+  iota(random_perm, random_perm+num_particle, 0);
+  random_shuffle(random_perm, random_perm+num_particle);
+
   // Generate index
-  #pragma omp parallel for
   for ( auto i = 0; i < base_dim * base_dim; ++i ) {
     fill(random_index+random_head[i], random_index+random_head[i+1], make_int2(i % base_dim, i / base_dim));
   }
 }
 
 TestNbfmmSolver::~TestNbfmmSolver() {
-  delete ptr_solver;
-  free(random_position);
-  free(random_weight);
-  free(random_index);
-  free(random_head);
   cudaFree(gpuptr_float2);
   cudaFree(gpuptr_float);
 }

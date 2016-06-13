@@ -7,6 +7,9 @@
 
 #include <nbfmm/core/solver.hpp>
 
+#pragma warning
+#include <cstdio>
+
 //  The namespace NBFMM
 namespace nbfmm {
 

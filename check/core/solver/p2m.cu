@@ -11,7 +11,6 @@ using namespace nbfmm;
 using namespace std;
 
 void TestNbfmmSolver::p2m() {
-  Solver& solver = *ptr_solver;
   cudaError_t cuda_status;
 
   // Alias vectors
@@ -37,7 +36,6 @@ void TestNbfmmSolver::p2m() {
   CPPUNIT_ASSERT(cuda_status == cudaSuccess);
 
   // Compute cell positions and weights
-  #pragma omp parallel for
   for ( auto i = 0; i < base_dim * base_dim; ++i ) {
     cell_position0[i] = make_float2(0, 0);
     cell_weight0[i]   = 0;

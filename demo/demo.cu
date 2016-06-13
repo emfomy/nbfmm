@@ -11,7 +11,6 @@
 #include <cstdio>
 #include <iostream>
 #include <random>
-#include <omp.h>
 #include <nbfmm/core.hpp>
 #include <nbfmm/utility.hpp>
 
@@ -56,7 +55,6 @@ int main() {
   }
 
   // Compute effects
-  #pragma omp parallel for
   for ( auto i = 0; i < num_particle; ++i ) {
     effect0[i] = make_float2(0.0f, 0.0f);
     for ( auto j = 0; j < num_particle; ++j ) {
