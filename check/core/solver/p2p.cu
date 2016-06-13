@@ -7,9 +7,6 @@
 
 #include "../solver.hpp"
 
-using namespace nbfmm;
-using namespace std;
-
 void TestNbfmmSolver::p2p() {
   cudaError_t cuda_status;
 
@@ -38,7 +35,7 @@ void TestNbfmmSolver::p2p() {
     effect0[i] = make_float2(0.0f, 0.0f);
     for ( auto j = 0; j < num_particle; ++j ) {
       if ( abs(index[i].x-index[j].x) <= 1 && abs(index[i].y-index[j].y) <= 1 && i != j ) {
-        effect0[i] += kernelFunction(position[i], position[j], weight[j]);
+        effect0[i] += nbfmm::kernelFunction(position[i], position[j], weight[j]);
       }
     }
   }
@@ -52,6 +49,9 @@ void TestNbfmmSolver::p2p() {
 
   // Check
   for ( auto i = 0; i < num_particle; ++i ) {
+    // printf("\n #%d (%2d, %2d): (%12.4f, %12.4f) * %12.4f -> (%12.4f, %12.4f) | (%12.4f, %12.4f)", i, index[i].x, index[i].y,
+    //        cell_position[i].x, cell_position[i].y, cell_weight[i],
+    //        cell_effect0[i].x, cell_effect0[i].y, cell_effect[i].x, cell_effect[i].y);
     CPPUNIT_ASSERT_DOUBLES_EQUAL(effect0[i].x, effect[i].x, 1e-4);
     CPPUNIT_ASSERT_DOUBLES_EQUAL(effect0[i].y, effect[i].y, 1e-4);
   }

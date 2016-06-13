@@ -7,9 +7,6 @@
 
 #include "../solver.hpp"
 
-using namespace nbfmm;
-using namespace std;
-
 void TestNbfmmSolver::postdo() {
   cudaError_t cuda_status;
 

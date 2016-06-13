@@ -7,9 +7,6 @@
 
 #include <nbfmm/core/solver.hpp>
 
-#pragma warning
-#include <cstdio>
-
 //  The namespace NBFMM
 namespace nbfmm {
 
@@ -19,7 +16,7 @@ Solver::Solver(
     const int            max_num_particle,
     const float4         position_limits
 ) : num_level_(num_level),
-    base_dim_(1 << (num_level-1)),
+    base_dim_(1 << (num_level+1)),
     num_cell_p1_(base_dim_*base_dim_+1),
     max_num_particle_(max_num_particle),
     position_limits_(position_limits) {

@@ -26,7 +26,7 @@ int main() {
        << NBFMM_VERSION_MINOR << "."
        << NBFMM_VERSION_PATCH << " demo" << endl;
 
-  const int    num_level        = 4;
+  const int    num_level        = 3;
   const int    max_num_particle = 16;
   const int    num_particle     = 10;
   const float4 position_limits  = make_float4(0, -1, 8, 3);

@@ -10,7 +10,6 @@
 #include <numeric>
 #include <random>
 
-using namespace nbfmm;
 using namespace std;
 
 CPPUNIT_TEST_SUITE_NAMED_REGISTRATION(TestNbfmmSolver, "Solver");

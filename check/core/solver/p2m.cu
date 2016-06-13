@@ -7,9 +7,6 @@
 
 #include "../solver.hpp"
 
-using namespace nbfmm;
-using namespace std;
-
 void TestNbfmmSolver::p2m() {
   cudaError_t cuda_status;
 
@@ -52,16 +49,16 @@ void TestNbfmmSolver::p2m() {
   solver.p2m(num_particle);
 
   // Copy output vectors
-  cuda_status = cudaMemcpy(cell_position, solver.gpuptr_cell_position_,
-                           base_dim * base_dim * sizeof(float2), cudaMemcpyDeviceToHost);
+  cuda_status = cudaMemcpy(cell_position, solver.gpuptr_cell_position_, base_dim * base_dim * sizeof(float2),
+                           cudaMemcpyDeviceToHost);
   CPPUNIT_ASSERT(cuda_status == cudaSuccess);
-  cuda_status = cudaMemcpy(cell_weight,   solver.gpuptr_cell_weight_,
-                           base_dim * base_dim * sizeof(float),  cudaMemcpyDeviceToHost);
+  cuda_status = cudaMemcpy(cell_weight,   solver.gpuptr_cell_weight_,   base_dim * base_dim * sizeof(float),
+                           cudaMemcpyDeviceToHost);
   CPPUNIT_ASSERT(cuda_status == cudaSuccess);
 
   // Check
   for ( auto i = 0; i < base_dim * base_dim; ++i ) {
-    // printf("\n (%d, %d): (%12.4e, %12.4e) * %12.4e | (%12.4e, %12.4e) * %12.4e", i % base_dim, i / base_dim,
+    // printf("\n (%2d, %2d): (%12.4e, %12.4e) * %12.4e | (%12.4e, %12.4e) * %12.4e", i % base_dim, i / base_dim,
     //        cell_position0[i].x, cell_position0[i].y, cell_weight0[i], cell_position[i].x, cell_position[i].y, cell_weight[i]);
     CPPUNIT_ASSERT_DOUBLES_EQUAL(cell_position0[i].x, cell_position[i].x, 1e-4);
     CPPUNIT_ASSERT_DOUBLES_EQUAL(cell_position0[i].y, cell_position[i].y, 1e-4);

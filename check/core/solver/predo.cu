@@ -7,9 +7,6 @@
 
 #include "../solver.hpp"
 
-using namespace nbfmm;
-using namespace std;
-
 void TestNbfmmSolver::predo() {
   cudaError_t cuda_status;
   const float2 base_cell_size = make_float2((position_limits.z - position_limits.x) / base_dim,
@@ -62,8 +59,8 @@ void TestNbfmmSolver::predo() {
     for ( auto x = 0; x < base_dim; ++x ) {
       int idx = x + y * base_dim;
       for ( auto i = head[idx]; i < head[idx+1]; ++i ) {
-        CPPUNIT_ASSERT(index[i].x == x);
-        CPPUNIT_ASSERT(index[i].y == y);
+        CPPUNIT_ASSERT(x == index[i].x);
+        CPPUNIT_ASSERT(y == index[i].y);
       }
     }
   }

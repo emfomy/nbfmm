@@ -33,10 +33,10 @@ class TestNbfmmSolver : public CppUnit::TestFixture {
 
   nbfmm::Solver solver;
 
-  static const int    num_level        = 4;
-  static const int    base_dim         = 1 << (num_level-1);
-  static const int    max_num_particle = 64;
-  static const int    num_particle     = 60;
+  static const int    num_level        = 3;
+  static const int    base_dim         = 1 << (num_level+1);
+  static const int    max_num_particle = 256;
+  static const int    num_particle     = 250;
   static const int    num_cell_p1      = base_dim * base_dim + 1;
   static const float4 position_limits;
 
