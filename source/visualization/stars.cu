@@ -54,6 +54,47 @@
   			if (pixy<height-1 && pixx<width-1)
   				board[(pixy+1)*width+(pixx+1)]=255;
   		}
+  		if (size>=4)
+  		{
+  			if (pixy>1)
+  				board[(pixy-2)*width+pixx]=255;
+  			if (pixy<height-2)
+  				board[(pixy+2)*width+pixx]=255;
+  			if (pixx>1)
+  				board[pixy*width+(pixx-2)]=255;
+  			if (pixx<width-2)
+  				board[pixy*width+(pixx+2)]=255;
+  		}
+  		if (size>=5)
+  		{
+  			if (pixy>1 && pixx>0)
+  				board[(pixy-2)*width+(pixx-1)]=255;
+  			if (pixy>1 && pixx<width-1)
+  				board[(pixy-2)*width+(pixx+1)]=255;
+  			if (pixy<height-2 && pixx>0)
+  				board[(pixy+2)*width+(pixx-1)]=255;
+  			if (pixy<height-2 && width-1)
+  				board[(pixy+2)*width+(pixx+1)]=255;
+  			if (pixy>0 && pixx<width-2)
+  				board[(pixy-1)*width+(pixx+2)]=255;
+  			if (pixy<height-1 && pixx<width-2)
+  				board[(pixy+1)*width+(pixx+2)]=255;
+  			if (pixy<height-1 && pixx>1)
+  				board[(pixy+1)*width+(pixx-2)]=255;
+  			if (pixy>0 && pixx>1)
+  				board[(pixy-1)*width+(pixx-2)]=255;
+  		}
+  		if (size>=6)
+  		{
+  			if (pixy>1 && pixx>1)
+  				board[(pixy-2)*width+(pixx-2)]=255;
+  			if (pixy<height-2 && pixx>2)
+  				board[(pixy+2)*width+(pixx-2)]=255;
+  			if (pixy>1 && pixx<width-2)
+  				board[(pixy-2)*width+(pixx+2)]=255;
+  			if (pixy<height-2 && pixx<width-2)
+  				board[(pixy+2)*width+(pixx+2)]=255;
+  		}
 	}
 	//Constructor
 	Stars::Stars(int nStar)
