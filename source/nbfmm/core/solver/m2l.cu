@@ -28,6 +28,11 @@ __global__ void m2lDevice(
 ) {
   const int target_x = threadIdx.x + blockIdx.x * blockDim.x;
   const int target_y = threadIdx.y + blockIdx.y * blockDim.y;
+
+  if ( target_x >= base_dim / cell_size || target_y >= base_dim / cell_size ) {
+    return;
+  }
+
   const int parent_x = target_x & ~1;
   const int parent_y = target_y & ~1;
   const int target_idx = target_x*cell_size + target_y*cell_size*base_dim;
@@ -65,7 +70,7 @@ void Solver::m2l() {
     const dim3 grid_dim(grid_dim_side, grid_dim_side);
     const int shift = level * base_dim_ * base_dim_;
     m2lDevice<<<block_dim, grid_dim>>>(base_dim_, level_dim, cell_size,
-                                       gpuptr_cell_position_+shift, gpuptr_cell_weight_+shift, gpuptr_cell_effect_+shift);
+                                       gpuptr_cell_position_ + shift, gpuptr_cell_weight_ + shift, gpuptr_cell_effect_ + shift);
   }
 }
 

@@ -26,6 +26,16 @@ void TestNbfmmSolver::p2m() {
   float  cell_weight0[base_dim * base_dim];
   float  cell_weight[base_dim * base_dim];
 
+  // Copy input vectors
+  cuda_status = cudaMemcpy(solver.gpuptr_position_, position, num_particle * sizeof(float2), cudaMemcpyHostToDevice);
+  CPPUNIT_ASSERT(cuda_status == cudaSuccess);
+  cuda_status = cudaMemcpy(solver.gpuptr_weight_,   weight,   num_particle * sizeof(float),  cudaMemcpyHostToDevice);
+  CPPUNIT_ASSERT(cuda_status == cudaSuccess);
+  cuda_status = cudaMemcpy(solver.gpuptr_index_,    index,    num_particle * sizeof(int2),   cudaMemcpyHostToDevice);
+  CPPUNIT_ASSERT(cuda_status == cudaSuccess);
+  cuda_status = cudaMemcpy(solver.gpuptr_head_,     head,     num_cell_p1  * sizeof(int),    cudaMemcpyHostToDevice);
+  CPPUNIT_ASSERT(cuda_status == cudaSuccess);
+
   // Compute cell positions and weights
   #pragma omp parallel for
   for ( auto i = 0; i < base_dim * base_dim; ++i ) {
@@ -39,16 +49,6 @@ void TestNbfmmSolver::p2m() {
       cell_position0[i] /= cell_weight0[i];
     }
   }
-
-  // Copy input vectors
-  cuda_status = cudaMemcpy(solver.gpuptr_position_, position, num_particle * sizeof(float2), cudaMemcpyHostToDevice);
-  CPPUNIT_ASSERT(cuda_status == cudaSuccess);
-  cuda_status = cudaMemcpy(solver.gpuptr_weight_,   weight,   num_particle * sizeof(float),  cudaMemcpyHostToDevice);
-  CPPUNIT_ASSERT(cuda_status == cudaSuccess);
-  cuda_status = cudaMemcpy(solver.gpuptr_index_,    index,    num_particle * sizeof(int2),   cudaMemcpyHostToDevice);
-  CPPUNIT_ASSERT(cuda_status == cudaSuccess);
-  cuda_status = cudaMemcpy(solver.gpuptr_head_,     head,     num_cell_p1  * sizeof(int),    cudaMemcpyHostToDevice);
-  CPPUNIT_ASSERT(cuda_status == cudaSuccess);
 
   // Run p2m
   solver.p2m(num_particle);

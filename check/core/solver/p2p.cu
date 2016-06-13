@@ -25,6 +25,16 @@ void TestNbfmmSolver::p2p() {
   float2 effect0[num_particle];
   float2 effect[num_particle];
 
+  // Copy input vectors
+  cuda_status = cudaMemcpy(solver.gpuptr_position_, position, num_particle * sizeof(float2), cudaMemcpyHostToDevice);
+  CPPUNIT_ASSERT(cuda_status == cudaSuccess);
+  cuda_status = cudaMemcpy(solver.gpuptr_weight_,   weight,   num_particle * sizeof(float),  cudaMemcpyHostToDevice);
+  CPPUNIT_ASSERT(cuda_status == cudaSuccess);
+  cuda_status = cudaMemcpy(solver.gpuptr_index_,    index,    num_particle * sizeof(int2),   cudaMemcpyHostToDevice);
+  CPPUNIT_ASSERT(cuda_status == cudaSuccess);
+  cuda_status = cudaMemcpy(solver.gpuptr_head_,     head,     num_cell_p1  * sizeof(int),    cudaMemcpyHostToDevice);
+  CPPUNIT_ASSERT(cuda_status == cudaSuccess);
+
   // Compute effects
   #pragma omp parallel for
   for ( auto i = 0; i < num_particle; ++i ) {
@@ -35,16 +45,6 @@ void TestNbfmmSolver::p2p() {
       }
     }
   }
-
-  // Copy input vectors
-  cuda_status = cudaMemcpy(solver.gpuptr_position_, position, num_particle * sizeof(float2), cudaMemcpyHostToDevice);
-  CPPUNIT_ASSERT(cuda_status == cudaSuccess);
-  cuda_status = cudaMemcpy(solver.gpuptr_weight_,   weight,   num_particle * sizeof(float),  cudaMemcpyHostToDevice);
-  CPPUNIT_ASSERT(cuda_status == cudaSuccess);
-  cuda_status = cudaMemcpy(solver.gpuptr_index_,    index,    num_particle * sizeof(int2),   cudaMemcpyHostToDevice);
-  CPPUNIT_ASSERT(cuda_status == cudaSuccess);
-  cuda_status = cudaMemcpy(solver.gpuptr_head_,     head,     num_cell_p1  * sizeof(int),    cudaMemcpyHostToDevice);
-  CPPUNIT_ASSERT(cuda_status == cudaSuccess);
 
   // Run p2p
   solver.p2p(num_particle);

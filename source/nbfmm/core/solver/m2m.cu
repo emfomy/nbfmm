@@ -24,6 +24,11 @@ __global__ void m2mDevice(
 ) {
   const int thread_idx_x = threadIdx.x + blockIdx.x * blockDim.x;
   const int thread_idx_y = threadIdx.y + blockIdx.y * blockDim.y;
+
+  if ( thread_idx_x >= base_dim / cell_size || thread_idx_y >= base_dim / cell_size ) {
+    return;
+  }
+
   const int idx       = (thread_idx_x + thread_idx_y * base_dim) * cell_size;
   const int idx_child = idx - base_dim * base_dim;
   const int shift_x   = cell_size / 2;
@@ -49,15 +54,14 @@ void Solver::m2m() {
     return;
   }
   for ( auto level = 1; level < num_level_; ++level ) {
-    int cell_size = 1 << level;
-    int level_dim = base_dim_ / cell_size;
-    int block_dim_side = (level_dim < kMaxBlockDim) ? level_dim : kMaxBlockDim;
-    int grid_dim_side  = (level_dim < kMaxBlockDim) ? 1 : (level_dim / block_dim_side);
-    dim3 block_dim(block_dim_side, block_dim_side);
-    dim3 grid_dim(grid_dim_side, grid_dim_side);
-    m2mDevice<<<block_dim, grid_dim>>>(cell_size, base_dim_,
-                                       gpuptr_cell_position_ + level * base_dim_ * base_dim_,
-                                       gpuptr_cell_weight_   + level * base_dim_ * base_dim_);
+    const int cell_size = 1 << level;
+    const int level_dim = base_dim_ / cell_size;
+    const int block_dim_side = (level_dim < kMaxBlockDim) ? level_dim : kMaxBlockDim;
+    const int grid_dim_side  = (level_dim < kMaxBlockDim) ? 1 : (level_dim / block_dim_side);
+    const dim3 block_dim(block_dim_side, block_dim_side);
+    const dim3 grid_dim(grid_dim_side, grid_dim_side);
+    const int shift = level * base_dim_ * base_dim_;
+    m2mDevice<<<block_dim, grid_dim>>>(cell_size, base_dim_, gpuptr_cell_position_ + shift, gpuptr_cell_weight_ + shift);
   }
 }
 
