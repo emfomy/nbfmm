@@ -21,7 +21,7 @@ using namespace nbfmm;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Main function
 ///
-int main( int argc, char *argv[] ) {
+int main() {
   cout << "NBFMM "
        << NBFMM_VERSION_MAJOR << "."
        << NBFMM_VERSION_MINOR << "."

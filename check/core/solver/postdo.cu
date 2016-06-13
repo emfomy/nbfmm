@@ -21,7 +21,7 @@ void TestNbfmmSolver::postdo() {
   int    perm[num_particle];
 
   // Alias vectors
-  auto effect = random_uniform2;
+  auto effect               = random_position;
   auto gpuptr_effect_origin = gpuptr_float2;
 
   // Create random permutation

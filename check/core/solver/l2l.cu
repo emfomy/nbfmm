@@ -8,5 +8,5 @@
 #include "../solver.hpp"
 
 void TestNbfmmSolver::l2l() {
-  CPPUNIT_ASSERT(false && "Not tested yet!");
+  CPPUNIT_ASSERT_MESSAGE("Not tested yet!", false);
 }

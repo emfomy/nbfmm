@@ -6,8 +6,6 @@
 ///
 
 #include "../solver.hpp"
-#include <algorithm>
-#include <random>
 
 using namespace nbfmm;
 using namespace std;
@@ -17,36 +15,16 @@ void TestNbfmmSolver::p2m() {
   cudaError_t cuda_status;
 
   // Alias vectors
-  auto position = random_uniform2;
-  auto weight   = random_exponential;
+  auto position = random_position;
+  auto weight   = random_weight;
+  auto index    = random_index;
+  auto head     = random_head;
 
   // Allocate memory
   float2 cell_position0[base_dim * base_dim];
   float2 cell_position[base_dim * base_dim];
   float  cell_weight0[base_dim * base_dim];
   float  cell_weight[base_dim * base_dim];
-  int2   index[num_particle];
-  int    head[num_cell_p1];
-
-  // Create random head
-  default_random_engine generator;
-  uniform_int_distribution<int> rand(0, 255);
-  head[0] = 0;
-  int rand_sum = 0;
-  for ( auto i = 1; i < num_cell_p1; ++i ) {
-    rand_sum += rand(generator);
-    head[i] = rand_sum * num_particle;
-  }
-  #pragma omp parallel for
-  for ( auto i = 0; i < num_cell_p1; ++i ) {
-    head[i] /= rand_sum;
-  }
-
-  // Fill index
-  #pragma omp parallel for
-  for ( auto i = 0; i < base_dim * base_dim; ++i ) {
-    fill(index+head[i], index+head[i+1], make_int2(i % base_dim, i / base_dim));
-  }
 
   // Compute cell positions and weights
   #pragma omp parallel for
@@ -85,10 +63,10 @@ void TestNbfmmSolver::p2m() {
 
   // Check
   for ( auto i = 0; i < base_dim * base_dim; ++i ) {
-    printf("\n (%d, %d): (%12.4e, %12.4e) * %12.4e | (%12.4e, %12.4e) * %12.4e", i % base_dim, i / base_dim,
-           cell_position0[i].x, cell_position0[i].y, cell_weight0[i], cell_position[i].x, cell_position[i].y, cell_weight[i]);
-    // CPPUNIT_ASSERT(abs(cell_position[i].x - cell_position0[i].x) < 1e-4);
-    // CPPUNIT_ASSERT(abs(cell_position[i].y - cell_position0[i].y) < 1e-4);
-    // CPPUNIT_ASSERT(abs(cell_weight[i]     - cell_weight0[i])     < 1e-4);
+    // printf("\n (%d, %d): (%12.4e, %12.4e) * %12.4e | (%12.4e, %12.4e) * %12.4e", i % base_dim, i / base_dim,
+    //        cell_position0[i].x, cell_position0[i].y, cell_weight0[i], cell_position[i].x, cell_position[i].y, cell_weight[i]);
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(cell_position0[i].x, cell_position[i].x, 1e-4);
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(cell_position0[i].y, cell_position[i].y, 1e-4);
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(cell_weight0[i],     cell_weight[i],     1e-4);
   }
 }

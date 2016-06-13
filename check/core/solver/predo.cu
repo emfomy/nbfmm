@@ -22,8 +22,8 @@ void TestNbfmmSolver::predo() {
   int    head[num_cell_p1];
 
   // Alias vectors
-  auto position_origin = random_uniform2;
-  auto weight_origin   = random_exponential;
+  auto position_origin        = random_position;
+  auto weight_origin          = random_weight;
   auto gpuptr_position_origin = gpuptr_float2;
   auto gpuptr_weight_origin   = gpuptr_float;
 

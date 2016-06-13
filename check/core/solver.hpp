@@ -42,8 +42,10 @@ class TestNbfmmSolver : public CppUnit::TestFixture {
   const float2 base_cell_size   = make_float2((position_limits.z - position_limits.x) / base_dim,
                                               (position_limits.w - position_limits.y) / base_dim);
 
-  float2* random_uniform2;
-  float*  random_exponential;
+  float2* random_position;
+  float*  random_weight;
+  int2*   random_index;
+  int*    random_head;
 
   float2* gpuptr_float2;
   float*  gpuptr_float;
