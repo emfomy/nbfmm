@@ -12,6 +12,8 @@ public:
 	float2* gpu_star_velocity;
 	//acceleration of stars
 	float2* gpu_star_acceleration;
+	//weight of stars
+	float* gpu_star_weight;
 
 	//Constructor
 	Stars(int nStar);
@@ -21,6 +23,8 @@ public:
 	void initialize();
 	//update
 	void update(int FPS);
+
+	void visualize(int width, int height, uint8_t *board,float size_th,float4  position_limits);
 }
 
 #endif
