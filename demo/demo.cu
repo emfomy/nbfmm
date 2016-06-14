@@ -11,7 +11,6 @@
 #include <cstdio>
 #include <iostream>
 #include <random>
-#include <omp.h>
 #include <nbfmm/core.hpp>
 #include <nbfmm/utility.hpp>
 
@@ -28,21 +27,22 @@ int main() {
        << NBFMM_VERSION_PATCH << " demo" << endl;
 
   const int    num_level        = 4;
-  const int    max_num_particle = 16;
-  const int    num_particle     = 10;
+  const int    max_num_particle = 256;
+  const int    num_particle     = 250;
   const float4 position_limits  = make_float4(0, -1, 8, 3);
 
   Solver solver(num_level, max_num_particle, position_limits);
 
-  float2 *position, *gpuptr_position, *effect, *gpuptr_effect, *effect0;
-  float  *weight, *gpuptr_weight;
-  position = (float2*) malloc(max_num_particle * sizeof(float2));
-  weight   = (float*)  malloc(max_num_particle * sizeof(float));
-  effect   = (float2*) malloc(max_num_particle * sizeof(float2));
-  effect0  = (float2*) malloc(max_num_particle * sizeof(float2));
+  float2 position[max_num_particle];
+  float2 effect0[max_num_particle];
+  float2 effect[max_num_particle];
+  float  weight[max_num_particle];
+
+  float2 *gpuptr_position, *gpuptr_effect;
+  float  *gpuptr_weight;
   cudaMalloc(&gpuptr_position, max_num_particle * sizeof(float2));
-  cudaMalloc(&gpuptr_weight,   max_num_particle * sizeof(float));
   cudaMalloc(&gpuptr_effect,   max_num_particle * sizeof(float2));
+  cudaMalloc(&gpuptr_weight,   max_num_particle * sizeof(float));
 
   // Generate data
   default_random_engine generator;
@@ -56,7 +56,6 @@ int main() {
   }
 
   // Compute effects
-  #pragma omp for
   for ( auto i = 0; i < num_particle; ++i ) {
     effect0[i] = make_float2(0.0f, 0.0f);
     for ( auto j = 0; j < num_particle; ++j ) {
@@ -73,9 +72,9 @@ int main() {
   cudaMemcpy(effect,   gpuptr_effect,   num_particle * sizeof(float2), cudaMemcpyDeviceToHost);
 
 #pragma warning
-  int2 *index_sorted = (int2*) malloc(max_num_particle * sizeof(int2));
-  int2 *index        = (int2*) malloc(max_num_particle * sizeof(int2));
-  int  *perm         = (int*)  malloc(max_num_particle * sizeof(int));
+  int2 index_sorted[max_num_particle];
+  int2 index[max_num_particle];
+  int  perm[max_num_particle];
   cudaMemcpy(index_sorted, solver.gpuptr_index_, num_particle * sizeof(int2), cudaMemcpyDeviceToHost);
   cudaMemcpy(perm,         solver.gpuptr_perm_,  num_particle * sizeof(int),  cudaMemcpyDeviceToHost);
   for ( auto i = 0; i < num_particle; ++i ) {
@@ -83,12 +82,41 @@ int main() {
   }
 
   // Display data
-  printf("\tPosition\t\t    Weight\t    Index\t\tEffect(CPU)\t\t\tEffect(FMM)\n");
+  printf("    Position\t\t\t    Weight\t    Index\t    Effect(CPU)\t\t\t    Effect(FMM)\n");
   for ( auto i = 0; i < num_particle; ++i ) {
-    printf("(%12.8f, %12.8f) \t%12.8f \t(%4d, %4d) \t(%12.8f, %12.8f) \t(%12.8f, %12.8f)\n",
+    printf("(%12.4f, %12.4f) \t%12.4f \t(%4d, %4d) \t(%12.4f, %12.4f) \t(%12.4f, %12.4f)\n",
            position[i].x, position[i].y, weight[i], index[i].x, index[i].y,
            effect0[i].x, effect0[i].y, effect[i].x, effect[i].y);
   }
   printf("\n");
+
+// #pragma warning
+//   const int base_dim = solver.base_dim_;
+//   const int total_num_cell = base_dim * base_dim * num_level;
+//   float2 cell_position[num_level][base_dim][base_dim];
+//   float2 cell_effect[num_level][base_dim][base_dim];
+//   float  cell_weight[num_level][base_dim][base_dim];
+//   cudaMemcpy(cell_position, solver.gpuptr_cell_position_, total_num_cell * sizeof(float2), cudaMemcpyDeviceToHost);
+//   cudaMemcpy(cell_effect,   solver.gpuptr_cell_effect_,   total_num_cell * sizeof(float2), cudaMemcpyDeviceToHost);
+//   cudaMemcpy(cell_weight,   solver.gpuptr_cell_weight_,   total_num_cell * sizeof(float),  cudaMemcpyDeviceToHost);
+
+//   // Display cell data
+//   for ( auto l = 0; l < num_level; ++l ) {
+//     int cell_size = 1 << l;
+//     for ( auto j = 0; j < base_dim; j += cell_size ) {
+//       for ( auto i = 0; i < base_dim; i += cell_size ) {
+//         printf("#%2d (%4d, %4d): (%12.4f, %12.4f) * %12.4f -> (%12.4f, %12.4f)\n", l, i, j,
+//                cell_position[l][j][i].x,  cell_position[l][j][i].y,  cell_weight[l][j][i],
+//                cell_effect[l][j][i].x,    cell_effect[l][j][i].y);
+//       }
+//     }
+//   }
+//   printf("\n");
+
+  // Free memory
+  cudaFree(gpuptr_position);
+  cudaFree(gpuptr_effect);
+  cudaFree(gpuptr_weight);
+
   return 0;
 }

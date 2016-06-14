@@ -50,14 +50,19 @@ __global__ void extractHead(
     int*        head
 ) {
   const int idx = threadIdx.x + blockIdx.x * blockDim.x;
-  if ( idx >= num_particle ) {
+  if ( idx > num_particle ) {
     return;
   }
   const int cell_idx      = index[idx].x   + index[idx].y   * base_dim;
   const int cell_idx_past = index[idx-1].x + index[idx-1].y * base_dim;
   if ( idx == 0 ) {
-    head[0] = idx;
-    head[base_dim * base_dim] = num_particle;
+    for ( auto i = 0; i <= cell_idx; ++i ) {
+      head[i] = idx;
+    }
+  } else if ( idx == num_particle ) {
+    for ( auto i = cell_idx_past+1; i <= base_dim * base_dim; ++i ) {
+      head[i] = idx;
+    }
   } else {
     for ( auto i = cell_idx_past+1; i <= cell_idx; ++i ) {
       head[i] = idx;
@@ -120,7 +125,7 @@ void Solver::predo(
   thrust::sort_by_key(thrust_index, thrust_index+num_particle, thrust_perm);
 
   // Extract heads of cell index of each cell
-  extractHead<<<grid_dim, block_dim>>>(num_particle, base_dim_, gpuptr_index_, gpuptr_head_);
+  extractHead<<<(num_particle/block_dim)+1, kMaxBlockDim>>>(num_particle, base_dim_, gpuptr_index_, gpuptr_head_);
 
   // Permute input vectors
   permuteInputVector<<<grid_dim, block_dim>>>(num_particle, gpuptr_perm_,

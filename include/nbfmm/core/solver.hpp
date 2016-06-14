@@ -30,16 +30,16 @@ class Solver {
   /// The number of cell levels.
   const int num_level_;
 
-  /// The number of cells in the base level per side.
+  /// The number of cells in the base level per side. @n = 2^(#num_level_+1)
   const int base_dim_;
 
-  /// The number of cells in the base level plus 1.
+  /// The number of cells in the base level plus 1. @n = #base_dim_^2+1
   const int num_cell_p1_;
 
   /// The maximum number of particles
   const int max_num_particle_;
 
-  /// The limits of positions. [x_min, y_min, x_max, y_max].
+  /// The limits of positions. @n [x_min, y_min, x_max, y_max].
   const float4 position_limits_;
 
   /// The device pointer of particle positions. @n Vector, 1 by #max_num_particle_.
@@ -68,6 +68,12 @@ class Solver {
 
   /// The device pointer of cell weights. @n Cube, #base_dim_ by #base_dim_ by #num_level_.
   float*  gpuptr_cell_weight_;
+
+  /// The workspace used in P2M
+  float2* gpuptr_buffer_float2_;
+
+  /// The workspace used in P2M
+  int2*   gpuptr_buffer_int2_;
 
  public:
 

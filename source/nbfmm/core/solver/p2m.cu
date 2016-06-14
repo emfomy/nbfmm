@@ -16,44 +16,58 @@
 /// @param[in]   num_particle     the number of particles.
 /// @param[in]   gpuptr_position  the original particle effects.
 /// @param[in]   gpuptr_weight    the particle effects.
-/// @param[out]  p2m_buffer       the workspace.
+/// @param[out]  buffer           the workspace.
 ///
-__global__ void p2m_weighting( int num_particle, float2* gpuptr_position, float* gpuptr_weight, float2* p2m_buffer ) {
-  int idx = threadIdx.x + blockIdx.x * blockDim.x;
-  if ( idx>=num_particle )
-  {
+__global__ void p2m_weighting(
+    const int     num_particle,
+    const float2* gpuptr_position,
+    const float*  gpuptr_weight,
+    float2*       buffer
+) {
+  const int idx = threadIdx.x + blockIdx.x * blockDim.x;
+  if ( idx>=num_particle ) {
    return;
   }
-  p2m_buffer[idx].x=gpuptr_position[idx].x*gpuptr_weight[idx];
-  p2m_buffer[idx].y=gpuptr_position[idx].y*gpuptr_weight[idx];
+  buffer[idx] = gpuptr_position[idx] * gpuptr_weight[idx];
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Compute particle to multipole averaging
 ///
 /// @param[in]   base_dim              the number of cells in the base level per side.
+/// @param[in]   buffer_length         the length of workspace.
+/// @param[in]   buffer                the workspace.
 /// @param[out]  gpuptr_cell_position  the cell positions.
-/// @param[in]   gpuptr_cell_weight    the cell positions.
+/// @param[out]  gpuptr_cell_weight    the cell positions.
 ///
+__global__ void p2m_assigning(
+    const int    base_dim,
+    const int    buffer_length,
+    const int2*  buffer,
+    float2*      gpuptr_cell_position,
+    float*       gpuptr_cell_weight
+) {
+  const int thread2Dpx = blockIdx.x * blockDim.x + threadIdx.x;
+  const int thread2Dpy = blockIdx.y * blockDim.y + threadIdx.y;
 
-__global__ void p2m_assigning( int base_dim, float2* gpuptr_cell_position, float* gpuptr_cell_weight,int assigning_length,int2* p2m_assigningIndex ) {
-  int thread2Dpx = blockIdx.x * blockDim.x + threadIdx.x;
-  int thread2Dpy = blockIdx.y * blockDim.y + threadIdx.y;
-  if (thread2Dpx >= base_dim || thread2Dpy >= base_dim)
-
+  if (thread2Dpx >= base_dim || thread2Dpy >= base_dim) {
    return;
-  int thread1Dp = thread2Dpy * base_dim + thread2Dpx;
+  }
 
-  gpuptr_cell_position[thread1Dp].x=0;
-  gpuptr_cell_position[thread1Dp].y=0;
-  gpuptr_cell_weight[thread1Dp]=0;
+  const int thread1Dp = thread2Dpy * base_dim + thread2Dpx;
 
-  if (thread1Dp>=assigning_length)
+  gpuptr_cell_position[thread1Dp] = make_float2(0.0f, 0.0f);
+  gpuptr_cell_weight[thread1Dp] = 0;
+
+  if ( thread1Dp >= buffer_length ) {
     return;
-  int index_to_assign=p2m_assigningIndex[thread1Dp].y * base_dim +p2m_assigningIndex[thread1Dp].x;
-  gpuptr_cell_position[index_to_assign].x=gpuptr_cell_position[base_dim*base_dim+thread1Dp].x/gpuptr_cell_weight[base_dim*base_dim+thread1Dp];
-  gpuptr_cell_position[index_to_assign].y=gpuptr_cell_position[base_dim*base_dim+thread1Dp].y/gpuptr_cell_weight[base_dim*base_dim+thread1Dp];
-  gpuptr_cell_weight[index_to_assign]=gpuptr_cell_weight[base_dim*base_dim+thread1Dp];
+  }
+
+  const int index_to_assign = buffer[thread1Dp].x + buffer[thread1Dp].y * base_dim;
+  const int index_temp      = thread1Dp + base_dim * base_dim;
+
+  gpuptr_cell_position[index_to_assign] = gpuptr_cell_position[index_temp] / gpuptr_cell_weight[index_temp];
+  gpuptr_cell_weight[index_to_assign]   = gpuptr_cell_weight[index_temp];
 }
 
 //  The namespace NBFMM
@@ -61,38 +75,30 @@ namespace nbfmm {
 
 // P2M
 void Solver::p2m( const int num_particle ) {
-  const dim3 kNumThread_cellwise(32,32,1);
-  const dim3 kNumBlock_cellwise(((base_dim_-1)/kNumThread_cellwise.x)+1,((base_dim_-1)/kNumThread_cellwise.y)+1,1);
+  const dim3 kNumThread_cellwise(32, 32, 1);
+  const dim3 kNumBlock_cellwise(((base_dim_-1)/kNumThread_cellwise.x)+1, ((base_dim_-1)/kNumThread_cellwise.y)+1,1);
   const int kNumThread_pointwise = 1024;
   const int kNumBlock_pointwise  = ((num_particle-1)/kNumThread_pointwise)+1;
 
-  float2* p2m_buffer;
-  int2* p2m_assigningIndex;
-  cudaMalloc(&p2m_buffer,      max_num_particle_ * sizeof(float2));
-
-  cudaMalloc(&p2m_assigningIndex, base_dim_ * base_dim_*sizeof(int2));
-
-  p2m_weighting<<<kNumBlock_pointwise,kNumThread_pointwise>>>(num_particle,gpuptr_position_,gpuptr_weight_,p2m_buffer);
+  p2m_weighting<<<kNumBlock_pointwise, kNumThread_pointwise>>>(num_particle, gpuptr_position_, gpuptr_weight_,
+                                                               gpuptr_buffer_float2_);
 
   thrust::device_ptr<int2> thrust_index(gpuptr_index_);
   thrust::device_ptr<float2> thrust_position(gpuptr_position_);
   thrust::device_ptr<float> thrust_weight(gpuptr_weight_);
-  thrust::device_ptr<float2> thrust_weighted(p2m_buffer);
-  thrust::device_ptr<int2> thrust_assigninging(p2m_assigningIndex);
+  thrust::device_ptr<float2> thrust_weighted(gpuptr_buffer_float2_);
+  thrust::device_ptr<int2> thrust_assigninging(gpuptr_buffer_int2_);
   thrust::device_ptr<float2> thrust_cellPos(gpuptr_cell_position_);
   thrust::device_ptr<float> thrust_cellWei(gpuptr_cell_weight_);
 
+  thrust::reduce_by_key(thrust_index, thrust_index + num_particle, thrust_weighted,
+                        thrust_assigninging, thrust_cellPos + base_dim_ * base_dim_);
+  auto p2m_dummy = thrust::reduce_by_key(thrust_index, thrust_index + num_particle, thrust_weight,
+                                         thrust_assigninging, thrust_cellWei + base_dim_ * base_dim_);
 
-  thrust::pair<thrust::device_ptr<int2>,thrust::device_ptr<float>> p2m_dummy;
-
-  thrust::reduce_by_key(thrust_index, thrust_index + num_particle, thrust_weighted, thrust_assigninging, thrust_cellPos+base_dim_ * base_dim_);
-  p2m_dummy=thrust::reduce_by_key(thrust_index, thrust_index + num_particle, thrust_weight, thrust_assigninging, thrust_cellWei+base_dim_ * base_dim_);
-
-  int assigning_length=p2m_dummy.second-(thrust_cellWei+base_dim_ * base_dim_);
-  p2m_assigning<<<kNumBlock_cellwise,kNumThread_cellwise>>>(base_dim_,gpuptr_cell_position_,gpuptr_cell_weight_,assigning_length,p2m_assigningIndex);
-
-  cudaFree(p2m_buffer);
-  cudaFree(p2m_assigningIndex);
+  const int buffer_int2_length = p2m_dummy.second - (thrust_cellWei + base_dim_ * base_dim_);
+  p2m_assigning<<<kNumBlock_cellwise, kNumThread_cellwise>>>(base_dim_, buffer_int2_length, gpuptr_buffer_int2_,
+                                                             gpuptr_cell_position_, gpuptr_cell_weight_);
 
 }
 

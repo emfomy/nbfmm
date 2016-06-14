@@ -6,27 +6,17 @@
 ///
 
 #include "../solver.hpp"
-#include <algorithm>
-#include <numeric>
-
-using namespace nbfmm;
-using namespace std;
 
 void TestNbfmmSolver::postdo() {
-  Solver& solver = *ptr_solver;
   cudaError_t cuda_status;
+
+  // Alias vectors
+  auto effect               = random_position;
+  auto perm                 = random_perm;
+  auto gpuptr_effect_origin = gpuptr_float2;
 
   // Allocate memory
   float2 effect_origin[num_particle];
-  int    perm[num_particle];
-
-  // Alias vectors
-  auto effect = random_uniform2;
-  auto gpuptr_effect_origin = gpuptr_float2;
-
-  // Create random permutation
-  iota(perm, perm+num_particle, 0);
-  random_shuffle(perm, perm+num_particle);
 
   // Copy input vectors
   cuda_status = cudaMemcpy(solver.gpuptr_effect_, effect, num_particle * sizeof(float2), cudaMemcpyHostToDevice);

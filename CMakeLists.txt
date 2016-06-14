@@ -5,9 +5,9 @@ project(NBFMM)
 cmake_minimum_required(VERSION 3.0)
 
 # Set version number
-set(NBFMM_VERSION_MAJOR 0)
-set(NBFMM_VERSION_MINOR 1)
-set(NBFMM_VERSION_PATCH 21)
+set(NBFMM_VERSION_MAJOR 1)
+set(NBFMM_VERSION_MINOR 0)
+set(NBFMM_VERSION_PATCH 0)
 
 # Set Makefile
 set(CMAKE_COLOR_MAKEFILE ON)
@@ -22,14 +22,6 @@ set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS};-Xcompiler;-Wall,-Wextra)
 set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS};-isystem;${CUDA_INCLUDE_DIRS})
 include_directories("${PROJECT_SOURCE_DIR}/include" "${PROJECT_BINARY_DIR}/include")
 link_directories("${PROJECT_BINARY_DIR}/library")
-
-# GOMP library
-message(STATUS "Looking for GOMP libraries")
-find_library(GOMP_LIBRARY NAMES gomp)
-if(GOMP_LIBRARY STREQUAL GOMP_LIBRARY-NOTFOUND)
-  message(FATAL_ERROR "Could NOT find GOMP libraries")
-endif()
-message(STATUS "Looking for GOMP libraries - found")
 
 # CPPUNIT root
 set(CPPUNIT_ROOT "" CACHE PATH "The root path of CppUnit.")
