@@ -34,15 +34,20 @@ __global__ void m2mDevice(
   const int shift_x   = cell_size / 2;
   const int shift_y   = shift_x * base_dim;
 
-  level_weight[idx]   = level_weight[idx_child]
-                      + level_weight[idx_child + shift_x]
-                      + level_weight[idx_child + shift_y]
-                      + level_weight[idx_child + shift_x + shift_y];
-  level_position[idx] = level_position[idx_child]                     * level_weight[idx_child]
-                      + level_position[idx_child + shift_x]           * level_weight[idx_child + shift_x]
-                      + level_position[idx_child + shift_y]           * level_weight[idx_child + shift_y]
-                      + level_position[idx_child + shift_x + shift_y] * level_weight[idx_child + shift_x + shift_y];
-  level_position[idx] /= level_weight[idx];
+  const auto this_position = level_position[idx_child]                     * level_weight[idx_child]
+                           + level_position[idx_child + shift_x]           * level_weight[idx_child + shift_x]
+                           + level_position[idx_child + shift_y]           * level_weight[idx_child + shift_y]
+                           + level_position[idx_child + shift_x + shift_y] * level_weight[idx_child + shift_x + shift_y];
+  const auto this_weight   = level_weight[idx_child]
+                           + level_weight[idx_child + shift_x]
+                           + level_weight[idx_child + shift_y]
+                           + level_weight[idx_child + shift_x + shift_y];
+  if ( this_weight == 0.0f ) {
+    level_position[idx] = make_float2(0.0f, 0.0f);
+  } else {
+    level_position[idx] = this_position / this_weight;
+  }
+  level_weight[idx] = this_weight;
 }
 
 //  The namespace NBFMM
@@ -53,6 +58,7 @@ void Solver::m2m() {
   if ( num_level_ <= 1 ) {
     return;
   }
+
   for ( auto level = 1; level < num_level_; ++level ) {
     const int cell_size = 1 << level;
     const int level_dim = base_dim_ / cell_size;
