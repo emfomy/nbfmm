@@ -11,7 +11,6 @@
 #include <cstdio>
 #include <iostream>
 #include <random>
-#include <omp.h>
 #include <nbfmm/core.hpp>
 #include <nbfmm/utility.hpp>
 
@@ -27,7 +26,7 @@ int main() {
        << NBFMM_VERSION_MINOR << "."
        << NBFMM_VERSION_PATCH << " demo" << endl;
 
-  const int    num_level        = 4;
+  const int    num_level        = 3;
   const int    max_num_particle = 16;
   const int    num_particle     = 10;
   const float4 position_limits  = make_float4(0, -1, 8, 3);
@@ -56,7 +55,6 @@ int main() {
   }
 
   // Compute effects
-  #pragma omp for
   for ( auto i = 0; i < num_particle; ++i ) {
     effect0[i] = make_float2(0.0f, 0.0f);
     for ( auto j = 0; j < num_particle; ++j ) {
@@ -83,7 +81,7 @@ int main() {
   }
 
   // Display data
-  printf("\tPosition\t\t    Weight\t    Index\t\tEffect(CPU)\t\t\tEffect(FMM)\n");
+  printf("    Position\t\t\t    Weight\t    Index\t    Effect(CPU)\t\t\t    Effect(FMM)\n");
   for ( auto i = 0; i < num_particle; ++i ) {
     printf("(%12.8f, %12.8f) \t%12.8f \t(%4d, %4d) \t(%12.8f, %12.8f) \t(%12.8f, %12.8f)\n",
            position[i].x, position[i].y, weight[i], index[i].x, index[i].y,
