@@ -123,6 +123,24 @@
   			gpu_star_weight[idx]=0;
   		}
 	}
+	__global__ void initialization_kernel(int n_star,float2* gpu_star_position,float2* gpu_star_velocity,float2* gpu_star_acceleration,float* gpu_star_weight,float4 position_limits,curandState d_state)
+	{
+		int idx = blockIdx.x * blockDim.x + threadIdx.x;
+  		if ( idx>=n_star )
+  		{
+  		 return;
+  		}
+  		if (gpu_star_position[idx].x<position_limits.x || gpu_star_position[idx].y<position_limits.y ||gpu_star_position[idx].x>position_limits.z ||gpu_star_position[idx].y>position_limits.w)
+  		{
+  			gpu_star_position[idx].x=position_limits.x+curand_normal(d_state)*(position_limits.z-position_limits.x);
+  			gpu_star_position[idx].y=position_limits.y+curand_normal(d_state)*(position_limits.w-position_limits.y);
+  			gpu_star_velocity[idx].x=curand_normal(d_state);
+  			gpu_star_velocity[idx].y=curand_normal(d_state);
+  			gpu_star_acceleration[idx].x=0;
+  			gpu_star_acceleration[idx].y=0;
+  			gpu_star_weight[idx]=curand_uniform(d_state)*5;
+  		}
+	}
 	//Constructor
 	Stars::Stars(int nStar)
 	 : n_star(nStar)
@@ -142,9 +160,14 @@
 		cudaFree(gpu_star_weight);
 	}
 
-	void Stars::initialize()
+	void Stars::initialize(float4 position_limit)
 	{
-
+		curandState *d_state;
+  		cudaMalloc(&d_state, sizeof(curandState));
+  		setup_kernel<<<1,1>>>(d_state);
+  		const int kNumThread_pointwise = 1024;
+  		const int kNumBlock_pointwise  = ((n_star-1)/kNumThread_pointwise)+1;
+  		initialize_kernel<<<kNumBlock_pointwise,kNumThread_pointwise>>>(n_star,gpu_star_position,gpu_star_velocity,gpu_star_acceleration,gpu_star_weight,position_limits,d_state)
 	}
 	//update
 	void Stars::update(int FPS)

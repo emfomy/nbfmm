@@ -20,7 +20,7 @@ public:
 	//Destructor
 	~Stars();
 	//initialize
-	void initialize();
+	void initialize(float4 position_limit);
 	//update
 	void update(int FPS);
 
