@@ -28,8 +28,7 @@ __global__ void l2pDevice(
   if ( idx >= num_particle ) {
     return;
   }
-  const int cell_idx = index[idx].x + index[idx].y * base_dim;
-  effect[idx] += cell_effect[cell_idx];
+  effect[idx] += cell_effect[index[idx].x + index[idx].y * base_dim];
 }
 
 //  The namespace NBFMM

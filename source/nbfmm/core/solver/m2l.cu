@@ -28,20 +28,25 @@ __global__ void m2lDevice(
 ) {
   const int target_x = threadIdx.x + blockIdx.x * blockDim.x;
   const int target_y = threadIdx.y + blockIdx.y * blockDim.y;
+
+  if ( target_x >= level_dim || target_y >= level_dim ) {
+    return;
+  }
+
   const int parent_x = target_x & ~1;
   const int parent_y = target_y & ~1;
-  const int target_idx = target_x*cell_size + target_y*cell_size*base_dim;
+  const int target_idx = (target_x + target_y * base_dim) * cell_size;
   const float2 target_position = cell_level_position[target_idx];
-  float2 target_effect;
+  float2 target_effect = make_float2(0.0f, 0.0f);
 
   // Go through children of parent cell's neighbors
-  for ( int y = parent_y-2; y < parent_y+1; ++y ) {
+  for ( int y = parent_y-2; y < parent_y+4; ++y ) {
     if ( y >= 0 && y < level_dim ) {
       for ( int x = parent_x-2; x < parent_x+4; ++x ) {
         if ( x >= 0 && x < level_dim ) {
           // Ignore target cell's neighbors
           if ( abs(x-target_x) > 1 || abs(y-target_y) > 1 ) {
-            int idx = x*cell_size + y*cell_size*base_dim;
+            int idx = (x + y * base_dim) * cell_size;
             target_effect += nbfmm::kernelFunction(target_position, cell_level_position[idx], cell_level_weight[idx]);
           }
         }
@@ -65,7 +70,7 @@ void Solver::m2l() {
     const dim3 grid_dim(grid_dim_side, grid_dim_side);
     const int shift = level * base_dim_ * base_dim_;
     m2lDevice<<<block_dim, grid_dim>>>(base_dim_, level_dim, cell_size,
-                                       gpuptr_cell_position_+shift, gpuptr_cell_weight_+shift, gpuptr_cell_effect_+shift);
+                                       gpuptr_cell_position_ + shift, gpuptr_cell_weight_ + shift, gpuptr_cell_effect_ + shift);
   }
 }
 

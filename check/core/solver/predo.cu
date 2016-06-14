@@ -7,12 +7,10 @@
 
 #include "../solver.hpp"
 
-using namespace nbfmm;
-using namespace std;
-
 void TestNbfmmSolver::predo() {
-  Solver& solver = *ptr_solver;
   cudaError_t cuda_status;
+  const float2 base_cell_size = make_float2((position_limits.z - position_limits.x) / base_dim,
+                                            (position_limits.w - position_limits.y) / base_dim);
 
   // Allocate memory
   float2 position[num_particle];
@@ -22,8 +20,8 @@ void TestNbfmmSolver::predo() {
   int    head[num_cell_p1];
 
   // Alias vectors
-  auto position_origin = random_uniform2;
-  auto weight_origin   = random_exponential;
+  auto position_origin        = random_position;
+  auto weight_origin          = random_weight;
   auto gpuptr_position_origin = gpuptr_float2;
   auto gpuptr_weight_origin   = gpuptr_float;
 
@@ -61,8 +59,8 @@ void TestNbfmmSolver::predo() {
     for ( auto x = 0; x < base_dim; ++x ) {
       int idx = x + y * base_dim;
       for ( auto i = head[idx]; i < head[idx+1]; ++i ) {
-        CPPUNIT_ASSERT(index[i].x == x);
-        CPPUNIT_ASSERT(index[i].y == y);
+        CPPUNIT_ASSERT(x == index[i].x);
+        CPPUNIT_ASSERT(y == index[i].y);
       }
     }
   }
