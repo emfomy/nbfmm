@@ -1,0 +1,36 @@
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// @file    include/nbfmm/config.hpp
+/// @brief   The configured options and settings
+///
+/// @author  Mu Yang <emfomy@gmail.com>
+///
+
+#ifndef NBFMM_CONFIG_HPP_
+#define NBFMM_CONFIG_HPP_
+
+#ifndef __cplusplus
+#error C++ is required.
+#elif __cplusplus < 201103L
+#warning C++11 is required.
+#endif
+
+#define NBFMM_VERSION_MAJOR @NBFMM_VERSION_MAJOR@ ///< The major version of NBFMM.
+#define NBFMM_VERSION_MINOR @NBFMM_VERSION_MINOR@ ///< The minor version of NBFMM.
+#define NBFMM_VERSION_PATCH @NBFMM_VERSION_PATCH@ ///< The patch version of NBFMM.
+
+#include <cassert>
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// The namespace NBFMM
+///
+namespace nbfmm {
+
+/// The maximum number of threads per block
+const int kMaxBlockDim = 1024;
+
+/// The maximum number of blocks per grid
+const int kMaxGridDim  = 65535;
+
+}  // namespace nbfmm
+
+#endif  // NBFMM_CONFIG_HPP_
