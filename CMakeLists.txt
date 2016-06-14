@@ -45,6 +45,6 @@ message(STATUS "Looking for CppUnit libraries - found")
 # Add subdirectories
 add_subdirectory(include)
 add_subdirectory(library)
-add_subdirectory(demo)
+add_subdirectory(main)
 add_subdirectory(check)
 add_subdirectory(doxygen)
