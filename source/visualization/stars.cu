@@ -3,9 +3,10 @@
 
 #include <nbfmm/visualization/stars.hpp>
 #include <curand.h>
+#include <curand_kernel.h>
 #include <nbfmm/utility.hpp>
 
-	__global__ update_kernel(int n_star,float2* gpu_star_position,float2* gpu_star_velocity,float2* gpu_star_acceleration, float FPS)
+	__global__ void update_kernel(int n_star,float2* gpu_star_position,float2* gpu_star_velocity,float2* gpu_star_acceleration, float FPS)
 	{
 		int idx = blockIdx.x * blockDim.x + threadIdx.x;
   		if ( idx>=n_star )
@@ -16,7 +17,7 @@
   		gpu_star_velocity[idx]=gpu_star_velocity[idx]+gpu_star_acceleration[idx]/FPS;
 	}
 
-	__global__ visualize_kernel(int n_star,float2* gpu_star_position, uint8_t *board,int width, int height,float* gpu_star_weight,float size_th,float4  position_limits)
+	__global__ void visualize_kernel(int n_star,float2* gpu_star_position, uint8_t *board,int width, int height,float* gpu_star_weight,float size_th,float4 visualization_limits)
 	{
 		int idx = blockIdx.x * blockDim.x + threadIdx.x;
   		if ( idx>=n_star )
@@ -96,6 +97,32 @@
   				board[(pixy+2)*width+(pixx+2)]=255;
   		}
 	}
+
+	__global__ void setup_kernel(curandState *state)
+	{
+
+  int idx = threadIdx.x+blockDim.x*blockIdx.x;
+  curand_init(1234, idx, 0, &state[idx]);
+	}
+
+	__global__ void deletion_check_kernel(int n_star,float2* gpu_star_position,float2* gpu_star_velocity,float2* gpu_star_acceleration,float* gpu_star_weight,float4 position_limits,curandState d_state)
+	{
+		int idx = blockIdx.x * blockDim.x + threadIdx.x;
+  		if ( idx>=n_star )
+  		{
+  		 return;
+  		}
+  		if (gpu_star_position[idx].x<position_limits.x || gpu_star_position[idx].y<position_limits.y ||gpu_star_position[idx].x>position_limits.z ||gpu_star_position[idx].y>position_limits.w)
+  		{
+  			gpu_star_position[idx].x=position_limits.x+curand_uniform(d_state)*(position_limits.z-position_limits.x);
+  			gpu_star_position[idx].y=position_limits.y+curand_uniform(d_state)*(position_limits.w-position_limits.y);
+  			gpu_star_velocity[idx].x=0;
+  			gpu_star_velocity[idx].y=0;
+  			gpu_star_acceleration[idx].x=0;
+  			gpu_star_acceleration[idx].y=0;
+  			gpu_star_weight[idx]=0;
+  		}
+	}
 	//Constructor
 	Stars::Stars(int nStar)
 	 : n_star(nStar)
@@ -127,14 +154,23 @@
   		update_kernel<<<kNumBlock_pointwise,kNumThread_pointwise>>>(n_star,gpu_star_position,gpu_star_velocity,gpu_star_acceleration,(float)FPS);
 	}
 
-	void Stars::visualize(int width, int height, uint8_t *board,float size_th,float4  position_limits)
+	void Stars::visualize(int width, int height, uint8_t *board,float size_th,float4  visualization_limits)
 	{
 		cudaMemset(board, 0, width*height);
 		cudaMemset(board+width*height, 128, width*height/2);
 		const int kNumThread_pointwise = 1024;
   		const int kNumBlock_pointwise  = ((n_star-1)/kNumThread_pointwise)+1;
-  		visualize_kernel<<<kNumBlock_pointwise,kNumThread_pointwise>>>(n_star,gpu_star_position,board,gpu_star_weight, size_th,width,height, position_limits);
-	
+  		visualize_kernel<<<kNumBlock_pointwise,kNumThread_pointwise>>>(n_star,gpu_star_position,board,gpu_star_weight, size_th,width,height, visualization_limits);	
+	}
+
+	void Stars::deletion_check(float4 position_limits)
+	{
+		curandState *d_state;
+  		cudaMalloc(&d_state, sizeof(curandState));
+  		setup_kernel<<<1,1>>>(d_state);
+  		const int kNumThread_pointwise = 1024;
+  		const int kNumBlock_pointwise  = ((n_star-1)/kNumThread_pointwise)+1;
+  		deletion_check_kernel<<<kNumBlock_pointwise,kNumThread_pointwise>>>(n_star,gpu_star_position,gpu_star_velocity,gpu_star_acceleration,gpu_star_weight,position_limits,d_state)
 	}
 
 #endif

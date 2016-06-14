@@ -24,7 +24,9 @@ public:
 	//update
 	void update(int FPS);
 
-	void visualize(int width, int height, uint8_t *board,float size_th,float4  position_limits);
+	void visualize(int width, int height, uint8_t *board,float size_th,float4 visualization_limits);
+
+	void deletion_check(float4 position_limits);
 }
 
 #endif
