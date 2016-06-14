@@ -65,7 +65,7 @@ void TestNbfmmSolver::m2m() {
       for ( auto i = 0; i < base_dim; i += cell_size ) {
         // printf("\n #%d (%2d, %2d): (%12.4f, %12.4f) * %12.4f | (%12.4f, %12.4f) * %12.4f", l, i, j,
         //        cell_position0[l][j][i].x, cell_position0[l][j][i].y, cell_weight0[l][j][i],
-        //        cell_position[l][j][i].x,  cell_position[l][j][i].y,  cell_weight[l][j][i],
+        //        cell_position[l][j][i].x,  cell_position[l][j][i].y,  cell_weight[l][j][i]);
         CPPUNIT_ASSERT_DOUBLES_EQUAL(cell_position0[l][j][i].x, cell_position[l][j][i].x, 1e-4);
         CPPUNIT_ASSERT_DOUBLES_EQUAL(cell_position0[l][j][i].y, cell_position[l][j][i].y, 1e-4);
         CPPUNIT_ASSERT_DOUBLES_EQUAL(cell_weight0[l][j][i],     cell_weight[l][j][i],     1e-4);

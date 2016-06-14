@@ -5,9 +5,9 @@ project(NBFMM)
 cmake_minimum_required(VERSION 3.0)
 
 # Set version number
-set(NBFMM_VERSION_MAJOR 0)
-set(NBFMM_VERSION_MINOR 1)
-set(NBFMM_VERSION_PATCH 22)
+set(NBFMM_VERSION_MAJOR 1)
+set(NBFMM_VERSION_MINOR 0)
+set(NBFMM_VERSION_PATCH 0)
 
 # Set Makefile
 set(CMAKE_COLOR_MAKEFILE ON)

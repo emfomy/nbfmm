@@ -19,10 +19,10 @@
 /// @param[out]  p2m_buffer       the workspace.
 ///
 __global__ void p2m_weighting(
-    int num_particle,
-    float2* gpuptr_position,
-    float* gpuptr_weight,
-    float2* p2m_buffer
+    const int     num_particle,
+    const float2* gpuptr_position,
+    const float*  gpuptr_weight,
+    float2*       p2m_buffer
 ) {
   const int idx = threadIdx.x + blockIdx.x * blockDim.x;
   if ( idx>=num_particle ) {
@@ -35,16 +35,17 @@ __global__ void p2m_weighting(
 /// Compute particle to multipole averaging
 ///
 /// @param[in]   base_dim              the number of cells in the base level per side.
+/// @param[in]   assigning_length      the assigning length.
+/// @param[in]   p2m_assigningIndex    the assigning indices.
 /// @param[out]  gpuptr_cell_position  the cell positions.
-/// @param[in]   gpuptr_cell_weight    the cell positions.
+/// @param[out]  gpuptr_cell_weight    the cell positions.
 ///
-
 __global__ void p2m_assigning(
-    int base_dim,
-    float2* gpuptr_cell_position,
-    float* gpuptr_cell_weight,
-    int assigning_length,
-    int2* p2m_assigningIndex
+    const int    base_dim,
+    const int    assigning_length,
+    const int2*  p2m_assigningIndex,
+    float2*      gpuptr_cell_position,
+    float*       gpuptr_cell_weight
 ) {
   const int thread2Dpx = blockIdx.x * blockDim.x + threadIdx.x;
   const int thread2Dpy = blockIdx.y * blockDim.y + threadIdx.y;
@@ -63,7 +64,7 @@ __global__ void p2m_assigning(
   }
 
 
-  const int index_to_assign = p2m_assigningIndex[thread1Dp].x = p2m_assigningIndex[thread1Dp].y * base_dim;
+  const int index_to_assign = p2m_assigningIndex[thread1Dp].x + p2m_assigningIndex[thread1Dp].y * base_dim;
   const int index_temp      = thread1Dp + base_dim * base_dim;
 
   gpuptr_cell_position[index_to_assign] = gpuptr_cell_position[index_temp] / gpuptr_cell_weight[index_temp];
@@ -105,8 +106,8 @@ void Solver::p2m( const int num_particle ) {
                                   thrust_assigninging, thrust_cellWei + base_dim_ * base_dim_);
 
   int assigning_length=p2m_dummy.second-(thrust_cellWei+base_dim_ * base_dim_);
-  p2m_assigning<<<kNumBlock_cellwise,kNumThread_cellwise>>>(base_dim_, gpuptr_cell_position_, gpuptr_cell_weight_,
-                                                            assigning_length, p2m_assigningIndex);
+  p2m_assigning<<<kNumBlock_cellwise,kNumThread_cellwise>>>(base_dim_, assigning_length, p2m_assigningIndex,
+                                                            gpuptr_cell_position_, gpuptr_cell_weight_);
 
   cudaFree(p2m_buffer);
   cudaFree(p2m_assigningIndex);
