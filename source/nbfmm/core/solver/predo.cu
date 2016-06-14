@@ -49,15 +49,24 @@ __global__ void extractHead(
     const int2* index,
     int*        head
 ) {
-  int idx = threadIdx.x + blockIdx.x * blockDim.x;
-  if ( idx>=num_particle ) {
+  const int idx = threadIdx.x + blockIdx.x * blockDim.x;
+  if ( idx > num_particle ) {
     return;
   }
+  const int cell_idx      = index[idx].x   + index[idx].y   * base_dim;
+  const int cell_idx_past = index[idx-1].x + index[idx-1].y * base_dim;
   if ( idx == 0 ) {
-    head[0] = idx;
-    head[base_dim * base_dim] = num_particle;
-  } else if ( index[idx] != index[idx-1] ) {
-    head[index[idx].x + index[idx].y*base_dim] = idx;
+    for ( auto i = 0; i <= cell_idx; ++i ) {
+      head[i] = idx;
+    }
+  } else if ( idx == num_particle ) {
+    for ( auto i = cell_idx_past+1; i <= base_dim * base_dim; ++i ) {
+      head[i] = idx;
+    }
+  } else {
+    for ( auto i = cell_idx_past+1; i <= cell_idx; ++i ) {
+      head[i] = idx;
+    }
   }
 }
 
@@ -102,6 +111,7 @@ void Solver::predo(
                                        (position_limits_.w - position_limits_.y) / base_dim_);
   thrust::device_ptr<int2> thrust_index(gpuptr_index_);
   thrust::device_ptr<int>  thrust_perm(gpuptr_perm_);
+  thrust::device_ptr<int>  thrust_head(gpuptr_head_);
 
   // Compute cell index of each particle
   computeParticleIndex<<<grid_dim, block_dim>>>(num_particle, position_limits_, cell_size,
@@ -115,11 +125,11 @@ void Solver::predo(
   thrust::sort_by_key(thrust_index, thrust_index+num_particle, thrust_perm);
 
   // Extract heads of cell index of each cell
-  extractHead<<<grid_dim, block_dim>>>(num_particle, base_dim_, gpuptr_index_, gpuptr_head_);
+  extractHead<<<(num_particle/block_dim)+1, kMaxBlockDim>>>(num_particle, base_dim_, gpuptr_index_, gpuptr_head_);
 
   // Permute input vectors
-  permuteInputVector<<<grid_dim, block_dim>>>(num_particle, gpuptr_perm_,gpuptr_position_origin,
-                                              gpuptr_weight_origin, gpuptr_position_, gpuptr_weight_);
+  permuteInputVector<<<grid_dim, block_dim>>>(num_particle, gpuptr_perm_,
+                                              gpuptr_position_origin, gpuptr_weight_origin, gpuptr_position_, gpuptr_weight_);
 }
 
 }  // namespace nbfmm

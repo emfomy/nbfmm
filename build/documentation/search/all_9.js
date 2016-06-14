@@ -2,8 +2,8 @@ var searchData=
 [
   ['p2m',['p2m',['../classnbfmm_1_1_solver.html#a639c31f18fd8a99c9e33a586e7f84dbc',1,'nbfmm::Solver']]],
   ['p2m_2ecu',['p2m.cu',['../p2m_8cu.html',1,'']]],
-  ['p2m_5faveraging',['p2m_averaging',['../p2m_8cu.html#ae51ac4151e5110242059ad56fbb0a3fe',1,'p2m.cu']]],
-  ['p2m_5fweighting',['p2m_weighting',['../p2m_8cu.html#a7665c8ea14a0f1839632ebe98a8b2dbe',1,'p2m.cu']]],
+  ['p2m_5fassigning',['p2m_assigning',['../p2m_8cu.html#a461af698fea0529f5c3dc2e3628c1e4f',1,'p2m.cu']]],
+  ['p2m_5fweighting',['p2m_weighting',['../p2m_8cu.html#a74f7923e685e6c7a3593a0db1012d3ab',1,'p2m.cu']]],
   ['p2p',['p2p',['../classnbfmm_1_1_solver.html#a4b62760cb97a798193b5d422d8356513',1,'nbfmm::Solver']]],
   ['p2p_2ecu',['p2p.cu',['../p2p_8cu.html',1,'']]],
   ['permuteinputvector',['permuteInputVector',['../predo_8cu.html#ad2e46e98ddf26ef493044ed2ce93d5e1',1,'predo.cu']]],

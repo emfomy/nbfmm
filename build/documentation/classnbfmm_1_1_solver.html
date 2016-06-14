@@ -30,7 +30,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">NBFMM
-   &#160;<span id="projectnumber">0.1.20</span>
+   &#160;<span id="projectnumber">1.0.0</span>
    </div>
    <div id="projectbrief">N-Body simulation using Fast Multipole Method</div>
   </td>
@@ -156,15 +156,22 @@ const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 <tr class="separator:a8db8cc44fa2a7b7797e72f5e963b02ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a17f7ab427295b3c924c17140df3df4d7"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a17f7ab427295b3c924c17140df3df4d7"></a>
 const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classnbfmm_1_1_solver.html#a17f7ab427295b3c924c17140df3df4d7">base_dim_</a></td></tr>
-<tr class="memdesc:a17f7ab427295b3c924c17140df3df4d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">The number of cells in the base level per side. <br /></td></tr>
+<tr class="memdesc:a17f7ab427295b3c924c17140df3df4d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">The number of cells in the base level per side. <br />
+ = 2^(<a class="el" href="classnbfmm_1_1_solver.html#a8db8cc44fa2a7b7797e72f5e963b02ac" title="The number of cell levels. ">num_level_</a>+1) <br /></td></tr>
 <tr class="separator:a17f7ab427295b3c924c17140df3df4d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad07ef6d891c3142affff85bcc3aa53e4"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad07ef6d891c3142affff85bcc3aa53e4"></a>
+const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classnbfmm_1_1_solver.html#ad07ef6d891c3142affff85bcc3aa53e4">num_cell_p1_</a></td></tr>
+<tr class="memdesc:ad07ef6d891c3142affff85bcc3aa53e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">The number of cells in the base level plus 1. <br />
+ = <a class="el" href="classnbfmm_1_1_solver.html#a17f7ab427295b3c924c17140df3df4d7" title="The number of cells in the base level per side.   = 2^(num_level_+1) ">base_dim_</a>^2+1. <br /></td></tr>
+<tr class="separator:ad07ef6d891c3142affff85bcc3aa53e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aba81afb28c4677afdda23651719d1bcf"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aba81afb28c4677afdda23651719d1bcf"></a>
 const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classnbfmm_1_1_solver.html#aba81afb28c4677afdda23651719d1bcf">max_num_particle_</a></td></tr>
 <tr class="memdesc:aba81afb28c4677afdda23651719d1bcf"><td class="mdescLeft">&#160;</td><td class="mdescRight">The maximum number of particles. <br /></td></tr>
 <tr class="separator:aba81afb28c4677afdda23651719d1bcf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae6b25556004ec3d5f53937ab323607c5"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae6b25556004ec3d5f53937ab323607c5"></a>
 const float4&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classnbfmm_1_1_solver.html#ae6b25556004ec3d5f53937ab323607c5">position_limits_</a></td></tr>
-<tr class="memdesc:ae6b25556004ec3d5f53937ab323607c5"><td class="mdescLeft">&#160;</td><td class="mdescRight">The limits of positions. [x_min, y_min, x_max, y_max]. <br /></td></tr>
+<tr class="memdesc:ae6b25556004ec3d5f53937ab323607c5"><td class="mdescLeft">&#160;</td><td class="mdescRight">The limits of positions. <br />
+ [x_min, y_min, x_max, y_max]. <br /></td></tr>
 <tr class="separator:ae6b25556004ec3d5f53937ab323607c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a79c87bf6a9b23cbe3b1710b6e007ba75"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a79c87bf6a9b23cbe3b1710b6e007ba75"></a>
 float2 *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classnbfmm_1_1_solver.html#a79c87bf6a9b23cbe3b1710b6e007ba75">gpuptr_position_</a></td></tr>
@@ -194,23 +201,31 @@ int *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 <tr class="memitem:ad0ffdde53c6396a150be28c7aaa48423"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad0ffdde53c6396a150be28c7aaa48423"></a>
 int *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classnbfmm_1_1_solver.html#ad0ffdde53c6396a150be28c7aaa48423">gpuptr_head_</a></td></tr>
 <tr class="memdesc:ad0ffdde53c6396a150be28c7aaa48423"><td class="mdescLeft">&#160;</td><td class="mdescRight">The device pointer of starting permutation indices of each cell. <br />
- Vector, 1 by (<a class="el" href="classnbfmm_1_1_solver.html#a17f7ab427295b3c924c17140df3df4d7" title="The number of cells in the base level per side. ">base_dim_</a>^2+1). <br /></td></tr>
+ Vector, 1 by <a class="el" href="classnbfmm_1_1_solver.html#ad07ef6d891c3142affff85bcc3aa53e4" title="The number of cells in the base level plus 1.   = base_dim_^2+1. ">num_cell_p1_</a>. <br /></td></tr>
 <tr class="separator:ad0ffdde53c6396a150be28c7aaa48423"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af2e0e03af419e3e6d4c285ab9832bd5d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af2e0e03af419e3e6d4c285ab9832bd5d"></a>
 float2 *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classnbfmm_1_1_solver.html#af2e0e03af419e3e6d4c285ab9832bd5d">gpuptr_cell_position_</a></td></tr>
 <tr class="memdesc:af2e0e03af419e3e6d4c285ab9832bd5d"><td class="mdescLeft">&#160;</td><td class="mdescRight">The device pointer of cell positions. <br />
- Cube, <a class="el" href="classnbfmm_1_1_solver.html#a17f7ab427295b3c924c17140df3df4d7" title="The number of cells in the base level per side. ">base_dim_</a> by <a class="el" href="classnbfmm_1_1_solver.html#a17f7ab427295b3c924c17140df3df4d7" title="The number of cells in the base level per side. ">base_dim_</a> by <a class="el" href="classnbfmm_1_1_solver.html#a8db8cc44fa2a7b7797e72f5e963b02ac" title="The number of cell levels. ">num_level_</a>. <br /></td></tr>
+ Cube, <a class="el" href="classnbfmm_1_1_solver.html#a17f7ab427295b3c924c17140df3df4d7" title="The number of cells in the base level per side.   = 2^(num_level_+1) ">base_dim_</a> by <a class="el" href="classnbfmm_1_1_solver.html#a17f7ab427295b3c924c17140df3df4d7" title="The number of cells in the base level per side.   = 2^(num_level_+1) ">base_dim_</a> by <a class="el" href="classnbfmm_1_1_solver.html#a8db8cc44fa2a7b7797e72f5e963b02ac" title="The number of cell levels. ">num_level_</a>. <br /></td></tr>
 <tr class="separator:af2e0e03af419e3e6d4c285ab9832bd5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a26f2fb01381f4330f1adf855492872be"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a26f2fb01381f4330f1adf855492872be"></a>
 float2 *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classnbfmm_1_1_solver.html#a26f2fb01381f4330f1adf855492872be">gpuptr_cell_effect_</a></td></tr>
 <tr class="memdesc:a26f2fb01381f4330f1adf855492872be"><td class="mdescLeft">&#160;</td><td class="mdescRight">The device pointer of cell effects. <br />
- Cube, <a class="el" href="classnbfmm_1_1_solver.html#a17f7ab427295b3c924c17140df3df4d7" title="The number of cells in the base level per side. ">base_dim_</a> by <a class="el" href="classnbfmm_1_1_solver.html#a17f7ab427295b3c924c17140df3df4d7" title="The number of cells in the base level per side. ">base_dim_</a> by <a class="el" href="classnbfmm_1_1_solver.html#a8db8cc44fa2a7b7797e72f5e963b02ac" title="The number of cell levels. ">num_level_</a>. <br /></td></tr>
+ Cube, <a class="el" href="classnbfmm_1_1_solver.html#a17f7ab427295b3c924c17140df3df4d7" title="The number of cells in the base level per side.   = 2^(num_level_+1) ">base_dim_</a> by <a class="el" href="classnbfmm_1_1_solver.html#a17f7ab427295b3c924c17140df3df4d7" title="The number of cells in the base level per side.   = 2^(num_level_+1) ">base_dim_</a> by <a class="el" href="classnbfmm_1_1_solver.html#a8db8cc44fa2a7b7797e72f5e963b02ac" title="The number of cell levels. ">num_level_</a>. <br /></td></tr>
 <tr class="separator:a26f2fb01381f4330f1adf855492872be"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad5168756cd4781ef4f0a349e5e11acf9"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad5168756cd4781ef4f0a349e5e11acf9"></a>
 float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classnbfmm_1_1_solver.html#ad5168756cd4781ef4f0a349e5e11acf9">gpuptr_cell_weight_</a></td></tr>
 <tr class="memdesc:ad5168756cd4781ef4f0a349e5e11acf9"><td class="mdescLeft">&#160;</td><td class="mdescRight">The device pointer of cell weights. <br />
- Cube, <a class="el" href="classnbfmm_1_1_solver.html#a17f7ab427295b3c924c17140df3df4d7" title="The number of cells in the base level per side. ">base_dim_</a> by <a class="el" href="classnbfmm_1_1_solver.html#a17f7ab427295b3c924c17140df3df4d7" title="The number of cells in the base level per side. ">base_dim_</a> by <a class="el" href="classnbfmm_1_1_solver.html#a8db8cc44fa2a7b7797e72f5e963b02ac" title="The number of cell levels. ">num_level_</a>. <br /></td></tr>
+ Cube, <a class="el" href="classnbfmm_1_1_solver.html#a17f7ab427295b3c924c17140df3df4d7" title="The number of cells in the base level per side.   = 2^(num_level_+1) ">base_dim_</a> by <a class="el" href="classnbfmm_1_1_solver.html#a17f7ab427295b3c924c17140df3df4d7" title="The number of cells in the base level per side.   = 2^(num_level_+1) ">base_dim_</a> by <a class="el" href="classnbfmm_1_1_solver.html#a8db8cc44fa2a7b7797e72f5e963b02ac" title="The number of cell levels. ">num_level_</a>. <br /></td></tr>
 <tr class="separator:ad5168756cd4781ef4f0a349e5e11acf9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac180fc62fb5287129a64457949132195"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac180fc62fb5287129a64457949132195"></a>
+float2 *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classnbfmm_1_1_solver.html#ac180fc62fb5287129a64457949132195">gpuptr_buffer_float2_</a></td></tr>
+<tr class="memdesc:ac180fc62fb5287129a64457949132195"><td class="mdescLeft">&#160;</td><td class="mdescRight">The workspace used in P2M. <br /></td></tr>
+<tr class="separator:ac180fc62fb5287129a64457949132195"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afef36566090d43193f139cbbcfd63ba7"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="afef36566090d43193f139cbbcfd63ba7"></a>
+int2 *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classnbfmm_1_1_solver.html#afef36566090d43193f139cbbcfd63ba7">gpuptr_buffer_int2_</a></td></tr>
+<tr class="memdesc:afef36566090d43193f139cbbcfd63ba7"><td class="mdescLeft">&#160;</td><td class="mdescRight">The workspace used in P2M. <br /></td></tr>
+<tr class="separator:afef36566090d43193f139cbbcfd63ba7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The NBFMM solver class. </p>
@@ -418,7 +433,7 @@ float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 <dd>
 <a class="el" href="classnbfmm_1_1_solver.html#a89ae2aead9c280b48b6b4c5848766ae7" title="The device pointer of particle cell indices.   Vector, 1 by max_num_particle_. ">gpuptr_index_</a> (sorted) </dd>
 <dd>
-<a class="el" href="classnbfmm_1_1_solver.html#ad0ffdde53c6396a150be28c7aaa48423" title="The device pointer of starting permutation indices of each cell.   Vector, 1 by (base_dim_^2+1). ">gpuptr_head_</a></dd></dl>
+<a class="el" href="classnbfmm_1_1_solver.html#ad0ffdde53c6396a150be28c7aaa48423" title="The device pointer of starting permutation indices of each cell.   Vector, 1 by num_cell_p1_. ">gpuptr_head_</a></dd></dl>
 <dl class="section post"><dt>Postcondition</dt><dd><a class="el" href="classnbfmm_1_1_solver.html#af2e0e03af419e3e6d4c285ab9832bd5d" title="The device pointer of cell positions.   Cube, base_dim_ by base_dim_ by num_level_. ">gpuptr_cell_position_</a> (base level only) </dd>
 <dd>
 <a class="el" href="classnbfmm_1_1_solver.html#ad5168756cd4781ef4f0a349e5e11acf9" title="The device pointer of cell weights.   Cube, base_dim_ by base_dim_ by num_level_. ...">gpuptr_cell_weight_</a> (base level only) </dd></dl>
@@ -460,7 +475,7 @@ float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 <dd>
 <a class="el" href="classnbfmm_1_1_solver.html#a89ae2aead9c280b48b6b4c5848766ae7" title="The device pointer of particle cell indices.   Vector, 1 by max_num_particle_. ">gpuptr_index_</a> (sorted) </dd>
 <dd>
-<a class="el" href="classnbfmm_1_1_solver.html#ad0ffdde53c6396a150be28c7aaa48423" title="The device pointer of starting permutation indices of each cell.   Vector, 1 by (base_dim_^2+1). ">gpuptr_head_</a></dd></dl>
+<a class="el" href="classnbfmm_1_1_solver.html#ad0ffdde53c6396a150be28c7aaa48423" title="The device pointer of starting permutation indices of each cell.   Vector, 1 by num_cell_p1_. ">gpuptr_head_</a></dd></dl>
 <dl class="section post"><dt>Postcondition</dt><dd><a class="el" href="classnbfmm_1_1_solver.html#af0cc8ff6a6ed2e933f21cf5ba331ec86" title="The device pointer of particle effects.   Vector, 1 by max_num_particle_. ">gpuptr_effect_</a> (sorted, P2P effects only) </dd></dl>
 
 </div>
@@ -564,7 +579,7 @@ float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 <dd>
 <a class="el" href="classnbfmm_1_1_solver.html#a89ae2aead9c280b48b6b4c5848766ae7" title="The device pointer of particle cell indices.   Vector, 1 by max_num_particle_. ">gpuptr_index_</a> (sorted) </dd>
 <dd>
-<a class="el" href="classnbfmm_1_1_solver.html#ad0ffdde53c6396a150be28c7aaa48423" title="The device pointer of starting permutation indices of each cell.   Vector, 1 by (base_dim_^2+1). ">gpuptr_head_</a> </dd>
+<a class="el" href="classnbfmm_1_1_solver.html#ad0ffdde53c6396a150be28c7aaa48423" title="The device pointer of starting permutation indices of each cell.   Vector, 1 by num_cell_p1_. ">gpuptr_head_</a> </dd>
 <dd>
 <a class="el" href="classnbfmm_1_1_solver.html#ae0c1ac718bcc02524e06effcc776ee59" title="The device pointer of particle permutation indices.   Vector, 1 by max_num_particle_. ">gpuptr_perm_</a> </dd></dl>
 
@@ -635,7 +650,7 @@ float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Jun 12 2016 05:21:32 for NBFMM by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Jun 14 2016 16:52:06 for NBFMM by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.11
 </small></address>

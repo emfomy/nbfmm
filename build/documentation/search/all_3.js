@@ -1,5 +1,7 @@
 var searchData=
 [
+  ['gpuptr_5fbuffer_5ffloat2_5f',['gpuptr_buffer_float2_',['../classnbfmm_1_1_solver.html#ac180fc62fb5287129a64457949132195',1,'nbfmm::Solver']]],
+  ['gpuptr_5fbuffer_5fint2_5f',['gpuptr_buffer_int2_',['../classnbfmm_1_1_solver.html#afef36566090d43193f139cbbcfd63ba7',1,'nbfmm::Solver']]],
   ['gpuptr_5fcell_5feffect_5f',['gpuptr_cell_effect_',['../classnbfmm_1_1_solver.html#a26f2fb01381f4330f1adf855492872be',1,'nbfmm::Solver']]],
   ['gpuptr_5fcell_5fposition_5f',['gpuptr_cell_position_',['../classnbfmm_1_1_solver.html#af2e0e03af419e3e6d4c285ab9832bd5d',1,'nbfmm::Solver']]],
   ['gpuptr_5fcell_5fweight_5f',['gpuptr_cell_weight_',['../classnbfmm_1_1_solver.html#ad5168756cd4781ef4f0a349e5e11acf9',1,'nbfmm::Solver']]],
