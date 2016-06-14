@@ -40,6 +40,7 @@ void Solver::l2l() {
   if ( num_level_ <= 1 ) {
     return;
   }
+
   for ( auto level = num_level_-2; level >= 0; --level ) {
     const int cell_size = 1 << level;
     const int level_dim = base_dim_ / cell_size;
