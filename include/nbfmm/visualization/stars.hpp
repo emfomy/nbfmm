@@ -1,12 +1,22 @@
-#ifndef DEMO_STARS_HPP
-#define DEMO_STARS_HPP
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// @file    include/nbfmm/visualization/stars.hpp
+/// @brief   The definition of stars class
+///
+/// @author  Mu Yang <emfomy@gmail.com>
+/// @author  Yung-Kang Lee <blasteg@gmail.com>
+///
+
+/// @cond
+
+#ifndef DEMO_STARS_VISUALIZATION_HPP_
+#define DEMO_STARS_VISUALIZATION_HPP_
 #include <nbfmm/config.hpp>
 #include <stdlib.h>
 #include <cstdint>
-class Stars 
-{
-public:
-    //number of stars
+
+class Stars {
+ public:
+  //number of stars
 	const int n_star;
 	//position of stars
 	float2* gpu_star_position;
@@ -31,4 +41,6 @@ public:
 	void deletion_check(float4 position_limits);
 };
 
-#endif
+#endif  // DEMO_STARS_VISUALIZATION_HPP_
+
+/// @endcond

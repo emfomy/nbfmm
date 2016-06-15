@@ -39,6 +39,7 @@ void Solver::l2p( const int num_particle ) {
   if ( num_level_ <= 0 ) {
     return;
   }
+
   const int block_dim = kMaxBlockDim;
   const int grid_dim  = ((num_particle-1)/block_dim)+1;
   l2pDevice<<<block_dim, grid_dim>>>(num_particle, base_dim_, gpuptr_index_, gpuptr_cell_effect_, gpuptr_effect_);
