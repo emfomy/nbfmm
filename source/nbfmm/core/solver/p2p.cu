@@ -9,6 +9,9 @@
 #include <nbfmm/core.hpp>
 #include <nbfmm/utility.hpp>
 
+/// The block dimension used in P2P
+static const int block_dim_p2p = 64;
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Compute particle to particle
 ///
@@ -72,7 +75,6 @@ void NaiveP2P(
 /// @param[in]   head          the starting permutation indices of each cell.
 /// @param[out]  effect        the particle effects.
 ///
-static const int block_dim_p2p = 64;
 __global__
 void BlockP2P(
   const int     num_particle,
