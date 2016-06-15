@@ -18,7 +18,7 @@ int main( int argc, char const *argv[] ) {
   cout << "NBFMM "
        << NBFMM_VERSION_MAJOR << "."
        << NBFMM_VERSION_MINOR << "."
-       << NBFMM_VERSION_PATCH << endl;
+       << NBFMM_VERSION_PATCH << endl << endl;
 
   return 0;
 }
