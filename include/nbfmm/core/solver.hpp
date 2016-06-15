@@ -69,6 +69,12 @@ class Solver {
   /// The device pointer of cell weights. @n Cube, #base_dim_ by #base_dim_ by #num_level_.
   float*  gpuptr_cell_weight_;
 
+  /// The workspace used in P2M
+  float2* gpuptr_buffer_float2_;
+
+  /// The workspace used in P2M
+  int2*   gpuptr_buffer_int2_;
+
  public:
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

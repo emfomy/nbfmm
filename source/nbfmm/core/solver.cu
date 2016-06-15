@@ -21,9 +21,9 @@ Solver::Solver(
     max_num_particle_(max_num_particle),
     position_limits_(position_limits) {
   assert(num_level > 0);
-  assert(max_num_particle > 0);
-  assert(position_limits.x < position_limits.z);
-  assert(position_limits.y < position_limits.w);
+  assert(base_dim_ < kMaxBlockDim);
+  assert(max_num_particle > 0 && max_num_particle < kMaxGridDim);
+  assert(position_limits.x < position_limits.z && position_limits.y < position_limits.w);
 
   cudaMalloc(&gpuptr_position_,      max_num_particle_ * sizeof(float2));
   cudaMalloc(&gpuptr_effect_,        max_num_particle_ * sizeof(float2));
@@ -34,6 +34,8 @@ Solver::Solver(
   cudaMalloc(&gpuptr_cell_position_, base_dim_ * base_dim_ * num_level_ * sizeof(float2));
   cudaMalloc(&gpuptr_cell_effect_,   base_dim_ * base_dim_ * num_level_ * sizeof(float2));
   cudaMalloc(&gpuptr_cell_weight_,   base_dim_ * base_dim_ * num_level_ * sizeof(float));
+  cudaMalloc(&gpuptr_buffer_float2_, max_num_particle_     * sizeof(float2));
+  cudaMalloc(&gpuptr_buffer_int2_,   base_dim_ * base_dim_ * sizeof(int2));
 }
 
 // Default destructor
@@ -47,6 +49,8 @@ Solver::~Solver() {
   cudaFree(gpuptr_cell_position_);
   cudaFree(gpuptr_cell_effect_);
   cudaFree(gpuptr_cell_weight_);
+  cudaFree(gpuptr_buffer_float2_);
+  cudaFree(gpuptr_buffer_int2_);
 }
 
 }  // namespace nbfmm
