@@ -72,7 +72,7 @@ void NaiveP2P(
 /// @param[in]   head          the starting permutation indices of each cell.
 /// @param[out]  effect        the particle effects.
 ///
-static const int num_block_p2p = 64;
+static const int block_dim_p2p = 64;
 __global__
 void BlockP2P(
   const int     num_particle,
@@ -92,7 +92,7 @@ void BlockP2P(
   int   start_idx, end_idx, cur_idx;
   
   __shared__ int    work_list[3][2];
-  __shared__ float2 temp_effect[num_block_p2p];
+  __shared__ float2 temp_effect[block_dim_p2p];
   
   // Set working list
   if ( rank == 0 ) {
@@ -121,7 +121,7 @@ void BlockP2P(
     end_idx   = work_list[work][1];
     cur_idx   = start_idx + rank;
 
-    const int loop_times = (end_idx - start_idx) / num_block_p2p + 1;
+    const int loop_times = (end_idx - start_idx) / block_dim_p2p + 1;
     
     // Go through all particles on work list
     for( int i = 0; i < loop_times; ++i ) {
@@ -133,7 +133,7 @@ void BlockP2P(
       __syncthreads();
 
       // Reduction
-      for( int end = num_block_p2p/2; end >= 1; end /= 2 ) {
+      for( int end = block_dim_p2p/2; end >= 1; end /= 2 ) {
         if( rank < end ) {
           temp_effect[rank] += temp_effect[rank + end];
         }
@@ -163,7 +163,7 @@ void Solver::p2p( const int num_particle ) {
     NaiveP2P<<<grid_dim, block_dim>>>(num_particle, base_dim_, gpuptr_position_,
                                       gpuptr_weight_, gpuptr_index_, gpuptr_head_, gpuptr_effect_);
   } else {
-    BlockP2P<<<num_particle, num_block_p2p>>>(num_particle, base_dim_, gpuptr_position_,
+    BlockP2P<<<num_particle, block_dim_p2p>>>(num_particle, base_dim_, gpuptr_position_,
                                               gpuptr_weight_, gpuptr_index_, gpuptr_head_, gpuptr_effect_);
   }
   
