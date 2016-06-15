@@ -61,6 +61,10 @@ namespace nbfmm {
 
 // M2L
 void Solver::m2l() {
+  if ( num_level_ <= 0 ) {
+    return;
+  }
+
   int level_dim = base_dim_;
   int cell_size = 1;
   for ( auto level = 0; level < num_level_; ++level, level_dim /= 2, cell_size *= 2 ) {

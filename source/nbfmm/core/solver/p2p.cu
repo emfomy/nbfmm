@@ -68,7 +68,6 @@ namespace nbfmm {
 void Solver::p2p( const int num_particle ) {
   const int block_dim = kMaxBlockDim;
   const int grid_dim  = ((num_particle-1)/block_dim)+1;
-
   NaiveP2P<<<grid_dim, block_dim>>>(num_particle, base_dim_,
                                     gpuptr_position_, gpuptr_weight_, gpuptr_index_, gpuptr_head_, gpuptr_effect_);
 }
