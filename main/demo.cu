@@ -24,7 +24,7 @@ int main() {
   cout << "NBFMM "
        << NBFMM_VERSION_MAJOR << "."
        << NBFMM_VERSION_MINOR << "."
-       << NBFMM_VERSION_PATCH << " demo" << endl;
+       << NBFMM_VERSION_PATCH << " demo" << endl << endl;
 
   const int    num_level        = 4;
   const int    max_num_particle = 256;
