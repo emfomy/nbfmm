@@ -122,13 +122,10 @@
   		}
   		if (gpu_star_position[idx].x<position_limits.x || gpu_star_position[idx].y<position_limits.y ||gpu_star_position[idx].x>position_limits.z ||gpu_star_position[idx].y>position_limits.w)
   		{
-  			gpu_star_position[idx].x=position_limits.x+curand_uniform(&localState)*(position_limits.z-position_limits.x);
-  			gpu_star_position[idx].y=position_limits.y+curand_uniform(&localState)*(position_limits.w-position_limits.y);
-  			gpu_star_velocity[idx].x=0;
-  			gpu_star_velocity[idx].y=0;
-  			gpu_star_acceleration[idx].x=0;
-  			gpu_star_acceleration[idx].y=0;
-  			gpu_star_weight[idx]=0;
+  			float tmpx=gpu_star_position[idx].x/(position_limits.z-position_limits.x);
+        gpu_star_position[idx].x=(tmpx-floor(tmpx))*(position_limits.z-position_limits.x);
+  			float tmpy=gpu_star_position[idx].y/(position_limits.w-position_limits.y);
+        gpu_star_position[idx].y=(tmpy-floor(tmpy))*(position_limits.w-position_limits.y);
   		}
 	}
 	__global__ void initialization_kernel(int n_star,float2* gpu_star_position,float2* gpu_star_velocity,float2* gpu_star_acceleration,float* gpu_star_weight,float4 position_limits,curandState* d_state)
@@ -139,16 +136,15 @@
   		{
   		 return;
   		}
-  		if (gpu_star_position[idx].x<position_limits.x || gpu_star_position[idx].y<position_limits.y ||gpu_star_position[idx].x>position_limits.z ||gpu_star_position[idx].y>position_limits.w)
-  		{
-  			gpu_star_position[idx].x=position_limits.x+curand_normal(&localState)*(position_limits.z-position_limits.x);
-  			gpu_star_position[idx].y=position_limits.y+curand_normal(&localState)*(position_limits.w-position_limits.y);
+  		
+  			gpu_star_position[idx].x=position_limits.x+curand_uniform(&localState)*(position_limits.z-position_limits.x);
+  			gpu_star_position[idx].y=position_limits.y+curand_uniform(&localState)*(position_limits.w-position_limits.y);
   			gpu_star_velocity[idx].x=curand_normal(&localState);
   			gpu_star_velocity[idx].y=curand_normal(&localState);
   			gpu_star_acceleration[idx].x=0;
   			gpu_star_acceleration[idx].y=0;
   			gpu_star_weight[idx]=curand_uniform(&localState)*5;
-  		}
+  		
 	}
 	//Constructor
 	Stars::Stars(int nStar)
