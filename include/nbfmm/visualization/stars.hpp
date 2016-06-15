@@ -1,6 +1,7 @@
 #ifndef DEMO_STARS_HPP
 #define DEMO_STARS_HPP
 #include <nbfmm/config.hpp>
+#include <stdlib.h>
 class Stars 
 {
 public:
@@ -27,6 +28,6 @@ public:
 	void visualize(int width, int height, uint8_t *board,float size_th,float4 visualization_limits);
 
 	void deletion_check(float4 position_limits);
-}
+};
 
 #endif

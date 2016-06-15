@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include <nbfmm/core.hpp>
+#include <nbfmm/visualization/stars.hpp>
 
 using namespace std;
 using namespace nbfmm;
