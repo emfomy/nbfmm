@@ -75,6 +75,10 @@ namespace nbfmm {
 
 // P2M
 void Solver::p2m( const int num_particle ) {
+  if ( num_level_ <= 0 ) {
+    return;
+  }
+
   const dim3 kNumThread_cellwise(32, 32, 1);
   const dim3 kNumBlock_cellwise(((base_dim_-1)/kNumThread_cellwise.x)+1, ((base_dim_-1)/kNumThread_cellwise.y)+1,1);
   const int kNumThread_pointwise = 1024;
@@ -99,7 +103,6 @@ void Solver::p2m( const int num_particle ) {
   const int buffer_int2_length = p2m_dummy.second - (thrust_cellWei + base_dim_ * base_dim_);
   p2m_assigning<<<kNumBlock_cellwise, kNumThread_cellwise>>>(base_dim_, buffer_int2_length, gpuptr_buffer_int2_,
                                                              gpuptr_cell_position_, gpuptr_cell_weight_);
-
 }
 
 }  // namespace nbfmm
