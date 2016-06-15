@@ -5,6 +5,7 @@
 #include <curand.h>
 #include <curand_kernel.h>
 #include <nbfmm/utility.hpp>
+#include <cstdint>
 #include <stdlib.h>
 
 	__global__ void update_kernel(int n_star,float2* gpu_star_position,float2* gpu_star_velocity,float2* gpu_star_acceleration, float FPS)
@@ -25,10 +26,10 @@
   		{
   		 return;
   		}
-  		float widthUnit=(position_limits.z - position_limits.x) /width;
-  		float heightUnit=(position_limits.w - position_limits.y) /height;
-  		int pixx=floor((gpu_star_position[idx].x-position_limits.x)/widthUnit);
-  		int pixy=height-1-floor((gpu_star_position[idx].y-position_limits.y)/heightUnit);
+  		float widthUnit=(visualization_limits.z - visualization_limits.x) /width;
+  		float heightUnit=(visualization_limits.w - visualization_limits.y) /height;
+  		int pixx=floor((gpu_star_position[idx].x-visualization_limits.x)/widthUnit);
+  		int pixy=height-1-floor((gpu_star_position[idx].y-visualization_limits.y)/heightUnit);
   		int size =floor(gpu_star_weight[idx]/size_th)+1;
   		if (size>=1)
   		{
@@ -111,17 +112,18 @@
   curand_init(1234, idx, 0, &state[idx]);
 	}
 
-	__global__ void deletion_check_kernel(int n_star,float2* gpu_star_position,float2* gpu_star_velocity,float2* gpu_star_acceleration,float* gpu_star_weight,float4 position_limits,curandState d_state)
+	__global__ void deletion_check_kernel(int n_star,float2* gpu_star_position,float2* gpu_star_velocity,float2* gpu_star_acceleration,float* gpu_star_weight,float4 position_limits,curandState* d_state)
 	{
 		int idx = blockIdx.x * blockDim.x + threadIdx.x;
+    curandState localState = d_state[idx];
   		if ( idx>=n_star )
   		{
   		 return;
   		}
   		if (gpu_star_position[idx].x<position_limits.x || gpu_star_position[idx].y<position_limits.y ||gpu_star_position[idx].x>position_limits.z ||gpu_star_position[idx].y>position_limits.w)
   		{
-  			gpu_star_position[idx].x=position_limits.x+curand_uniform(d_state[idx])*(position_limits.z-position_limits.x);
-  			gpu_star_position[idx].y=position_limits.y+curand_uniform(d_state[idx])*(position_limits.w-position_limits.y);
+  			gpu_star_position[idx].x=position_limits.x+curand_uniform(&localState)*(position_limits.z-position_limits.x);
+  			gpu_star_position[idx].y=position_limits.y+curand_uniform(&localState)*(position_limits.w-position_limits.y);
   			gpu_star_velocity[idx].x=0;
   			gpu_star_velocity[idx].y=0;
   			gpu_star_acceleration[idx].x=0;
@@ -129,22 +131,23 @@
   			gpu_star_weight[idx]=0;
   		}
 	}
-	__global__ void initialization_kernel(int n_star,float2* gpu_star_position,float2* gpu_star_velocity,float2* gpu_star_acceleration,float* gpu_star_weight,float4 position_limits,curandState d_state)
+	__global__ void initialization_kernel(int n_star,float2* gpu_star_position,float2* gpu_star_velocity,float2* gpu_star_acceleration,float* gpu_star_weight,float4 position_limits,curandState* d_state)
 	{
 		int idx = blockIdx.x * blockDim.x + threadIdx.x;
+    curandState localState = d_state[idx];
   		if ( idx>=n_star )
   		{
   		 return;
   		}
   		if (gpu_star_position[idx].x<position_limits.x || gpu_star_position[idx].y<position_limits.y ||gpu_star_position[idx].x>position_limits.z ||gpu_star_position[idx].y>position_limits.w)
   		{
-  			gpu_star_position[idx].x=position_limits.x+curand_normal(d_state[idx])*(position_limits.z-position_limits.x);
-  			gpu_star_position[idx].y=position_limits.y+curand_normal(d_state[idx])*(position_limits.w-position_limits.y);
-  			gpu_star_velocity[idx].x=curand_normal(d_state[idx]);
-  			gpu_star_velocity[idx].y=curand_normal(d_state[idx]);
+  			gpu_star_position[idx].x=position_limits.x+curand_normal(&localState)*(position_limits.z-position_limits.x);
+  			gpu_star_position[idx].y=position_limits.y+curand_normal(&localState)*(position_limits.w-position_limits.y);
+  			gpu_star_velocity[idx].x=curand_normal(&localState);
+  			gpu_star_velocity[idx].y=curand_normal(&localState);
   			gpu_star_acceleration[idx].x=0;
   			gpu_star_acceleration[idx].y=0;
-  			gpu_star_weight[idx]=curand_uniform(d_state[idx])*5;
+  			gpu_star_weight[idx]=curand_uniform(&localState)*5;
   		}
 	}
 	//Constructor
@@ -173,8 +176,8 @@
   		
   		const int kNumThread_pointwise = 1024;
   		const int kNumBlock_pointwise  = ((n_star-1)/kNumThread_pointwise)+1;
-      setup_kernell<<<kNumBlock_pointwise,kNumThread_pointwise>>>(d_state,n_star);
-  		initialize_kernel<<<kNumBlock_pointwise,kNumThread_pointwise>>>(n_star,gpu_star_position,gpu_star_velocity,gpu_star_acceleration,gpu_star_weight,position_limits,d_state);
+      setup_kernel<<<kNumBlock_pointwise,kNumThread_pointwise>>>(d_state,n_star);
+  		initialization_kernel<<<kNumBlock_pointwise,kNumThread_pointwise>>>(n_star,gpu_star_position,gpu_star_velocity,gpu_star_acceleration,gpu_star_weight,position_limit,d_state);
       cudaFree(d_state);
 	}
 	//update
@@ -200,7 +203,7 @@
   		cudaMalloc(&d_state, sizeof(curandState));
   		const int kNumThread_pointwise = 1024;
   		const int kNumBlock_pointwise  = ((n_star-1)/kNumThread_pointwise)+1;
-      setup_kernell<<<kNumBlock_pointwise,kNumThread_pointwise>>>(d_state,n_star);
+      setup_kernel<<<kNumBlock_pointwise,kNumThread_pointwise>>>(d_state,n_star);
   		deletion_check_kernel<<<kNumBlock_pointwise,kNumThread_pointwise>>>(n_star,gpu_star_position,gpu_star_velocity,gpu_star_acceleration,gpu_star_weight,position_limits,d_state);
       cudaFree(d_state);
 	}

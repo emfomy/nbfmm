@@ -2,6 +2,7 @@
 #define DEMO_STARS_HPP
 #include <nbfmm/config.hpp>
 #include <stdlib.h>
+#include <cstdint>
 class Stars 
 {
 public:
