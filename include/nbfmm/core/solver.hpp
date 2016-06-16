@@ -111,15 +111,15 @@ class Solver {
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   /// Do preliminary works
   ///
-  /// @param[in] num_particle            the number of particles.
-  /// @param[in] gpuptr_position_origin  the device pointer of original particle positions.
-  /// @param[in] gpuptr_weight_origin    the device pointer of original particle weights.
+  /// @param[in]  num_particle            the number of particles.
+  /// @param[in]  gpuptr_position_origin  the device pointer of original particle positions.
+  /// @param[in]  gpuptr_weight_origin    the device pointer of original particle weights.
   ///
-  /// @post #gpuptr_position_ (sorted)
-  /// @post #gpuptr_weight_ (sorted)
-  /// @post #gpuptr_index_ (sorted)
-  /// @post #gpuptr_head_
-  /// @post #gpuptr_perm_
+  /// @post  #gpuptr_position_ (sorted)
+  /// @post  #gpuptr_weight_ (sorted)
+  /// @post  #gpuptr_index_ (sorted)
+  /// @post  #gpuptr_head_
+  /// @post  #gpuptr_perm_
   ///
   void predo( const int num_particle, const float2* gpuptr_position_origin, const float* gpuptr_weight_origin );
 
@@ -129,8 +129,8 @@ class Solver {
   /// @param[in]   num_particle          the number of particles.
   /// @param[out]  gpuptr_effect_origin  the device pointer of original particle effects.
   ///
-  /// @pre #gpuptr_effect_ (sorted, all effects)
-  /// @pre #gpuptr_perm_
+  /// @pre  #gpuptr_effect_ (sorted, all effects)
+  /// @pre  #gpuptr_perm_
   ///
   void postdo( const int num_particle, float2* gpuptr_effect_origin );
 
@@ -139,12 +139,12 @@ class Solver {
   ///
   /// @param  num_particle  the number of particles.
   ///
-  /// @pre #gpuptr_position_ (sorted)
-  /// @pre #gpuptr_weight_ (sorted)
-  /// @pre #gpuptr_index_ (sorted)
-  /// @pre #gpuptr_head_
+  /// @pre   #gpuptr_position_ (sorted)
+  /// @pre   #gpuptr_weight_ (sorted)
+  /// @pre   #gpuptr_index_ (sorted)
+  /// @pre   #gpuptr_head_
   ///
-  /// @post #gpuptr_effect_ (sorted, P2P effects only)
+  /// @post  #gpuptr_effect_ (sorted, P2P effects only)
   ///
   void p2p( const int num_particle );
 
@@ -153,43 +153,43 @@ class Solver {
   ///
   /// @param  num_particle  the number of particles.
   ///
-  /// @pre #gpuptr_position_ (sorted)
-  /// @pre #gpuptr_weight_ (sorted)
-  /// @pre #gpuptr_index_ (sorted)
-  /// @pre #gpuptr_head_
+  /// @pre   #gpuptr_position_ (sorted)
+  /// @pre   #gpuptr_weight_ (sorted)
+  /// @pre   #gpuptr_index_ (sorted)
+  /// @pre   #gpuptr_head_
   ///
-  /// @post #gpuptr_cell_position_ (base level only)
-  /// @post #gpuptr_cell_weight_ (base level only)
+  /// @post  #gpuptr_cell_position_ (base level only)
+  /// @post  #gpuptr_cell_weight_ (base level only)
   ///
   void p2m( const int num_particle );
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   /// Compute multipole to multipole
   ///
-  /// @pre #gpuptr_cell_position_ (base level only)
-  /// @pre #gpuptr_cell_weight_ (base level only)
+  /// @pre   #gpuptr_cell_position_ (base level only)
+  /// @pre   #gpuptr_cell_weight_ (base level only)
   ///
-  /// @post #gpuptr_cell_position_ (all level)
-  /// @post #gpuptr_cell_weight_ (all level)
+  /// @post  #gpuptr_cell_position_ (all level)
+  /// @post  #gpuptr_cell_weight_ (all level)
   ///
   void m2m();
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   /// Compute multipole to local
   ///
-  /// @pre #gpuptr_cell_position_ (all level)
-  /// @pre #gpuptr_cell_weight_ (all level)
+  /// @pre   #gpuptr_cell_position_ (all level)
+  /// @pre   #gpuptr_cell_weight_ (all level)
   ///
-  /// @post #gpuptr_cell_effect_ (all level)
+  /// @post  #gpuptr_cell_effect_ (all level)
   ///
   void m2l();
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   /// Compute local to particle
   ///
-  /// @pre #gpuptr_cell_effect_ (all level)
+  /// @pre   #gpuptr_cell_effect_ (all level)
   ///
-  /// @post #gpuptr_cell_effect_ (summed to base level)
+  /// @post  #gpuptr_cell_effect_ (summed to base level)
   ///
   void l2l();
 
@@ -198,11 +198,11 @@ class Solver {
   ///
   /// @param  num_particle  the number of particles.
   ///
-  /// @pre #gpuptr_effect_ (sorted, P2P effects only)
-  /// @pre #gpuptr_index_ (sorted)
-  /// @pre #gpuptr_cell_effect_ (summed to base level)
+  /// @pre   #gpuptr_effect_ (sorted, P2P effects only)
+  /// @pre   #gpuptr_index_ (sorted)
+  /// @pre   #gpuptr_cell_effect_ (summed to base level)
   ///
-  /// @post #gpuptr_effect_ (sorted, all effects)
+  /// @post  #gpuptr_effect_ (sorted, all effects)
   ///
   void l2p( const int num_particle );
 

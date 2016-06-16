@@ -11,10 +11,10 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Compute multipole to multipole
 ///
-/// @param[in]   cell_size       the size of cells in the current level per side.
-/// @param[in]   base_dim        the number of cells in the base level per side.
-/// @param[out]  level_position  the cell positions of current level.
-/// @param[out]  level_weight    the cell weights of current level.
+/// @param[in]      cell_size       the size of cells in the current level per side.
+/// @param[in]      base_dim        the number of cells in the base level per side.
+/// @param[in,out]  level_position  the cell positions of current level.
+/// @param[in,out]  level_weight    the cell weights of current level.
 ///
 __global__ void m2mDevice(
     const int cell_size,
