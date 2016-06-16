@@ -31,10 +31,10 @@ int main( int argc, char const *argv[] ) {
   const int width        = 1024;
   const int height       = 768;
   const int FPS          = 60;
-  const unsigned n_frame = 300;
-  const int n_star       = 500;
+  const unsigned n_frame = 1800;
+  const int n_star       = 10000;
 
-  float4 position_limit      = make_float4(0.0f, 0.0f, 64.0f, 48.0f);
+  float4 position_limit      = make_float4(0.0f, 0.0f, 16.0f, 12.0f);
   float2 position_center     = make_float2(position_limit.x+position_limit.z,
                                            position_limit.y+position_limit.w)/2;
   float2 position_half_size  = make_float2(position_limit.z-position_limit.x,
@@ -46,9 +46,10 @@ int main( int argc, char const *argv[] ) {
 
   Stars asteroids(n_star, FPS);
   asteroids.initialize(position_limit);
+  asteroids.deletion_check(position_limit);
 
   const int num_level        = 4;
-  const int max_num_particle = 20000;
+  const int max_num_particle = 50000;
 
   nbfmm::Solver solver(num_level, max_num_particle, position_limit);
 
@@ -63,9 +64,11 @@ int main( int argc, char const *argv[] ) {
     asteroids.visualize(width, height,frames.get_gpu_wo(),1,visualization_limit);
     fwrite(frames.get_cpu_ro(), sizeof(uint8_t), FRAME_SIZE, fp);
 
-    solver.solve(n_star, asteroids.gpu_star_position_cur, asteroids.gpu_star_weight, asteroids.gpu_star_acceleration);
+    solver.solve(asteroids.n_star, asteroids.gpu_star_position_cur, asteroids.gpu_star_weight, asteroids.gpu_star_acceleration);
     asteroids.update();
     asteroids.deletion_check(position_limit);
+
+    printf("%d ", asteroids.n_star);
   }
 
   fclose(fp);
