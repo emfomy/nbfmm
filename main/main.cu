@@ -37,8 +37,8 @@ int main( int argc, char const *argv[] ) {
   float4 visualization_limit = make_float4(1.0f, 1.0f, 7.0f, 7.0f);
   float4 position_limit      = make_float4(0.0f, 0.0f, 8.0f, 8.0f);
 
-  Stars asteroids(n_star);
-  asteroids.initialize(position_limit, FPS);
+  Stars asteroids(n_star, FPS);
+  asteroids.initialize(position_limit);
 
   const int num_level        = 4;
   const int max_num_particle = 20000;
@@ -57,7 +57,7 @@ int main( int argc, char const *argv[] ) {
     fwrite(frames.get_cpu_ro(), sizeof(uint8_t), FRAME_SIZE, fp);
 
     solver.solve(n_star, asteroids.gpu_star_position_cur, asteroids.gpu_star_weight, asteroids.gpu_star_acceleration);
-    asteroids.update(FPS);
+    asteroids.update();
     asteroids.deletion_check(position_limit);
   }
 

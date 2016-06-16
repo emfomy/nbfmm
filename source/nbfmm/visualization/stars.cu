@@ -15,14 +15,14 @@
 #include <curand.h>
 #include <curand_kernel.h>
 #include <nbfmm/utility.hpp>
+#include <nbfmm/model.hpp>
 #include <thrust/device_ptr.h>
 #include <thrust/find.h>
 #include <thrust/sort.h>
 
-__global__ void update_kernel(int n_star,float2* gpu_star_position_cur,float2* gpu_star_position_pre,float2* gpu_star_acceleration, float FPS)
+__global__ void update_kernel(int n_star,float2* gpu_star_position_cur,float2* gpu_star_position_pre,float2* gpu_star_acceleration, float dt)
 {
   int idx = blockIdx.x * blockDim.x + threadIdx.x;
-  const float dt = 1/FPS/20; 
   float2 cur_position = gpu_star_position_cur[idx];
 
     if ( idx>=n_star )
@@ -151,7 +151,6 @@ __global__ void initialization_kernel(int n_star,float2* gpu_star_position_cur,f
   float2 position_pre;
   position_pre.x = position_limits.x+curand_uniform(&localState)*(position_limits.z-position_limits.x-2)+1;
   position_pre.y = position_limits.y+curand_uniform(&localState)*(position_limits.w-position_limits.y-2)+1;
-  float dt = 1/FPS/20;
 
     if ( idx>=n_star )
     {
@@ -170,8 +169,8 @@ __global__ void initialization_kernel(int n_star,float2* gpu_star_position_cur,f
 
 }
 //Constructor
-Stars::Stars(int nStar)
- : n_star(nStar)
+Stars::Stars(int nStar, int FPS)
+ : n_star(nStar), FPS(FPS), dt(0.05f/FPS)
  {
   assert(nStar>0);
   cudaMalloc(&gpu_star_position_cur,  n_star*sizeof(float2));
@@ -188,23 +187,31 @@ Stars::~Stars()
   cudaFree(gpu_star_weight);
 }
 
-void Stars::initialize(float4 position_limit, int FPS)
+void Stars::initialize(float4 position_limit)
 {
-  curandState *d_state;
-    cudaMalloc(&d_state,n_star* sizeof(curandState));
+  // curandState *d_state;
+  //   cudaMalloc(&d_state,n_star* sizeof(curandState));
 
-    const int kNumThread_pointwise = 1024;
-    const int kNumBlock_pointwise  = ((n_star-1)/kNumThread_pointwise)+1;
-    setup_kernel<<<kNumBlock_pointwise,kNumThread_pointwise>>>(d_state,n_star);
-    initialization_kernel<<<kNumBlock_pointwise,kNumThread_pointwise>>>(n_star,gpu_star_position_cur,gpu_star_position_pre,gpu_star_acceleration,gpu_star_weight,position_limit,d_state, FPS);
-    cudaFree(d_state);
+  //   const int kNumThread_pointwise = 1024;
+  //   const int kNumBlock_pointwise  = ((n_star-1)/kNumThread_pointwise)+1;
+  //   setup_kernel<<<kNumBlock_pointwise,kNumThread_pointwise>>>(d_state,n_star);
+  //   initialization_kernel<<<kNumBlock_pointwise,kNumThread_pointwise>>>(n_star,gpu_star_position_cur,gpu_star_position_pre,gpu_star_acceleration,gpu_star_weight,position_limit,d_state, FPS);
+  //   cudaFree(d_state);
+
+  const float2 center_position = make_float2((position_limit.x + position_limit.z)/2,
+                                             (position_limit.y + position_limit.w)/2);
+  const float radius = (position_limit.w - position_limit.y)/4;
+
+
+  nbfmm::generateModelCircle(n_star, center_position, radius, 3.0f, dt,
+                             gpu_star_position_cur, gpu_star_position_pre, gpu_star_weight);
 }
 //update
-void Stars::update(int FPS)
+void Stars::update()
 {
   const int kNumThread_pointwise = 1024;
   const int kNumBlock_pointwise  = ((n_star-1)/kNumThread_pointwise)+1;
-  update_kernel<<<kNumBlock_pointwise,kNumThread_pointwise>>>(n_star,gpu_star_position_cur,gpu_star_position_pre,gpu_star_acceleration,(float)FPS);
+  update_kernel<<<kNumBlock_pointwise,kNumThread_pointwise>>>(n_star,gpu_star_position_cur,gpu_star_position_pre,gpu_star_acceleration,dt);
 }
 
 void Stars::visualize(int width, int height, uint8_t *board,float size_th,float4  visualization_limits)

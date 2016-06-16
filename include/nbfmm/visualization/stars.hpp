@@ -28,14 +28,18 @@ class Stars {
 	//weight of stars
 	float* gpu_star_weight;
 
+	const int FPS;
+
+	const float dt;
+
 	//Constructor
-	Stars(int nStar);
+	Stars(int nStar, int FPS);
 	//Destructor
 	~Stars();
 	//initialize
-	void initialize(float4 position_limit, int FPS);
+	void initialize(float4 position_limit);
 	//update
-	void update(int FPS);
+	void update();
 
 	void visualize(int width, int height, uint8_t *board,float size_th,float4 visualization_limits);
 
