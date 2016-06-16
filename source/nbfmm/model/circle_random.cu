@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// @file    source/nbfmm/model/circle.cu
-/// @brief   The implementation of circle shape generator.
+/// @brief   The implementation of random circle shape generator.
 ///
 /// @author  Mu Yang <emfomy@gmail.com>
 ///
@@ -13,7 +13,7 @@
 using namespace std;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// Generate circle shape points
+/// Generate random circle shape points
 ///
 /// @param[in]   num_particle       the number of particles.
 /// @param[in]   center_position    the center position.
@@ -24,7 +24,7 @@ using namespace std;
 /// @param[out]  position_previous  the device pointer of previous particle positions.
 /// @param[out]  weight_current     the device pointer of particle weights.
 ///
-__global__ void generateModelCircleDevice(
+__global__ void generateModelCircleRandomDevice(
     const int     num_particle,
     const float2  center_position,
     const float   radius,
@@ -38,7 +38,10 @@ __global__ void generateModelCircleDevice(
   if ( idx >= num_particle ) {
     return;
   }
-  const float  angle_current  = (2.0f * M_PI * idx) / num_particle;
+  curandState s;
+  curand_init(idx, 0, 0, &s);
+
+  const float  angle_current  = (2.0f * M_PI) / num_particle * curand_uniform(&s);
   const float  angle_previous = angle_current - angle_difference;
   position_current[idx]       = center_position + radius * make_float2(cosf(angle_current),  sinf(angle_current));
   position_previous[idx]      = center_position + radius * make_float2(cosf(angle_previous), sinf(angle_previous));
@@ -50,8 +53,8 @@ __global__ void generateModelCircleDevice(
 //
 namespace nbfmm {
 
-// Generate circle shape points
-void generateModelCircle(
+// Generate random circle shape points
+void generateModelCircleRandom(
     const int     num_particle,
     const float2  center_position,
     const float   radius,
@@ -72,7 +75,7 @@ void generateModelCircle(
   const float angle_difference = acos(1.0 - effect.x * tick * tick / radius / 2.0f);
 
   // Extract heads of cell index of each cell
-  generateModelCircleDevice<<<grid_dim, block_dim>>>(num_particle, center_position, radius, weight, angle_difference,
+  generateModelCircleRandomDevice<<<grid_dim, block_dim>>>(num_particle, center_position, radius, weight, angle_difference,
                                                      gpuptr_position_current, gpuptr_position_previous, gpuptr_weight_current);
 }
 
