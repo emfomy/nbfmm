@@ -146,6 +146,8 @@ void BlockP2P(
 
       total_effect += temp_effect[0];
       __syncthreads();
+
+      cur_idx += block_dim_p2p;
     }
   }
 
