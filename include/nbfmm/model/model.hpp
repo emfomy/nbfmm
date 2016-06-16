@@ -23,21 +23,19 @@ namespace nbfmm {
 /// @param[in]   radius                    the radius.
 /// @param[in]   weight                    the weight.
 /// @param[in]   tick                      the step size in time.
-/// @param[out]  gpuptr_position_current   the device pointer of original particle positions.
-/// @param[out]  gpuptr_position_previous  the device pointer of original particle positions.
-/// @param[out]  gpuptr_weight_current     the device pointer of original particle weights.
-/// @param[out]  gpuptr_weight_previous    the device pointer of original particle weights.
+/// @param[out]  gpuptr_position_current   the device pointer of current particle positions.
+/// @param[out]  gpuptr_position_previous  the device pointer of previous particle positions.
+/// @param[out]  gpuptr_weight             the device pointer of particle weights.
 ///
 void generateModelCircle(
-    const int num_particles,
+    const int     num_particles,
     const float2  center_position,
     const float   radius,
     const float   weight,
     const float   tick,
     float2*       gpuptr_position_current,
     float2*       gpuptr_position_previous,
-    float*        gpuptr_weight_current,
-    float*        gpuptr_weight_previous
+    float*        gpuptr_weight
 );
 
 }  // namespace nbfmm

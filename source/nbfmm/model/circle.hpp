@@ -20,10 +20,9 @@ using namespace std;
 /// @param[in]   radius             the radius.
 /// @param[in]   weight             the total weight.
 /// @param[in]   angle_difference   the difference between current angle and previous angle
-/// @param[out]  position_current   the original particle positions.
-/// @param[out]  position_previous  the original particle positions.
-/// @param[out]  weight_current     the original particle weights.
-/// @param[out]  weight_previous    the original particle weights.
+/// @param[out]  position_current   the device pointer of current particle positions.
+/// @param[out]  position_previous  the device pointer of previous particle positions.
+/// @param[out]  weight             the device pointer of particle weights.
 ///
 __global__ void generateModelCircleDevice(
     const int     num_particles,
@@ -33,8 +32,7 @@ __global__ void generateModelCircleDevice(
     const float   angle_difference,
     float2*       position_current,
     float2*       position_previous,
-    float*        weight_current,
-    float*        weight_previous
+    float*        weight
 ) {
   const int idx = threadIdx.x + blockIdx.x * blockDim.x;
   if ( idx >= num_particle ) {
@@ -44,8 +42,7 @@ __global__ void generateModelCircleDevice(
   const float  angle_previous = angle_current - angle_difference;
   position_current[idx]       = make_float2(cosf(angle_current), sinf(angle_current));
   position_previous[idx]      = make_float2(cosf(angle_previous), sinf(angle_current));
-  weight_current[idx]         = weight;
-  weight_previous[idx]        = weight;
+  weight[idx]                 = weight;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -62,8 +59,7 @@ void generateModelCircle(
     const float   tick,
     float2*       gpuptr_position_current,
     float2*       gpuptr_position_previous,
-    float*        gpuptr_weight_current,
-    float*        gpuptr_weight_previous
+    float*        gpuptr_weight
 ) {
   assert( num_particles > 0 );
   assert( radius > 0 );
