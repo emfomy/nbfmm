@@ -25,7 +25,7 @@ namespace nbfmm {
 /// @param[in]   tick                      the step size in time.
 /// @param[out]  gpuptr_position_current   the device pointer of current particle positions.
 /// @param[out]  gpuptr_position_previous  the device pointer of previous particle positions.
-/// @param[out]  gpuptr_weight             the device pointer of particle weights.
+/// @param[out]  gpuptr_weight_current     the device pointer of particle weights.
 ///
 void generateModelCircle(
     const int     num_particles,
@@ -35,7 +35,7 @@ void generateModelCircle(
     const float   tick,
     float2*       gpuptr_position_current,
     float2*       gpuptr_position_previous,
-    float*        gpuptr_weight
+    float*        gpuptr_weight_current
 );
 
 }  // namespace nbfmm
