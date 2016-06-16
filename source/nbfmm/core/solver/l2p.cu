@@ -11,11 +11,11 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Compute local to particle
 ///
-/// @param[in]  num_particle  the number of particles.
-/// @param[in]  base_dim      the number of cells in the base level per side.
-/// @param[in]  index         the particle cell indices.
-/// @param[in]  cell_effect   the cell effects.
-/// @param      effect        the particle effects.
+/// @param[in]      num_particle  the number of particles.
+/// @param[in]      base_dim      the number of cells in the base level per side.
+/// @param[in]      index         the particle cell indices.
+/// @param[in]      cell_effect   the cell effects.
+/// @param[in,out]  effect        the particle effects.
 ///
 __global__ void l2pDevice(
     const int     num_particle,

@@ -11,9 +11,9 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Compute local to local
 ///
-/// @param[in]   cell_size     the size of cells in the current level per side.
-/// @param[in]   base_dim      the number of cells in the base level per side.
-/// @param[out]  level_effect  the cell effects of the current level.
+/// @param[in]      cell_size     the size of cells in the current level per side.
+/// @param[in]      base_dim      the number of cells in the base level per side.
+/// @param[in,out]  level_effect  the cell effects of the current level.
 ///
 __global__ void l2lDevice(
     const int cell_size,
