@@ -127,7 +127,9 @@ void BlockP2P(
 
     // Go through all particles on work list
     for( int i = 0; i < loop_times; ++i ) {
-      if( cur_idx < end_idx ) {
+
+      // Put data into shared memory, without its self 
+      if( cur_idx < end_idx && cur_idx != idx ) {
         temp_effect[rank] = nbfmm::kernelFunction(self_position, position[cur_idx], weight[cur_idx]);
       } else {
         temp_effect[rank] = make_float2(0.0f, 0.0f);

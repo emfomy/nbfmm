@@ -4,6 +4,7 @@
 ///
 /// @author  Mu Yang <emfomy@gmail.com>
 /// @author  Yung-Kang Lee <blasteg@gmail.com>
+/// @author  Da-Wei Chang <davidzan830@gmail.com>
 ///
 
 /// @cond
@@ -17,11 +18,11 @@
 class Stars {
  public:
   //number of stars
-	const int n_star;
-	//position of stars
-	float2* gpu_star_position;
-	//velocity of stars
-	float2* gpu_star_velocity;
+	int n_star;
+	//current position of stars
+	float2* gpu_star_position_cur;
+	//previous position of stars
+	float2* gpu_star_position_pre;
 	//acceleration of stars
 	float2* gpu_star_acceleration;
 	//weight of stars
@@ -32,7 +33,7 @@ class Stars {
 	//Destructor
 	~Stars();
 	//initialize
-	void initialize(float4 position_limit);
+	void initialize(float4 position_limit, int FPS);
 	//update
 	void update(int FPS);
 
