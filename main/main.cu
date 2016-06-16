@@ -31,11 +31,18 @@ int main( int argc, char const *argv[] ) {
   const int width        = 1024;
   const int height       = 768;
   const int FPS          = 60;
-  const unsigned n_frame = 3000;
+  const unsigned n_frame = 300;
   const int n_star       = 500;
 
-  float4 visualization_limit = make_float4(1.0f, 1.0f, 7.0f, 7.0f);
-  float4 position_limit      = make_float4(0.0f, 0.0f, 8.0f, 8.0f);
+  float4 position_limit      = make_float4(0.0f, 0.0f, 64.0f, 48.0f);
+  float2 position_center     = make_float2(position_limit.x+position_limit.z,
+                                           position_limit.y+position_limit.w)/2;
+  float2 position_half_size  = make_float2(position_limit.z-position_limit.x,
+                                           position_limit.w-position_limit.y)/2;
+  float4 visualization_limit = make_float4(position_center.x-position_half_size.x*0.9,
+                                           position_center.y-position_half_size.y*0.9,
+                                           position_center.x+position_half_size.x*0.9,
+                                           position_center.y+position_half_size.y*0.9);
 
   Stars asteroids(n_star, FPS);
   asteroids.initialize(position_limit);

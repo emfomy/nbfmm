@@ -40,8 +40,8 @@ __global__ void generateModelCircleDevice(
   }
   const float  angle_current  = (2.0f * M_PI * idx) / num_particle;
   const float  angle_previous = angle_current - angle_difference;
-  position_current[idx]       = center_position + radius * make_float2(cosf(angle_current), sinf(angle_current));
-  position_previous[idx]      = center_position + radius * make_float2(cosf(angle_previous), sinf(angle_current));
+  position_current[idx]       = center_position + radius * make_float2(cosf(angle_current),  sinf(angle_current));
+  position_previous[idx]      = center_position + radius * make_float2(cosf(angle_previous), sinf(angle_previous));
   weight_current[idx]         = weight;
 }
 
