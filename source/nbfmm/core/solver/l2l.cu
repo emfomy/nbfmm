@@ -35,7 +35,7 @@ __global__ void l2lDevice(
 //  The namespace NBFMM
 namespace nbfmm {
 
-// L2P
+// L2L
 void Solver::l2l() {
   if ( num_level_ <= 1 ) {
     return;

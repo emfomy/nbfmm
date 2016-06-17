@@ -184,22 +184,33 @@ Stars::~Stars()
 
 void Stars::initialize(float4 position_limit)
 {
-  curandState *d_state;
-    cudaMalloc(&d_state,n_star* sizeof(curandState));
+  // curandState *d_state;
+  // cudaMalloc(&d_state,n_star* sizeof(curandState));
 
-    const int kNumThread_pointwise = 1024;
-    const int kNumBlock_pointwise  = ((n_star-1)/kNumThread_pointwise)+1;
-    setup_kernel<<<kNumBlock_pointwise,kNumThread_pointwise>>>(d_state,n_star);
-    initialization_kernel<<<kNumBlock_pointwise,kNumThread_pointwise>>>(n_star,gpu_star_position_cur,gpu_star_position_pre,gpu_star_acceleration,gpu_star_weight,position_limit,d_state, dt);
-    cudaFree(d_state);
+  // const int kNumThread_pointwise = 1024;
+  // const int kNumBlock_pointwise  = ((n_star-1)/kNumThread_pointwise)+1;
+  // setup_kernel<<<kNumBlock_pointwise,kNumThread_pointwise>>>(d_state,n_star);
+  // initialization_kernel<<<kNumBlock_pointwise,kNumThread_pointwise>>>(n_star,gpu_star_position_cur,gpu_star_position_pre,gpu_star_acceleration,gpu_star_weight,position_limit,d_state, dt);
+  // cudaFree(d_state);
 
-  // const float2 center_position = make_float2((position_limit.x + position_limit.z)/2,
-  //                                            (position_limit.y + position_limit.w)/2);
-  // const float radius = (position_limit.w - position_limit.y)/4;
+  // // const float2 center_position = make_float2((position_limit.x + position_limit.z)/2,
+  // //                                            (position_limit.y + position_limit.w)/2);
+  // // const float radius = (position_limit.w - position_limit.y)/64;
+  // // // nbfmm::generateModelDisk(
+  // //     n_star, center_position, radius, 3.0f, dt, gpu_star_position_cur, gpu_star_position_pre, gpu_star_weight
+  // // );
 
 
-  // nbfmm::generateModelCircle(n_star, center_position, radius, 3.0f, dt,
-  //                            gpu_star_position_cur, gpu_star_position_pre, gpu_star_weight);
+  const float2 center_position1 = make_float2(5*position_limit.x + 3*position_limit.z,
+                                              5*position_limit.y + 3*position_limit.w)/8;
+  const float2 center_position2 = make_float2(3*position_limit.x + 5*position_limit.z,
+                                              3*position_limit.y + 5*position_limit.w)/8;
+  const float radius = (position_limit.w - position_limit.y)/32;
+
+  nbfmm::generateModelDoubleDisk(
+      (n_star*5)/8, (n_star*3)/8, center_position1, center_position2, (radius*5)/8, (radius*3)/8, 1.0f, dt,
+      gpu_star_position_cur, gpu_star_position_pre, gpu_star_weight
+  );
 }
 //update
 void Stars::update()
