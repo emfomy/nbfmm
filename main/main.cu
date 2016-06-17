@@ -28,11 +28,11 @@ int main( int argc, char const *argv[] ) {
 
   const char* result_y4m = ( argc > 1 ) ? argv[1] : "nbfmm_result.mp4";
 
-  const int width        = 1000;
-  const int height       = 700;
+  const int width        = 1024;
+  const int height       = 768;
   const int FPS          = 60;
-  const unsigned n_frame = 1800;
-  const int n_star       = 500;
+  const unsigned n_frame = 1200;
+  const int n_star       = 20;
 
   float4 visualization_limit = make_float4(0.0f, 0.0f, 15.0f, 15.0f);
   float4 position_limit      = make_float4(0.0f, 0.0f, 15.0f, 15.0f);
@@ -40,8 +40,8 @@ int main( int argc, char const *argv[] ) {
   Stars asteroids(n_star);
   asteroids.initialize(position_limit);
 
-  const int num_level        = 1;
-  const int max_num_particle = 20000;
+  const int num_level        = 4;
+  const int max_num_particle = 60000;
 
   nbfmm::Solver solver(num_level, max_num_particle, position_limit);
 
