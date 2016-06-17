@@ -31,10 +31,13 @@ int main( int argc, char const *argv[] ) {
   const int width        = 1024;
   const int height       = 768;
   const int FPS          = 60;
-  const unsigned n_frame = 5400;
-  const int n_star       = 10000;
+  const unsigned n_frame = 300;
+  const int n_star       = 50000;
 
-  float4 position_limit      = make_float4(0.0f, 0.0f, 16.0f, 12.0f);
+  const int num_level        = 4;
+  const int max_num_particle = n_star;
+
+  float4 position_limit      = make_float4(0.0f, 0.0f, 64.0f, 48.0f);
   float2 position_center     = make_float2(position_limit.x+position_limit.z,
                                            position_limit.y+position_limit.w)/2;
   float2 position_half_size  = make_float2(position_limit.z-position_limit.x,
@@ -47,9 +50,6 @@ int main( int argc, char const *argv[] ) {
   Stars asteroids(n_star, FPS);
   asteroids.initialize(position_limit);
   asteroids.deletion_check(position_limit);
-
-  const int num_level        = 4;
-  const int max_num_particle = 50000;
 
   nbfmm::Solver solver(num_level, max_num_particle, position_limit);
 
