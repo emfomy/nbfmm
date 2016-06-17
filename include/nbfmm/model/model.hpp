@@ -28,7 +28,7 @@ namespace nbfmm {
 /// @param[out]  gpuptr_weight_current     the device pointer of particle weights.
 ///
 void generateModelCircleUniform(
-    const int     num_particles,
+    const int     num_particle,
     const float2  center_position,
     const float   radius,
     const float   weight,
@@ -51,7 +51,7 @@ void generateModelCircleUniform(
 /// @param[out]  gpuptr_weight_current     the device pointer of particle weights.
 ///
 void generateModelCircle(
-    const int     num_particles,
+    const int     num_particle,
     const float2  center_position,
     const float   radius,
     const float   weight,
