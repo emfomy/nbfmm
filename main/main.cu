@@ -32,7 +32,7 @@ int main( int argc, char const *argv[] ) {
   const int height       = 768;
   const int FPS          = 60;
   const unsigned n_frame = 5400;
-  const int n_star       = 30000;
+  const int n_star       = 10000;
 
   float4 position_limit      = make_float4(0.0f, 0.0f, 16.0f, 12.0f);
   float2 position_center     = make_float2(position_limit.x+position_limit.z,
