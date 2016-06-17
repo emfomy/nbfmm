@@ -60,7 +60,7 @@ void generateModelDoubleDisk(
                     gpuptr_weight_current+num_particle1);
 
   const float2 effect1 = kernelFunction(center_position1, center_position2, weight * num_particle2);
-  const float2 effect2 = kernelFunction(center_position2, center_position1, weight * num_particle2);
+  const float2 effect2 = kernelFunction(center_position2, center_position1, weight * num_particle1);
 
   float2 distance = center_position1 - center_position2;
   float  r  = sqrt(distance.x * distance.x + distance.y * distance.y);

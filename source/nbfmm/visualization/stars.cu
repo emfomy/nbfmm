@@ -209,7 +209,7 @@ void Stars::initialize(float4 position_limit)
   // nbfmm::generateModelDoubleDisk(
   //     (n_star*5)/8, (n_star*3)/8, center_position1, center_position2, (radius*5)/8, (radius*3)/8, 1.0f, dt,
   //     gpu_star_position_cur, gpu_star_position_pre, gpu_star_weight
-  );
+  // );
 }
 //update
 void Stars::update()

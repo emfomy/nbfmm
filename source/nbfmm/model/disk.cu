@@ -78,7 +78,7 @@ void generateModelDisk(
   const int grid_dim  = ((num_particle-1)/block_dim)+1;
 
   generateModelDiskDevice<<<grid_dim, block_dim>>>(num_particle, center_position, radius, weight, tick,
-                                                         gpuptr_position_current, gpuptr_position_previous, gpuptr_weight);
+                                                   gpuptr_position_current, gpuptr_position_previous, gpuptr_weight);
 }
 
 }
