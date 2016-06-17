@@ -31,7 +31,7 @@ int main( int argc, char const *argv[] ) {
   const int width        = 1024;
   const int height       = 768;
   const int FPS          = 60;
-  const unsigned n_frame = 1800;
+  const unsigned n_frame = 3600;
   const int n_star       = 10000;
 
   float4 position_limit      = make_float4(0.0f, 0.0f, 16.0f, 12.0f);
@@ -67,8 +67,6 @@ int main( int argc, char const *argv[] ) {
     solver.solve(asteroids.n_star, asteroids.gpu_star_position_cur, asteroids.gpu_star_weight, asteroids.gpu_star_acceleration);
     asteroids.update();
     asteroids.deletion_check(position_limit);
-
-    printf("%d ", asteroids.n_star);
   }
 
   fclose(fp);
