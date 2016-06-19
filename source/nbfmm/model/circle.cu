@@ -14,7 +14,7 @@
 using namespace std;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// Generate circle shape points
+/// Generate circle shape particles
 ///
 /// @param[in]   num_particle       the number of particles.
 /// @param[in]   center_position    the center position.
@@ -54,7 +54,7 @@ __global__ void generateModelCircleDevice(
 //
 namespace nbfmm {
 
-// Generate circle shape points
+// Generate circle shape particles
 void generateModelCircle(
     const int     num_particle,
     const float2  center_position,

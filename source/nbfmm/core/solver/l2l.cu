@@ -48,8 +48,8 @@ void Solver::l2l() {
     const int grid_dim_side  = (level_dim < kMaxBlockDim) ? 1 : (level_dim / block_dim_side);
     const dim3 block_dim(block_dim_side, block_dim_side);
     const dim3 grid_dim(grid_dim_side, grid_dim_side);
-    const int shift = level * base_dim_ * base_dim_;
-    l2lDevice<<<block_dim, grid_dim>>>(cell_size, base_dim_, gpuptr_cell_effect_ + shift);
+    const int offset = level * base_dim_ * base_dim_;
+    l2lDevice<<<block_dim, grid_dim>>>(cell_size, base_dim_, gpuptr_cell_effect_ + offset);
   }
 }
 

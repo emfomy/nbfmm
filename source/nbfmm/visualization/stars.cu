@@ -130,38 +130,19 @@ __global__ void setup_kernel(curandState *state, int n_star)
   curand_init(5678, idx, 0, &state[idx]);
 }
 
-__global__ void deletion_check_kernel(int n_star, float2* gpu_star_position_cur, float4 position_limits, int* elimination)
+__global__ void deletion_check_kernel(int n_star, float2* gpu_star_position_cur, float4 position_limit, int* elimination)
 {
   int idx = blockIdx.x * blockDim.x + threadIdx.x;
     if ( idx>=n_star )
     {
      return;
     }
-    if (gpu_star_position_cur[idx].x<position_limits.x || gpu_star_position_cur[idx].y<position_limits.y ||gpu_star_position_cur[idx].x>position_limits.z ||gpu_star_position_cur[idx].y>position_limits.w)
+    if (gpu_star_position_cur[idx].x<position_limit.x || gpu_star_position_cur[idx].y<position_limit.y ||gpu_star_position_cur[idx].x>position_limit.z ||gpu_star_position_cur[idx].y>position_limit.w)
     {
       elimination[idx] = 1;
     } else {
       elimination[idx] = 0;
     }
-}
-__global__ void initialization_kernel(int n_star,float2* gpu_star_position_cur,float2* gpu_star_position_pre,float2* gpu_star_acceleration,float* gpu_star_weight,float4 position_limits,curandState* d_state, float dt)
-{
-  int idx = blockIdx.x * blockDim.x + threadIdx.x;
-  curandState localState = d_state[idx];
-  float2 position_pre;
-  position_pre.x = position_limits.x+curand_uniform(&localState)*(position_limits.z-position_limits.x-2)+1;
-  position_pre.y = position_limits.y+curand_uniform(&localState)*(position_limits.w-position_limits.y-2)+1;
-
-    if ( idx>=n_star )
-    {
-     return;
-    }
-      gpu_star_position_cur[idx] = position_pre;
-      gpu_star_position_pre[idx] = position_pre;
-      gpu_star_acceleration[idx].x = 0;
-      gpu_star_acceleration[idx].y = 0;
-      gpu_star_weight[idx]=curand_uniform(&localState)*5;
-
 }
 // Constructor
 Stars::Stars(int nStar, int FPS)
@@ -184,33 +165,39 @@ Stars::~Stars()
 
 void Stars::initialize(float4 position_limit)
 {
-  // curandState *d_state;
-  // cudaMalloc(&d_state,n_star* sizeof(curandState));
+  // const int n1 = 5;
+  // const int n2 = 3;
+  // const float mu1 = float(n1) / (n1+n2);
+  // const float mu2 = float(n2) / (n1+n2);
 
-  // const int kNumThread_pointwise = 1024;
-  // const int kNumBlock_pointwise  = ((n_star-1)/kNumThread_pointwise)+1;
-  // setup_kernel<<<kNumBlock_pointwise,kNumThread_pointwise>>>(d_state,n_star);
-  // initialization_kernel<<<kNumBlock_pointwise,kNumThread_pointwise>>>(n_star,gpu_star_position_cur,gpu_star_position_pre,gpu_star_acceleration,gpu_star_weight,position_limit,d_state, dt);
-  // cudaFree(d_state);
+  const float2 center_position = (make_float2(position_limit.x, position_limit.y) +
+                                  make_float2(position_limit.z, position_limit.w)) / 2;
+  const float width  = (position_limit.z - position_limit.x)/2;
+  const float height = (position_limit.w - position_limit.y)/2;
 
-  // // const float2 center_position = make_float2((position_limit.x + position_limit.z)/2,
-  // //                                            (position_limit.y + position_limit.w)/2);
-  // // const float radius = (position_limit.w - position_limit.y)/64;
-  // // // nbfmm::generateModelDisk(
-  // //     n_star, center_position, radius, 3.0f, dt, gpu_star_position_cur, gpu_star_position_pre, gpu_star_weight
-  // // );
+  // const float2 center_position1 = (make_float2(position_limit.x, position_limit.y) * (3*mu1+2*mu2) +
+  //                                  make_float2(position_limit.z, position_limit.w) * (3*mu1+4*mu2)) / 6;
+  // const float2 center_position2 = (make_float2(position_limit.z, position_limit.w) * (3*mu2+2*mu1) +
+  //                                  make_float2(position_limit.x, position_limit.y) * (3*mu2+4*mu1)) / 6;
+  // const float radius = (position_limit.w - position_limit.y)/16;
 
-
-  const float2 center_position1 = make_float2(5*position_limit.x + 3*position_limit.z,
-                                              5*position_limit.y + 3*position_limit.w)/8;
-  const float2 center_position2 = make_float2(3*position_limit.x + 5*position_limit.z,
-                                              3*position_limit.y + 5*position_limit.w)/8;
-  const float radius = (position_limit.w - position_limit.y)/32;
-
-  nbfmm::generateModelDoubleDisk(
-      (n_star*5)/8, (n_star*3)/8, center_position1, center_position2, (radius*5)/8, (radius*3)/8, 1.0f, dt,
-      gpu_star_position_cur, gpu_star_position_pre, gpu_star_weight
+  nbfmm::generateModelRectangle(
+      n_star, center_position, width, height, 6.0f, dt, gpu_star_position_cur, gpu_star_position_pre, gpu_star_weight
   );
+
+  // nbfmm::generateModelDisk(
+  //     n_star, center_position1, radius, 3.0f, dt, gpu_star_position_cur, gpu_star_position_pre, gpu_star_weight
+  // );
+
+  // nbfmm::generateModelDoubleDisk(
+  //     n_star*mu1, n_star*mu2, center_position1, center_position2, radius*mu1, radius*mu2, 3.0f, dt,
+  //     gpu_star_position_cur, gpu_star_position_pre, gpu_star_weight
+  // );
+
+  // nbfmm::generateModelDoubleDiskCenter(
+  //     n_star*mu1, n_star*mu2, center_position1, center_position2, radius*mu1, radius*mu2, 1.0f,
+  //     n_star*mu1, n_star*mu1, dt, gpu_star_position_cur, gpu_star_position_pre, gpu_star_weight
+  // );
 }
 //update
 void Stars::update()
@@ -229,13 +216,13 @@ void Stars::visualize(int width, int height, uint8_t *board,float size_th,float4
   visualize_kernel<<<kNumBlock_pointwise,kNumThread_pointwise>>>(n_star,gpu_star_position_cur,board,width,height,gpu_star_weight, size_th, visualization_limits);
 }
 
-void Stars::deletion_check(float4 position_limits)
+void Stars::deletion_check(float4 position_limit)
 {
   int* elimination;
   cudaMalloc(&elimination, sizeof(int)*n_star);
   const int kNumThread_pointwise = 1024;
   const int kNumBlock_pointwise  = ((n_star-1)/kNumThread_pointwise)+1;
-  deletion_check_kernel<<<kNumBlock_pointwise,kNumThread_pointwise>>>(n_star, gpu_star_position_cur, position_limits, elimination);
+  deletion_check_kernel<<<kNumBlock_pointwise,kNumThread_pointwise>>>(n_star, gpu_star_position_cur, position_limit, elimination);
 
   // zip cur and pre position
   thrust::device_ptr<float2> thrust_position_cur(gpu_star_position_cur);

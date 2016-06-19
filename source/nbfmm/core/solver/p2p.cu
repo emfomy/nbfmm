@@ -9,8 +9,9 @@
 #include <nbfmm/core.hpp>
 #include <nbfmm/utility.hpp>
 
-/// The block dimension used in P2P
+/// @cond
 static const int block_dim_p2p = 64;
+/// @endcond
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Compute particle to particle
@@ -24,7 +25,7 @@ static const int block_dim_p2p = 64;
 /// @param[out]  effect        the particle effects.
 ///
 __global__
-void NaiveP2P(
+void p2pNaive(
   const int     num_particle,
   const int     base_dim,
   const float2* position,
@@ -76,7 +77,7 @@ void NaiveP2P(
 /// @param[out]  effect        the particle effects.
 ///
 __global__
-void BlockP2P(
+void p2pBlock(
   const int     num_particle,
   const int     base_dim,
   const float2* position,
@@ -128,7 +129,7 @@ void BlockP2P(
     // Go through all particles on work list
     for( int i = 0; i < loop_times; ++i ) {
 
-      // Put data into shared memory, without its self 
+      // Put data into shared memory, without its self
       if( cur_idx < end_idx && cur_idx != idx ) {
         temp_effect[rank] = nbfmm::kernelFunction(self_position, position[cur_idx], weight[cur_idx]);
       } else {
@@ -164,10 +165,10 @@ void Solver::p2p( const int num_particle ) {
   const int block_dim = kMaxBlockDim;
   const int grid_dim  = ((num_particle-1)/block_dim)+1;
   if ( num_particle > kMaxGridDim ) {
-    NaiveP2P<<<grid_dim, block_dim>>>(num_particle, base_dim_, gpuptr_position_,
+    p2pNaive<<<grid_dim, block_dim>>>(num_particle, base_dim_, gpuptr_position_,
                                       gpuptr_weight_, gpuptr_index_, gpuptr_head_, gpuptr_effect_);
   } else {
-    BlockP2P<<<num_particle, block_dim_p2p>>>(num_particle, base_dim_, gpuptr_position_,
+    p2pBlock<<<num_particle, block_dim_p2p>>>(num_particle, base_dim_, gpuptr_position_,
                                               gpuptr_weight_, gpuptr_index_, gpuptr_head_, gpuptr_effect_);
   }
 }

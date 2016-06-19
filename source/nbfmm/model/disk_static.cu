@@ -16,7 +16,7 @@
 using namespace std;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// Generate static disk shape points
+/// Generate static disk shape particles
 ///
 /// @param[in]   num_particle       the number of particles.
 /// @param[in]   center_position    the center position.
@@ -57,7 +57,7 @@ __global__ void generateModelDiskStaticDevice(
 //
 namespace nbfmm {
 
-// Generate static disk shape points
+// Generate static disk shape particles
 void generateModelDiskStatic(
     const int     num_particle,
     const float2  center_position,

@@ -18,7 +18,7 @@
 /// @param[in]   gpuptr_weight    the particle effects.
 /// @param[out]  buffer           the workspace.
 ///
-__global__ void p2m_weighting(
+__global__ void p2mWeight(
     const int     num_particle,
     const float2* gpuptr_position,
     const float*  gpuptr_weight,
@@ -40,7 +40,7 @@ __global__ void p2m_weighting(
 /// @param[out]  gpuptr_cell_position  the cell positions.
 /// @param[out]  gpuptr_cell_weight    the cell positions.
 ///
-__global__ void p2m_assigning(
+__global__ void p2mAssigning(
     const int    base_dim,
     const int    buffer_length,
     const int2*  buffer,
@@ -79,21 +79,23 @@ void Solver::p2m( const int num_particle ) {
     return;
   }
 
-  const dim3 kNumThread_cellwise(32, 32, 1);
-  const dim3 kNumBlock_cellwise(((base_dim_-1)/kNumThread_cellwise.x)+1, ((base_dim_-1)/kNumThread_cellwise.y)+1,1);
-  const int kNumThread_pointwise = 1024;
-  const int kNumBlock_pointwise  = ((num_particle-1)/kNumThread_pointwise)+1;
+  const int block_dim_particle = kMaxBlockDim;
+  const int grid_dim_particle  = ((num_particle-1)/block_dim_particle)+1;
 
-  p2m_weighting<<<kNumBlock_pointwise, kNumThread_pointwise>>>(num_particle, gpuptr_position_, gpuptr_weight_,
-                                                               gpuptr_buffer_float2_);
+  const int block_dim_side = 32;
+  const int grid_dim_side  = ((base_dim_-1)/block_dim_side)+1;
+  const dim3 block_dim_cell(block_dim_side, block_dim_side);
+  const dim3 grid_dim_cell(grid_dim_side, grid_dim_side);
 
-  thrust::device_ptr<int2> thrust_index(gpuptr_index_);
+  p2mWeight<<<grid_dim_particle, block_dim_particle>>>(num_particle, gpuptr_position_, gpuptr_weight_, gpuptr_buffer_float2_);
+
+  thrust::device_ptr<int2>   thrust_index(gpuptr_index_);
   thrust::device_ptr<float2> thrust_position(gpuptr_position_);
-  thrust::device_ptr<float> thrust_weight(gpuptr_weight_);
+  thrust::device_ptr<float>  thrust_weight(gpuptr_weight_);
   thrust::device_ptr<float2> thrust_weighted(gpuptr_buffer_float2_);
-  thrust::device_ptr<int2> thrust_assigninging(gpuptr_buffer_int2_);
+  thrust::device_ptr<int2>   thrust_assigninging(gpuptr_buffer_int2_);
   thrust::device_ptr<float2> thrust_cellPos(gpuptr_cell_position_);
-  thrust::device_ptr<float> thrust_cellWei(gpuptr_cell_weight_);
+  thrust::device_ptr<float>  thrust_cellWei(gpuptr_cell_weight_);
 
   thrust::reduce_by_key(thrust_index, thrust_index + num_particle, thrust_weighted,
                         thrust_assigninging, thrust_cellPos + base_dim_ * base_dim_);
@@ -101,8 +103,8 @@ void Solver::p2m( const int num_particle ) {
                                          thrust_assigninging, thrust_cellWei + base_dim_ * base_dim_);
 
   const int buffer_int2_length = p2m_dummy.second - (thrust_cellWei + base_dim_ * base_dim_);
-  p2m_assigning<<<kNumBlock_cellwise, kNumThread_cellwise>>>(base_dim_, buffer_int2_length, gpuptr_buffer_int2_,
-                                                             gpuptr_cell_position_, gpuptr_cell_weight_);
+  p2mAssigning<<<grid_dim_cell, block_dim_cell>>>(base_dim_, buffer_int2_length, gpuptr_buffer_int2_,
+                                                  gpuptr_cell_position_, gpuptr_cell_weight_);
 }
 
 }  // namespace nbfmm
