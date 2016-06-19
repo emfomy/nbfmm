@@ -194,6 +194,31 @@ void generateModelDoubleDiskCenter(
     float*        gpuptr_weight_current
 );
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// Generate rectangle shape particles
+///
+/// @param[in]   num_particle              the number of particles.
+/// @param[in]   center_position           the center position.
+/// @param[in]   width                     the width.
+/// @param[in]   height                    the height.
+/// @param[in]   max_weight                the maximum weight.
+/// @param[in]   tick                      the step size in time.
+/// @param[out]  gpuptr_position_current   the device pointer of current particle positions.
+/// @param[out]  gpuptr_position_previous  the device pointer of previous particle positions.
+/// @param[out]  gpuptr_weight_current     the device pointer of particle weights.
+///
+void generateModelRectangle(
+    const int     num_particle,
+    const float2  center_position,
+    const float   width,
+    const float   height,
+    const float   max_weight,
+    const float   tick,
+    float2*       gpuptr_position_current,
+    float2*       gpuptr_position_previous,
+    float*        gpuptr_weight
+);
+
 }  // namespace nbfmm
 
 #endif  // NBFMM_MODEL_MODEL_HPP_

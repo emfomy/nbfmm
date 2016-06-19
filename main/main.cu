@@ -31,13 +31,13 @@ int main( int argc, char const *argv[] ) {
   const int width        = 1024;
   const int height       = 768;
   const int FPS          = 60;
-  const unsigned n_frame = 300;
-  const int n_star       = 50000;
+  const unsigned n_frame = 600;
+  const int n_star       = 10000;
 
   const int num_level        = 4;
   const int max_num_particle = n_star;
 
-  float4 position_limit      = make_float4(0.0f, 0.0f, 64.0f, 48.0f);
+  float4 position_limit      = make_float4(0.0f, 0.0f, 16.0f, 12.0f);
   float2 position_center     = make_float2(position_limit.x+position_limit.z,
                                            position_limit.y+position_limit.w)/2;
   float2 position_half_size  = make_float2(position_limit.z-position_limit.x,
@@ -46,6 +46,12 @@ int main( int argc, char const *argv[] ) {
                                            position_center.y-position_half_size.y*0.8,
                                            position_center.x+position_half_size.x*0.8,
                                            position_center.y+position_half_size.y*0.8);
+
+  int progress = 0;
+  for ( auto i = 0; i < 100; ++i ) {
+    putchar('=');
+  }
+  putchar('\r'); fflush(stdout);
 
   Stars asteroids(n_star, FPS);
   asteroids.initialize(position_limit);
@@ -59,9 +65,6 @@ int main( int argc, char const *argv[] ) {
   FILE *fp = fopen(result_y4m, "wb");
   fprintf(fp, "YUV4MPEG2 W%d H%d F%d:%d Ip A1:1 C420\n", width, height, FPS, 1);
 
-  int progress = 0;
-  printf("=>");
-
   for (unsigned j = 0; j < n_frame; ++j) {
     fputs("FRAME\n", fp);
     asteroids.visualize(width, height,frames.get_gpu_wo(),1,visualization_limit);
@@ -71,13 +74,12 @@ int main( int argc, char const *argv[] ) {
     asteroids.update();
     asteroids.deletion_check(position_limit);
 
-    if ( 100 * j > n_frame * progress ) {
+    if ( 100 * j > progress * n_frame ) {
       ++progress;
-      printf("\b=>");
-      fflush(stdout);
+      putchar('>'); fflush(stdout);
     }
   }
-  printf("\n");
+  putchar('\n'); putchar('\n');
 
   fclose(fp);
 

@@ -18,19 +18,19 @@ using namespace std;
 /// Generate double disk shape particles
 ///
 /// @param[in]   num_particle       the number of particles.
-/// @param[in]   shift              the shift of previous particle positions.
+/// @param[in]   offset              the offset of previous particle positions.
 /// @param[out]  position_previous  the previous particle positions.
 ///
 __global__ void generateModelDoubleDiskDevice(
     const int  num_particle,
-    float2     shift,
+    float2     offset,
     float2*    position_previous
 ) {
   const int idx = threadIdx.x + blockIdx.x * blockDim.x;
   if ( idx >= num_particle ) {
     return;
   }
-  position_previous[idx] += shift;
+  position_previous[idx] += offset;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -68,19 +68,19 @@ void generateModelDoubleDisk(
   float r1 = r * num_particle2 / (num_particle1 + num_particle2);
   float r2 = r * num_particle1 / (num_particle1 + num_particle2);
 
-  float2 shift1;
-  shift1.x = -effect1.y; shift1.y = effect1.x;
-  shift1 *= sqrt(r1/a1) * tick;
+  float2 offset1;
+  offset1.x = -effect1.y; offset1.y = effect1.x;
+  offset1 *= sqrt(r1/a1) * tick;
 
-  float2 shift2;
-  shift2.x = -effect2.y; shift2.y = effect2.x;
-  shift2 *= sqrt(r2/a2) * tick;
+  float2 offset2;
+  offset2.x = -effect2.y; offset2.y = effect2.x;
+  offset2 *= sqrt(r2/a2) * tick;
 
   generateModelDoubleDiskDevice<<<kMaxBlockDim, ((num_particle1-1)/kMaxBlockDim)+1>>>(
-      num_particle1, shift1, gpuptr_position_previous
+      num_particle1, offset1, gpuptr_position_previous
   );
   generateModelDoubleDiskDevice<<<kMaxBlockDim, ((num_particle2-1)/kMaxBlockDim)+1>>>(
-      num_particle2, shift2, gpuptr_position_previous+num_particle1
+      num_particle2, offset2, gpuptr_position_previous+num_particle1
   );
 }
 
