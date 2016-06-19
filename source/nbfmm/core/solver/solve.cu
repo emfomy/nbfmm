@@ -7,11 +7,8 @@
 
 #include <nbfmm/core.hpp>
 
-//  The namespace NBFMM
-namespace nbfmm {
-
 // Solve system
-void Solver::solve(
+void nbfmm::Solver::solve(
     const int     num_particle,
     const float2* gpuptr_position_origin,
     const float*  gpuptr_weight_origin,
@@ -28,5 +25,3 @@ void Solver::solve(
   l2p(num_particle);
   postdo(num_particle, gpuptr_effect_origin);
 }
-
-}  // namespace nbfmm

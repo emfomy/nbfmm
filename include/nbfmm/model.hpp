@@ -12,3 +12,5 @@
 #include <nbfmm/model/model.hpp>
 
 #endif  // NBFMM_MODEL_HPP_
+
+/// @defgroup  impl_model  Model implementation

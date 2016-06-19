@@ -8,6 +8,9 @@
 #include <nbfmm/core.hpp>
 #include <nbfmm/utility.hpp>
 
+/// @addtogroup impl_core
+/// @{
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Compute multipole to multipole
 ///
@@ -50,11 +53,10 @@ __global__ void m2mDevice(
   level_weight[idx] = this_weight;
 }
 
-//  The namespace NBFMM
-namespace nbfmm {
+/// @}
 
 // M2M
-void Solver::m2m() {
+void nbfmm::Solver::m2m() {
   if ( num_level_ <= 1 ) {
     return;
   }
@@ -70,5 +72,3 @@ void Solver::m2m() {
     m2mDevice<<<block_dim, grid_dim>>>(cell_size, base_dim_, gpuptr_cell_position_ + offset, gpuptr_cell_weight_ + offset);
   }
 }
-
-}  // namespace nbfmm

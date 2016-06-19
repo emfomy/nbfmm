@@ -13,3 +13,5 @@
 #include <nbfmm/core/kernel_function.hpp>
 
 #endif  // NBFMM_CORE_HPP_
+
+/// @defgroup  impl_core  Core implementation

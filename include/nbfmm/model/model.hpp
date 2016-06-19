@@ -11,9 +11,14 @@
 #include <nbfmm/config.hpp>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//  The namespace NBFMM.
+//  The NBFMM namespace.
 //
 namespace nbfmm {
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// The model namespace.
+///
+namespace model {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Generate circle shape particles
@@ -25,9 +30,9 @@ namespace nbfmm {
 /// @param[in]   tick                      the step size in time.
 /// @param[out]  gpuptr_position_current   the device pointer of current particle positions.
 /// @param[out]  gpuptr_position_previous  the device pointer of previous particle positions.
-/// @param[out]  gpuptr_weight_current     the device pointer of particle weights.
+/// @param[out]  gpuptr_weight             the device pointer of particle weights.
 ///
-void generateModelCircle(
+void generateCircle(
     const int     num_particle,
     const float2  center_position,
     const float   radius,
@@ -35,7 +40,7 @@ void generateModelCircle(
     const float   tick,
     float2*       gpuptr_position_current,
     float2*       gpuptr_position_previous,
-    float*        gpuptr_weight_current
+    float*        gpuptr_weight
 );
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -48,9 +53,9 @@ void generateModelCircle(
 /// @param[in]   tick                      the step size in time.
 /// @param[out]  gpuptr_position_current   the device pointer of current particle positions.
 /// @param[out]  gpuptr_position_previous  the device pointer of previous particle positions.
-/// @param[out]  gpuptr_weight_current     the device pointer of particle weights.
+/// @param[out]  gpuptr_weight             the device pointer of particle weights.
 ///
-void generateModelCircleUniform(
+void generateCircleUniform(
     const int     num_particle,
     const float2  center_position,
     const float   radius,
@@ -58,7 +63,7 @@ void generateModelCircleUniform(
     const float   tick,
     float2*       gpuptr_position_current,
     float2*       gpuptr_position_previous,
-    float*        gpuptr_weight_current
+    float*        gpuptr_weight
 );
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -71,9 +76,9 @@ void generateModelCircleUniform(
 /// @param[in]   tick                      the step size in time.
 /// @param[out]  gpuptr_position_current   the device pointer of current particle positions.
 /// @param[out]  gpuptr_position_previous  the device pointer of previous particle positions.
-/// @param[out]  gpuptr_weight_current     the device pointer of particle weights.
+/// @param[out]  gpuptr_weight             the device pointer of particle weights.
 ///
-void generateModelDisk(
+void generateDisk(
     const int     num_particle,
     const float2  center_position,
     const float   radius,
@@ -81,7 +86,7 @@ void generateModelDisk(
     const float   tick,
     float2*       gpuptr_position_current,
     float2*       gpuptr_position_previous,
-    float*        gpuptr_weight_current
+    float*        gpuptr_weight
 );
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -95,9 +100,9 @@ void generateModelDisk(
 /// @param[in]   tick                      the step size in time.
 /// @param[out]  gpuptr_position_current   the device pointer of current particle positions.
 /// @param[out]  gpuptr_position_previous  the device pointer of previous particle positions.
-/// @param[out]  gpuptr_weight_current     the device pointer of particle weights.
+/// @param[out]  gpuptr_weight             the device pointer of particle weights.
 ///
-void generateModelDiskCenter(
+void generateDiskCenter(
     const int     num_particle,
     const float2  center_position,
     const float   radius,
@@ -106,7 +111,7 @@ void generateModelDiskCenter(
     const float   tick,
     float2*       gpuptr_position_current,
     float2*       gpuptr_position_previous,
-    float*        gpuptr_weight_current
+    float*        gpuptr_weight
 );
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -119,9 +124,9 @@ void generateModelDiskCenter(
 /// @param[in]   tick                      the step size in time.
 /// @param[out]  gpuptr_position_current   the device pointer of current particle positions.
 /// @param[out]  gpuptr_position_previous  the device pointer of previous particle positions.
-/// @param[out]  gpuptr_weight_current     the device pointer of particle weights.
+/// @param[out]  gpuptr_weight             the device pointer of particle weights.
 ///
-void generateModelDiskStatic(
+void generateDiskStatic(
     const int     num_particle,
     const float2  center_position,
     const float   radius,
@@ -129,7 +134,7 @@ void generateModelDiskStatic(
     const float   tick,
     float2*       gpuptr_position_current,
     float2*       gpuptr_position_previous,
-    float*        gpuptr_weight_current
+    float*        gpuptr_weight
 );
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -142,12 +147,13 @@ void generateModelDiskStatic(
 /// @param[in]   radius1                   the radius of disk 1.
 /// @param[in]   radius2                   the radius of disk 2.
 /// @param[in]   weight                    the weight.
+/// @param[in]   eccentricity              the eccentricity.
 /// @param[in]   tick                      the step size in time.
 /// @param[out]  gpuptr_position_current   the device pointer of current particle positions.
 /// @param[out]  gpuptr_position_previous  the device pointer of previous particle positions.
-/// @param[out]  gpuptr_weight_current     the device pointer of particle weights.
+/// @param[out]  gpuptr_weight             the device pointer of particle weights.
 ///
-void generateModelDoubleDisk(
+void generateDoubleDisk(
     const int     num_particle1,
     const int     num_particle2,
     const float2  center_position1,
@@ -155,10 +161,11 @@ void generateModelDoubleDisk(
     const float   radius1,
     const float   radius2,
     const float   weight,
+    const float   eccentricity,
     const float   tick,
     float2*       gpuptr_position_current,
     float2*       gpuptr_position_previous,
-    float*        gpuptr_weight_current
+    float*        gpuptr_weight
 );
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -173,12 +180,13 @@ void generateModelDoubleDisk(
 /// @param[in]   weight                    the weight.
 /// @param[in]   center_weight1            the weight of center particle of disk 1.
 /// @param[in]   center_weight2            the weight of center particle of disk 2.
+/// @param[in]   eccentricity              the eccentricity.
 /// @param[in]   tick                      the step size in time.
 /// @param[out]  gpuptr_position_current   the device pointer of current particle positions.
 /// @param[out]  gpuptr_position_previous  the device pointer of previous particle positions.
-/// @param[out]  gpuptr_weight_current     the device pointer of particle weights.
+/// @param[out]  gpuptr_weight             the device pointer of particle weights.
 ///
-void generateModelDoubleDiskCenter(
+void generateDoubleDiskCenter(
     const int     num_particle1,
     const int     num_particle2,
     const float2  center_position1,
@@ -188,10 +196,11 @@ void generateModelDoubleDiskCenter(
     const float   weight,
     const float   center_weight1,
     const float   center_weight2,
+    const float   eccentricity,
     const float   tick,
     float2*       gpuptr_position_current,
     float2*       gpuptr_position_previous,
-    float*        gpuptr_weight_current
+    float*        gpuptr_weight
 );
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -205,9 +214,9 @@ void generateModelDoubleDiskCenter(
 /// @param[in]   tick                      the step size in time.
 /// @param[out]  gpuptr_position_current   the device pointer of current particle positions.
 /// @param[out]  gpuptr_position_previous  the device pointer of previous particle positions.
-/// @param[out]  gpuptr_weight_current     the device pointer of particle weights.
+/// @param[out]  gpuptr_weight             the device pointer of particle weights.
 ///
-void generateModelRectangle(
+void generateRectangle(
     const int     num_particle,
     const float2  center_position,
     const float   width,
@@ -218,6 +227,8 @@ void generateModelRectangle(
     float2*       gpuptr_position_previous,
     float*        gpuptr_weight
 );
+
+}  // namespace model
 
 }  // namespace nbfmm
 
