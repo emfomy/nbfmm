@@ -19,7 +19,8 @@ Solver::Solver(
     base_dim_(1 << (num_level+1)),
     num_cell_p1_(base_dim_*base_dim_+1),
     max_num_particle_(max_num_particle),
-    position_limits_(position_limits) {
+    position_limits_(position_limits)
+{
   assert(num_level >= 0);
   assert(base_dim_ < kMaxBlockDim);
   assert(max_num_particle > 0 && max_num_particle < kMaxGridDim);

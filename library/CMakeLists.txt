@@ -23,4 +23,7 @@ foreach(dir IN LISTS dirs)
   endforeach()
 endforeach()
 
+# list(REMOVE_ITEM libraries "nbfmm_core")
+# list(APPEND libraries "nbfmm_core")
+
 set(NBFMM_LIBRARY ${libraries} PARENT_SCOPE)

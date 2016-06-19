@@ -5,7 +5,7 @@ set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS};-Xcompiler;-fopenmp)
 
 # Set target
 cuda_add_executable(nbfmm_main main.cu)
-target_link_libraries(nbfmm_main ${NBFMM_LIBRARY} ${GOMP_LIBRARY})
+target_link_libraries(nbfmm_main ${NBFMM_LIBRARY} ${NBFMM_LIBRARY} ${GOMP_LIBRARY})
 
 # Add rule 'run'
 add_custom_target(
@@ -25,7 +25,7 @@ set_directory_properties(
 
 # Set target
 cuda_add_executable(nbfmm_demo demo.cu)
-target_link_libraries(nbfmm_demo ${NBFMM_LIBRARY} ${GOMP_LIBRARY})
+target_link_libraries(nbfmm_demo ${NBFMM_LIBRARY} ${NBFMM_LIBRARY} ${GOMP_LIBRARY})
 
 # Add rule 'demo'
 add_custom_target(

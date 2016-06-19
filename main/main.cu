@@ -12,10 +12,11 @@
 #include <iostream>
 #include <nbfmm/core.hpp>
 #include <nbfmm/utility.hpp>
-#include <nbfmm/visualization.hpp>
+#include <nbfmm/display.hpp>
 #include <SyncedMemory.h>
 
 using namespace std;
+using namespace nbfmm;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Main function
@@ -28,24 +29,27 @@ int main( int argc, char const *argv[] ) {
 
   const char* result_y4m = ( argc > 1 ) ? argv[1] : "nbfmm_result.mp4";
 
-  const int width        = 1024;
-  const int height       = 768;
-  const int FPS          = 60;
-  const unsigned n_frame = 600;
-  const int n_star       = 10000;
+  const int width     = 1024;
+  const int height    = 768;
+  const int FPS       = 60;
+  const int num_frame = 300;
 
-  const int num_level        = 4;
-  const int max_num_particle = n_star;
+  const int   num_star    = 1000;
+  const int   fmm_level   = 4;
+  const float grav_const  = 10.0f;
+  const float tick        = 0.1/FPS;
+  const float size_scale  = 1.0f;
 
-  float4 position_limit      = make_float4(0.0f, 0.0f, 16.0f, 12.0f);
-  float2 position_center     = make_float2(position_limit.x+position_limit.z,
-                                           position_limit.y+position_limit.w)/2;
-  float2 position_half_size  = make_float2(position_limit.z-position_limit.x,
-                                           position_limit.w-position_limit.y)/2;
-  float4 visualization_limit = make_float4(position_center.x-position_half_size.x*0.8,
-                                           position_center.y-position_half_size.y*0.8,
-                                           position_center.x+position_half_size.x*0.8,
-                                           position_center.y+position_half_size.y*0.8);
+  const float pos_width     = 16.0f;
+  const float pos_height    = 12.0f;
+  const float display_scale = 0.8;
+  const float4 position_limits = make_float4(-pos_width/2, -pos_height/2, pos_width/2, pos_height/2);
+  const float4 display_limits  = make_float4(position_limits.x * display_scale,
+                                             position_limits.y * display_scale,
+                                             position_limits.z * display_scale,
+                                             position_limits.w * display_scale);
+
+  Stars asteroids(fmm_level, num_star, width, height, FPS, grav_const, tick, size_scale, position_limits, display_limits);
 
   int progress = 0;
   for ( auto i = 0; i < 100; ++i ) {
@@ -53,28 +57,25 @@ int main( int argc, char const *argv[] ) {
   }
   putchar('\r'); fflush(stdout);
 
-  Stars asteroids(n_star, FPS);
-  asteroids.initialize(position_limit);
-  asteroids.deletion_check(position_limit);
+  asteroids.initialize();
 
-  nbfmm::Solver solver(num_level, max_num_particle, position_limit);
-
-  unsigned FRAME_SIZE = width*height*3/2;
+  int FRAME_SIZE = width*height*3/2;
   MemoryBuffer<uint8_t> frameb(FRAME_SIZE);
   auto frames = frameb.CreateSync(FRAME_SIZE);
   FILE *fp = fopen(result_y4m, "wb");
   fprintf(fp, "YUV4MPEG2 W%d H%d F%d:%d Ip A1:1 C420\n", width, height, FPS, 1);
 
-  for (unsigned j = 0; j < n_frame; ++j) {
+  fputs("FRAME\n", fp);
+  asteroids.display(frames.get_gpu_wo());
+  fwrite(frames.get_cpu_ro(), sizeof(uint8_t), FRAME_SIZE, fp);
+
+  for ( auto j = 1; j < num_frame; ++j) {
+    asteroids.update();
+    asteroids.display(frames.get_gpu_wo());
     fputs("FRAME\n", fp);
-    asteroids.visualize(width, height,frames.get_gpu_wo(),1,visualization_limit);
     fwrite(frames.get_cpu_ro(), sizeof(uint8_t), FRAME_SIZE, fp);
 
-    solver.solve(asteroids.n_star, asteroids.gpu_star_position_cur, asteroids.gpu_star_weight, asteroids.gpu_star_acceleration);
-    asteroids.update();
-    asteroids.deletion_check(position_limit);
-
-    if ( 100 * j > progress * n_frame ) {
+    if ( 100 * j > progress * num_frame ) {
       ++progress;
       putchar('>'); fflush(stdout);
     }
