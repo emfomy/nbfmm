@@ -45,6 +45,7 @@ void nbfmm::model::generateDoubleDiskCenter(
     const float   weight,
     const float   center_weight1,
     const float   center_weight2,
+    const float   eccentricity,
     const float   tick,
     float2*       gpuptr_position_current,
     float2*       gpuptr_position_previous,
@@ -71,13 +72,13 @@ void nbfmm::model::generateDoubleDiskCenter(
 
   float2 offset1;
   offset1.x = -effect1.y; offset1.y = effect1.x;
-  offset1 *= sqrt(r1/a1) * tick / 2;
-  offset1 -= effect1 * tick * tick * 2;
+  offset1 *= sqrt(r1/a1) * tick / exp2(eccentricity);
+  offset1 -= effect1 * tick * tick * eccentricity;
 
   float2 offset2;
   offset2.x = -effect2.y; offset2.y = effect2.x;
-  offset2 *= sqrt(r2/a2) * tick / 2;
-  offset2 -= effect2 * tick * tick * 2;
+  offset2 *= sqrt(r2/a2) * tick / exp2(eccentricity);
+  offset2 -= effect2 * tick * tick * eccentricity;
 
   generateDoubleDiskCenterDevice<<<kMaxBlockDim, ((num_particle1-1)/kMaxBlockDim)+1>>>(
       num_particle1, offset1, gpuptr_position_previous

@@ -147,6 +147,7 @@ void generateDiskStatic(
 /// @param[in]   radius1                   the radius of disk 1.
 /// @param[in]   radius2                   the radius of disk 2.
 /// @param[in]   weight                    the weight.
+/// @param[in]   eccentricity              the eccentricity.
 /// @param[in]   tick                      the step size in time.
 /// @param[out]  gpuptr_position_current   the device pointer of current particle positions.
 /// @param[out]  gpuptr_position_previous  the device pointer of previous particle positions.
@@ -160,6 +161,7 @@ void generateDoubleDisk(
     const float   radius1,
     const float   radius2,
     const float   weight,
+    const float   eccentricity,
     const float   tick,
     float2*       gpuptr_position_current,
     float2*       gpuptr_position_previous,
@@ -178,6 +180,7 @@ void generateDoubleDisk(
 /// @param[in]   weight                    the weight.
 /// @param[in]   center_weight1            the weight of center particle of disk 1.
 /// @param[in]   center_weight2            the weight of center particle of disk 2.
+/// @param[in]   eccentricity              the eccentricity.
 /// @param[in]   tick                      the step size in time.
 /// @param[out]  gpuptr_position_current   the device pointer of current particle positions.
 /// @param[out]  gpuptr_position_previous  the device pointer of previous particle positions.
@@ -193,6 +196,7 @@ void generateDoubleDiskCenter(
     const float   weight,
     const float   center_weight1,
     const float   center_weight2,
+    const float   eccentricity,
     const float   tick,
     float2*       gpuptr_position_current,
     float2*       gpuptr_position_previous,

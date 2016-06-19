@@ -44,11 +44,14 @@ void nbfmm::model::generateDoubleDisk(
     const float   radius1,
     const float   radius2,
     const float   weight,
+    const float   eccentricity,
     const float   tick,
     float2*       gpuptr_position_current,
     float2*       gpuptr_position_previous,
     float*        gpuptr_weight_current
 ) {
+  assert(eccentricity >= 0);
+
   generateDisk(num_particle1, center_position1, radius1, weight, tick,
                     gpuptr_position_current, gpuptr_position_previous, gpuptr_weight_current);
   generateDisk(num_particle2, center_position2, radius2, weight, tick,
@@ -67,11 +70,13 @@ void nbfmm::model::generateDoubleDisk(
 
   float2 offset1;
   offset1.x = -effect1.y; offset1.y = effect1.x;
-  offset1 *= sqrt(r1/a1) * tick;
+  offset1 *= sqrt(r1/a1) * tick / exp2(eccentricity);
+  offset1 -= effect1 * tick * tick * eccentricity;
 
   float2 offset2;
   offset2.x = -effect2.y; offset2.y = effect2.x;
-  offset2 *= sqrt(r2/a2) * tick;
+  offset2 *= sqrt(r2/a2) * tick / exp2(eccentricity);
+  offset2 -= effect2 * tick * tick * eccentricity;
 
   generateDoubleDiskDevice<<<kMaxBlockDim, ((num_particle1-1)/kMaxBlockDim)+1>>>(
       num_particle1, offset1, gpuptr_position_previous

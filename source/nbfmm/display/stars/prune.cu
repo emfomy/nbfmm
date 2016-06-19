@@ -19,10 +19,10 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Remove out-of-range stars
 ///
-/// @param[in]   num_star        the number of stars.
-/// @param[in]   display_limits  the limits of display positions. [x_min, y_min, x_max, y_max].
-/// @param[in]   position        the star positions.
-/// @param[out]  elimination     the elimination tag.
+/// @param[in]   num_star         the number of stars.
+/// @param[in]   position_limits  the limits of position positions. [x_min, y_min, x_max, y_max].
+/// @param[in]   position         the star positions.
+/// @param[out]  elimination      the elimination tags.
 ///
 
 __global__ void pruneDevice(
