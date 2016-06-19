@@ -125,7 +125,7 @@ void Solver::predo(
   thrust::sort_by_key(thrust_index, thrust_index+num_particle, thrust_perm);
 
   // Extract heads of cell index of each cell
-  extractHead<<<(num_particle/block_dim)+1, kMaxBlockDim>>>(num_particle, base_dim_, gpuptr_index_, gpuptr_head_);
+  extractHead<<<grid_dim, block_dim>>>(num_particle, base_dim_, gpuptr_index_, gpuptr_head_);
 
   // Permute input vectors
   permuteInputVector<<<grid_dim, block_dim>>>(num_particle, gpuptr_perm_,

@@ -11,9 +11,9 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Compute local to local
 ///
-/// @param[in]   cell_size     the size of cells in the current level per side.
-/// @param[in]   base_dim      the number of cells in the base level per side.
-/// @param[out]  level_effect  the cell effects of the current level.
+/// @param[in]      cell_size     the size of cells in the current level per side.
+/// @param[in]      base_dim      the number of cells in the base level per side.
+/// @param[in,out]  level_effect  the cell effects of the current level.
 ///
 __global__ void l2lDevice(
     const int cell_size,
@@ -35,7 +35,7 @@ __global__ void l2lDevice(
 //  The namespace NBFMM
 namespace nbfmm {
 
-// L2P
+// L2L
 void Solver::l2l() {
   if ( num_level_ <= 1 ) {
     return;
@@ -48,8 +48,8 @@ void Solver::l2l() {
     const int grid_dim_side  = (level_dim < kMaxBlockDim) ? 1 : (level_dim / block_dim_side);
     const dim3 block_dim(block_dim_side, block_dim_side);
     const dim3 grid_dim(grid_dim_side, grid_dim_side);
-    const int shift = level * base_dim_ * base_dim_;
-    l2lDevice<<<block_dim, grid_dim>>>(cell_size, base_dim_, gpuptr_cell_effect_ + shift);
+    const int offset = level * base_dim_ * base_dim_;
+    l2lDevice<<<block_dim, grid_dim>>>(cell_size, base_dim_, gpuptr_cell_effect_ + offset);
   }
 }
 
