@@ -71,6 +71,9 @@ class Stars {
   /// The weight of stars
   float* gpuptr_weight_;
 
+  /// The elimination tags
+  bool* gpuptr_elimination_;
+
  public:
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -97,7 +100,7 @@ class Stars {
   ~Stars();
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  /// Initialize the data
+  /// Initialize the stars
   ///
   /// @tparam  Func  the function type
   /// @tparam  Args  the argument types
@@ -106,29 +109,37 @@ class Stars {
   /// @param   args  the arguments of the initialization function
   ///
   /// @note
-  ///   the last arguments of @p func are #gpuptr_position_cur_, #gpuptr_position_pre_, #gpuptr_weight_.
+  ///   the last arguments of @p func are #tick_, #gpuptr_position_cur_, #gpuptr_position_pre_, #gpuptr_weight_.
   ///
   template <typename Func, typename... Args>
   void initialize(Func func, Args... args) {
-    func(args..., gpuptr_position_cur_, gpuptr_position_pre_, gpuptr_weight_);
+    func(args..., tick_, gpuptr_position_cur_, gpuptr_position_pre_, gpuptr_weight_);
+    initialize();
   }
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  /// Update date
+  /// Update the stars
   ///
   void update();
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  /// Update date
+  /// Display the stars
   ///
   /// @param  board  the pixel board
   ///
   void display( uint8_t* board );
 
+ private:
+
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  /// Update date
+  /// Remove out-of-range stars
   ///
-  void checkDeletion();
+  void prune();
+
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  /// Initialize the stars: apply gravitational constant on star weights
+  ///
+  void initialize();
 };
 
 }  // namespace nbfmm

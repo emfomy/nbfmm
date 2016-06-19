@@ -33,12 +33,12 @@ int main( int argc, char const *argv[] ) {
   const int width     = 1024;
   const int height    = 768;
   const int fps       = 60;
-  const int num_frame = 300;
+  const int num_frame = 3000;
 
   const int   num_star    = 10000;
   const int   fmm_level   = 4;
-  const float grav_const  = 1.0f;
   const float tick        = 0.05/fps;
+  const float grav_const  = 1.0f;
   const float size_scale  = 1.0f;
 
   const float pos_width     = 16.0f;
@@ -66,7 +66,7 @@ int main( int argc, char const *argv[] ) {
   const float model_height = (position_limits.w - position_limits.y)/2;
 
   asteroids.initialize(model::generateRectangle,
-      num_star, center_position, model_width, model_height, 8.0f, tick
+      num_star, center_position, model_width, model_height, 16.0f
   );
 
   // const float2 center_position = (make_float2(position_limits.x, position_limits.y) +
@@ -74,7 +74,7 @@ int main( int argc, char const *argv[] ) {
   // const float radius = (position_limits.w - position_limits.y)/16;
 
   // asteroids.initialize(model::generateDisk,
-  //     num_star, center_position, radius, 3.0f, tick
+  //     num_star, center_position, radius, 1.0f
   // );
 
   // const int n1 = 5;
@@ -89,12 +89,12 @@ int main( int argc, char const *argv[] ) {
   // const float radius = (position_limits.w - position_limits.y)/16;
 
   // asteroids.initialize(model::generateDoubleDisk,
-  //     num_star*mu1, num_star*mu2, center_position1, center_position2, radius*mu1, radius*mu2, 3.0f, tick
+  //     num_star*mu1, num_star*mu2, center_position1, center_position2, radius*mu1, radius*mu2, 1.0f
   // );
 
   // asteroids.initialize(model::generateDoubleDiskCenter,
   //     num_star*mu1, num_star*mu2, center_position1, center_position2, radius*mu1, radius*mu2, 1.0f,
-  //     num_star*mu1, num_star*mu1, tick
+  //     num_star*mu1, num_star*mu1
   // );
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

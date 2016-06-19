@@ -33,19 +33,21 @@ Stars::Stars(
     position_limits_(position_limits),
     display_limits_(display_limits)
 {
-  assert(num_star >= 0);
-  assert(width > 0);
-  assert(height > 0);
-  assert(fps > 0);
-  assert(tick > 0);
-  assert(size_scale > 0);
-  assert(position_limits.x < position_limits.z && position_limits.y < position_limits.w);
-  assert(display_limits.x < display_limits.z && display_limits.y < display_limits.w);
+  assert(num_star_ >= 0);
+  assert(width_ > 0);
+  assert(height_ > 0);
+  assert(fps_ > 0);
+  assert(tick_ > 0);
+  assert(grav_const_ > 0);
+  assert(size_scale_ > 0);
+  assert(position_limits_.x < position_limits_.z && position_limits_.y < position_limits_.w);
+  assert(display_limits_.x  < display_limits_.z  && display_limits_.y  < display_limits_.w);
 
-  cudaMalloc(&gpuptr_position_cur_,  num_star * sizeof(float2));
-  cudaMalloc(&gpuptr_position_pre_,  num_star * sizeof(float2));
-  cudaMalloc(&gpuptr_acceleration_,  num_star * sizeof(float2));
-  cudaMalloc(&gpuptr_weight_,        num_star * sizeof(float));
+  cudaMalloc(&gpuptr_position_cur_,  num_star_ * sizeof(float2));
+  cudaMalloc(&gpuptr_position_pre_,  num_star_ * sizeof(float2));
+  cudaMalloc(&gpuptr_acceleration_,  num_star_ * sizeof(float2));
+  cudaMalloc(&gpuptr_weight_,        num_star_ * sizeof(float));
+  cudaMalloc(&gpuptr_elimination_,   num_star_ * sizeof(bool));
 }
 
 // Default destructor
@@ -54,6 +56,7 @@ Stars::~Stars() {
   cudaFree(gpuptr_position_pre_);
   cudaFree(gpuptr_acceleration_);
   cudaFree(gpuptr_weight_);
+  cudaFree(gpuptr_elimination_);
 }
 
 }  // namespace nbfmm
