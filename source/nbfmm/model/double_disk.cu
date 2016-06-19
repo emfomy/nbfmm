@@ -6,13 +6,13 @@
 ///
 
 #include <nbfmm/model.hpp>
-#include <cstdlib>
 #include <cmath>
 #include <curand_kernel.h>
 #include <nbfmm/core/kernel_function.hpp>
 #include <nbfmm/utility.hpp>
 
-using namespace std;
+/// @addtogroup impl_model
+/// @{
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Generate double disk shape particles
@@ -21,7 +21,7 @@ using namespace std;
 /// @param[in]   offset              the offset of previous particle positions.
 /// @param[out]  position_previous  the previous particle positions.
 ///
-__global__ void generateModelDoubleDiskDevice(
+__global__ void generateDoubleDiskDevice(
     const int  num_particle,
     float2     offset,
     float2*    position_previous
@@ -33,13 +33,10 @@ __global__ void generateModelDoubleDiskDevice(
   position_previous[idx] += offset;
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//  The namespace NBFMM.
-//
-namespace nbfmm {
+/// @}
 
 // Generate double disk shape particles
-void generateModelDoubleDisk(
+void nbfmm::model::generateDoubleDisk(
     const int     num_particle1,
     const int     num_particle2,
     const float2  center_position1,
@@ -52,9 +49,9 @@ void generateModelDoubleDisk(
     float2*       gpuptr_position_previous,
     float*        gpuptr_weight_current
 ) {
-  generateModelDisk(num_particle1, center_position1, radius1, weight, tick,
+  generateDisk(num_particle1, center_position1, radius1, weight, tick,
                     gpuptr_position_current, gpuptr_position_previous, gpuptr_weight_current);
-  generateModelDisk(num_particle2, center_position2, radius2, weight, tick,
+  generateDisk(num_particle2, center_position2, radius2, weight, tick,
                     gpuptr_position_current+num_particle1, gpuptr_position_previous+num_particle1,
                     gpuptr_weight_current+num_particle1);
 
@@ -76,12 +73,10 @@ void generateModelDoubleDisk(
   offset2.x = -effect2.y; offset2.y = effect2.x;
   offset2 *= sqrt(r2/a2) * tick;
 
-  generateModelDoubleDiskDevice<<<kMaxBlockDim, ((num_particle1-1)/kMaxBlockDim)+1>>>(
+  generateDoubleDiskDevice<<<kMaxBlockDim, ((num_particle1-1)/kMaxBlockDim)+1>>>(
       num_particle1, offset1, gpuptr_position_previous
   );
-  generateModelDoubleDiskDevice<<<kMaxBlockDim, ((num_particle2-1)/kMaxBlockDim)+1>>>(
+  generateDoubleDiskDevice<<<kMaxBlockDim, ((num_particle2-1)/kMaxBlockDim)+1>>>(
       num_particle2, offset2, gpuptr_position_previous+num_particle1
   );
-}
-
 }

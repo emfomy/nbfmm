@@ -10,7 +10,7 @@ target_link_libraries(nbfmm_main ${NBFMM_LIBRARY} ${NBFMM_LIBRARY} ${GOMP_LIBRAR
 # Add rule 'run'
 add_custom_target(
   run
-  COMMAND ./nbfmm_main nbfmm_result.y4m
+  COMMAND ./nbfmm_main nbfmm.y4m
   DEPENDS nbfmm_main ${NBFMM_LIBRARY}
   WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
   COMMENT "Running main"
@@ -20,7 +20,7 @@ add_custom_target(
 set_directory_properties(
   PROPERTIES
   ADDITIONAL_MAKE_CLEAN_FILES
-  "${CMAKE_CURRENT_BINARY_DIR}/nbfmm_result.y4m"
+  "${CMAKE_CURRENT_BINARY_DIR}/nbfmm.y4m"
 )
 
 # Set target

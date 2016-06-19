@@ -7,10 +7,8 @@
 /// @author  Da-Wei Chang  <davidzan830@gmail.com>
 ///
 
-/// @cond
-
-#ifndef DEMO_STARS_DISPLAY_HPP_
-#define DEMO_STARS_DISPLAY_HPP_
+#ifndef NBFMM_DISPLAY_STARS_HPP_
+#define NBFMM_DISPLAY_STARS_HPP_
 
 #include <nbfmm/config.hpp>
 #include <cstdint>
@@ -18,7 +16,7 @@
 #include <SyncedMemory.h>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//  The namespace NBFMM.
+//  The NBFMM namespace.
 //
 namespace nbfmm {
 
@@ -29,77 +27,110 @@ class Stars {
 
  protected:
 
-  /// the FMM solver
+  /// The FMM solver
   Solver solver_;
 
-  /// the number of stars
+  /// The number of stars
   int num_star_;
 
-  /// the width of the frame
+  /// The frame width
   int width_;
 
-  /// the height of the frame
+  /// The frame height
   int height_;
 
-  /// the number of frames per second
-  const int FPS_;
+  /// The number of frames per second
+  const int fps_;
 
-  /// the gravitational constant
-  const float grav_const_;
-
-  /// the step size in time
+  /// The step size in time
   const float tick_;
 
-  /// the scale of star size
+  /// The gravitational constant
+  const float grav_const_;
+
+  /// The scale of star size
   const float size_scale_;
 
-  /// the position limits
+  /// The limits of positions. [x_min, y_min, x_max, y_max].
   const float4 position_limits_;
 
-  /// the display limits
+  /// The limits of display positions. [x_min, y_min, x_max, y_max].
   const float4 display_limits_;
 
  public:
 
-  /// current position of stars
+  /// The current positions of stars
   float2* gpuptr_position_cur_;
 
-  /// previous position of stars
+  /// The previous positions of stars
   float2* gpuptr_position_pre_;
 
-  /// the acceleration of stars
+  /// The acceleration of stars
   float2* gpuptr_acceleration_;
 
-  /// the weight of stars
+  /// The weight of stars
   float* gpuptr_weight_;
 
  public:
 
-  // Constructor
-  Stars( const int fmm_level, const int num_star, const int width, const int height, const int FPS,
-         const float grav_const, const float tick, const float size_scale,
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  /// Default constructor
+  ///
+  /// @param  fmm_level         the number of FMM cell levels.
+  /// @param  num_star          the number of stars.
+  /// @param  width             the frame width.
+  /// @param  height            the frame height.
+  /// @param  fps               the number of frames per second
+  /// @param  tick              the step size in time
+  /// @param  grav_const        the gravitational constant.
+  /// @param  size_scale        the scale of star size
+  /// @param  position_limits   the limits of positions. [x_min, y_min, x_max, y_max].
+  /// @param  display_limits    the limits of display positions. [x_min, y_min, x_max, y_max].
+  ///
+  Stars( const int fmm_level, const int num_star, const int width, const int height, const int fps,
+         const float tick, const float grav_const, const float size_scale,
          const float4 position_limits, const float4 display_limits );
 
-  /// Destructor
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  /// Default destructor
+  ///
   ~Stars();
 
-  /// Initialize
-  template<typename Func, typename... Args>
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  /// Initialize the data
+  ///
+  /// @tparam  Func  the function type
+  /// @tparam  Args  the argument types
+  ///
+  /// @param   func  the initialization function
+  /// @param   args  the arguments of the initialization function
+  ///
+  /// @note
+  ///   the last arguments of @p func are #gpuptr_position_cur_, #gpuptr_position_pre_, #gpuptr_weight_.
+  ///
+  template <typename Func, typename... Args>
   void initialize(Func func, Args... args) {
     func(args..., gpuptr_position_cur_, gpuptr_position_pre_, gpuptr_weight_);
   }
 
-  /// Update
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  /// Update date
+  ///
   void update();
 
-  /// Visualize
-  void display( uint8_t *board );
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  /// Update date
+  ///
+  /// @param  board  the pixel board
+  ///
+  void display( uint8_t* board );
 
-  void deletion_check();
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  /// Update date
+  ///
+  void checkDeletion();
 };
 
 }  // namespace nbfmm
 
-#endif  // DEMO_STARS_DISPLAY_HPP_
-
-/// @endcond
+#endif  // NBFMM_DISPLAY_STARS_HPP_

@@ -9,6 +9,9 @@
 #include <nbfmm/core.hpp>
 #include <nbfmm/utility.hpp>
 
+/// @addtogroup impl_core
+/// @{
+
 /// @cond
 static const int block_dim_p2p = 64;
 /// @endcond
@@ -157,11 +160,10 @@ void p2pBlock(
   }
 }
 
-//  The namespace NBFMM
-namespace nbfmm {
+/// @}
 
 // P2P
-void Solver::p2p( const int num_particle ) {
+void nbfmm::Solver::p2p( const int num_particle ) {
   const int block_dim = kMaxBlockDim;
   const int grid_dim  = ((num_particle-1)/block_dim)+1;
   if ( num_particle > kMaxGridDim ) {
@@ -172,5 +174,3 @@ void Solver::p2p( const int num_particle ) {
                                               gpuptr_weight_, gpuptr_index_, gpuptr_head_, gpuptr_effect_);
   }
 }
-
-}  // namespace nbfmm

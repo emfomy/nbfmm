@@ -8,6 +8,9 @@
 #include <nbfmm/core.hpp>
 #include <nbfmm/utility.hpp>
 
+/// @addtogroup impl_core
+/// @{
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Compute multipole to local
 ///
@@ -56,11 +59,10 @@ __global__ void m2lDevice(
   cell_level_effect[target_idx] = target_effect;
 }
 
-//  The namespace NBFMM
-namespace nbfmm {
+/// @}
 
 // M2L
-void Solver::m2l() {
+void nbfmm::Solver::m2l() {
   if ( num_level_ <= 0 ) {
     return;
   }
@@ -77,5 +79,3 @@ void Solver::m2l() {
                                        gpuptr_cell_position_ + offset, gpuptr_cell_weight_ + offset, gpuptr_cell_effect_ + offset);
   }
 }
-
-}  // namespace nbfmm

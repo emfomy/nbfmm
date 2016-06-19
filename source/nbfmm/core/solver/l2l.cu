@@ -8,6 +8,9 @@
 #include <nbfmm/core.hpp>
 #include <nbfmm/utility.hpp>
 
+/// @addtogroup impl_core
+/// @{
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Compute local to local
 ///
@@ -32,11 +35,10 @@ __global__ void l2lDevice(
   level_effect[idx] += level_effect[idx_parent];
 }
 
-//  The namespace NBFMM
-namespace nbfmm {
+/// @}
 
 // L2L
-void Solver::l2l() {
+void nbfmm::Solver::l2l() {
   if ( num_level_ <= 1 ) {
     return;
   }
@@ -52,5 +54,3 @@ void Solver::l2l() {
     l2lDevice<<<block_dim, grid_dim>>>(cell_size, base_dim_, gpuptr_cell_effect_ + offset);
   }
 }
-
-}  // namespace nbfmm

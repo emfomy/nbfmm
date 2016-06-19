@@ -28,17 +28,17 @@ int main( int argc, char const *argv[] ) {
        << NBFMM_VERSION_MINOR << "."
        << NBFMM_VERSION_PATCH << endl << endl;
 
-  const char* result_y4m = ( argc > 1 ) ? argv[1] : "nbfmm_result.mp4";
+  const char* result_y4m = ( argc > 1 ) ? argv[1] : "nbfmm.y4m";
 
   const int width     = 1024;
   const int height    = 768;
-  const int FPS       = 60;
+  const int fps       = 60;
   const int num_frame = 300;
 
-  const int   num_star    = 1000;
+  const int   num_star    = 10000;
   const int   fmm_level   = 4;
-  const float grav_const  = 10.0f;
-  const float tick        = 0.1/FPS;
+  const float grav_const  = 1.0f;
+  const float tick        = 0.05/fps;
   const float size_scale  = 1.0f;
 
   const float pos_width     = 16.0f;
@@ -50,8 +50,6 @@ int main( int argc, char const *argv[] ) {
                                              position_limits.z * display_scale,
                                              position_limits.w * display_scale);
 
-  Stars asteroids(fmm_level, num_star, width, height, FPS, grav_const, tick, size_scale, position_limits, display_limits);
-
   int progress = 0;
   for ( auto i = 0; i < 100; ++i ) {
     putchar('=');
@@ -60,35 +58,41 @@ int main( int argc, char const *argv[] ) {
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  // const float2 center_position = (make_float2(position_limits.x, position_limits.y) +
-  //                                 make_float2(position_limits.z, position_limits.w)) / 2;
-  // const float width  = (position_limits.z - position_limits.x)/2;
-  // const float height = (position_limits.w - position_limits.y)/2;
+  Stars asteroids(fmm_level, num_star, width, height, fps, tick, grav_const, size_scale, position_limits, display_limits);
 
-  // asteroids.initialize(generateModelRectangle,
-  //     num_star, center_position, width, height, 6.0f, tick
-  // );
+  const float2 center_position = (make_float2(position_limits.x, position_limits.y) +
+                                  make_float2(position_limits.z, position_limits.w)) / 2;
+  const float model_width  = (position_limits.z - position_limits.x)/2;
+  const float model_height = (position_limits.w - position_limits.y)/2;
 
-  const int n1 = 5;
-  const int n2 = 3;
-  const float mu1 = float(n1) / (n1+n2);
-  const float mu2 = float(n2) / (n1+n2);
-
-  const float2 center_position1 = (make_float2(position_limits.x, position_limits.y) * (3*mu1+2*mu2) +
-                                   make_float2(position_limits.z, position_limits.w) * (3*mu1+4*mu2)) / 6;
-  const float2 center_position2 = (make_float2(position_limits.z, position_limits.w) * (3*mu2+2*mu1) +
-                                   make_float2(position_limits.x, position_limits.y) * (3*mu2+4*mu1)) / 6;
-  const float radius = (position_limits.w - position_limits.y)/16;
-
-  // asteroids.initialize(generateModelDisk,
-  //     num_star, center_position1, radius, 3.0f, tick
-  // );
-
-  asteroids.initialize(generateModelDoubleDisk,
-      num_star*mu1, num_star*mu2, center_position1, center_position2, radius*mu1, radius*mu2, 3.0f, tick
+  asteroids.initialize(model::generateRectangle,
+      num_star, center_position, model_width, model_height, 8.0f, tick
   );
 
-  // asteroids.initialize(generateModelDoubleDiskCenter,
+  // const float2 center_position = (make_float2(position_limits.x, position_limits.y) +
+  //                                 make_float2(position_limits.z, position_limits.w)) / 2;
+  // const float radius = (position_limits.w - position_limits.y)/16;
+
+  // asteroids.initialize(model::generateDisk,
+  //     num_star, center_position, radius, 3.0f, tick
+  // );
+
+  // const int n1 = 5;
+  // const int n2 = 3;
+  // const float mu1 = float(n1) / (n1+n2);
+  // const float mu2 = float(n2) / (n1+n2);
+
+  // const float2 center_position1 = (make_float2(position_limits.x, position_limits.y) * (3*mu1+2*mu2) +
+  //                                  make_float2(position_limits.z, position_limits.w) * (3*mu1+4*mu2)) / 6;
+  // const float2 center_position2 = (make_float2(position_limits.z, position_limits.w) * (3*mu2+2*mu1) +
+  //                                  make_float2(position_limits.x, position_limits.y) * (3*mu2+4*mu1)) / 6;
+  // const float radius = (position_limits.w - position_limits.y)/16;
+
+  // asteroids.initialize(model::generateDoubleDisk,
+  //     num_star*mu1, num_star*mu2, center_position1, center_position2, radius*mu1, radius*mu2, 3.0f, tick
+  // );
+
+  // asteroids.initialize(model::generateDoubleDiskCenter,
   //     num_star*mu1, num_star*mu2, center_position1, center_position2, radius*mu1, radius*mu2, 1.0f,
   //     num_star*mu1, num_star*mu1, tick
   // );
@@ -99,7 +103,7 @@ int main( int argc, char const *argv[] ) {
   MemoryBuffer<uint8_t> frameb(FRAME_SIZE);
   auto frames = frameb.CreateSync(FRAME_SIZE);
   FILE *fp = fopen(result_y4m, "wb");
-  fprintf(fp, "YUV4MPEG2 W%d H%d F%d:%d Ip A1:1 C420\n", width, height, FPS, 1);
+  fprintf(fp, "YUV4MPEG2 W%d H%d F%d:%d Ip A1:1 C420\n", width, height, fps, 1);
 
   fputs("FRAME\n", fp);
   asteroids.display(frames.get_gpu_wo());

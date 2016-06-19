@@ -12,3 +12,6 @@
 #include <nbfmm/display/stars.hpp>
 
 #endif  // NBFMM_DISPLAY_HPP_
+
+/// @defgroup  impl_display  Display implementation
+

@@ -7,7 +7,7 @@
 
 #include <nbfmm/core/solver.hpp>
 
-//  The namespace NBFMM
+// The NBFMM namespace
 namespace nbfmm {
 
 // Default constructor

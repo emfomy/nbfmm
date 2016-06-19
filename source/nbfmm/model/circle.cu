@@ -11,7 +11,8 @@
 #include <nbfmm/core/kernel_function.hpp>
 #include <nbfmm/utility.hpp>
 
-using namespace std;
+/// @addtogroup impl_model
+/// @{
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Generate circle shape particles
@@ -25,7 +26,7 @@ using namespace std;
 /// @param[out]  position_previous  the previous particle positions.
 /// @param[out]  weight_ptr         the particle weights.
 ///
-__global__ void generateModelCircleDevice(
+__global__ void generateCircleDevice(
     const int     num_particle,
     const float2  center_position,
     const float   radius,
@@ -36,9 +37,11 @@ __global__ void generateModelCircleDevice(
     float*        weight_ptr
 ) {
   const int idx = threadIdx.x + blockIdx.x * blockDim.x;
+
   if ( idx >= num_particle ) {
     return;
   }
+
   curandState s;
   curand_init(0, idx, 0, &s);
 
@@ -49,13 +52,10 @@ __global__ void generateModelCircleDevice(
   weight_ptr[idx]             = weight;
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//  The namespace NBFMM.
-//
-namespace nbfmm {
+/// @}
 
 // Generate circle shape particles
-void generateModelCircle(
+void nbfmm::model::generateCircle(
     const int     num_particle,
     const float2  center_position,
     const float   radius,
@@ -75,8 +75,6 @@ void generateModelCircle(
   const float2 effect = kernelFunction(make_float2(0.0f, 0.0f), make_float2(radius, 0.0f), weight * (num_particle-1));
   const float angle_difference = acos(1.0 - effect.x * tick * tick / radius / 2.0f);
 
-  generateModelCircleDevice<<<grid_dim, block_dim>>>(num_particle, center_position, radius, weight, angle_difference,
+  generateCircleDevice<<<grid_dim, block_dim>>>(num_particle, center_position, radius, weight, angle_difference,
                                                            gpuptr_position_current, gpuptr_position_previous, gpuptr_weight);
-}
-
 }
