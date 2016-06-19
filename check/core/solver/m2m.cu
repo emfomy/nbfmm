@@ -31,17 +31,17 @@ void TestNbfmmSolver::m2m() {
   // Compute effects
   for ( auto l = 1; l < num_level; ++l ) {
     int cell_size = 1 << l;
-    int shift = cell_size / 2;
+    int offset = cell_size / 2;
     for ( auto j = 0; j < base_dim; j += cell_size ) {
       for ( auto i = 0; i < base_dim; i += cell_size ) {
-        cell_position0[l][j][i] = cell_position0[l-1][j][i]             * cell_weight0[l-1][j][i]
-                                + cell_position0[l-1][j][i+shift]       * cell_weight0[l-1][j][i+shift]
-                                + cell_position0[l-1][j+shift][i]       * cell_weight0[l-1][j+shift][i]
-                                + cell_position0[l-1][j+shift][i+shift] * cell_weight0[l-1][j+shift][i+shift];
+        cell_position0[l][j][i] = cell_position0[l-1][j][i]               * cell_weight0[l-1][j][i]
+                                + cell_position0[l-1][j][i+offset]        * cell_weight0[l-1][j][i+offset]
+                                + cell_position0[l-1][j+offset][i]        * cell_weight0[l-1][j+offset][i]
+                                + cell_position0[l-1][j+offset][i+offset] * cell_weight0[l-1][j+offset][i+offset];
         cell_weight0[l][j][i]   = cell_weight0[l-1][j][i]
-                                + cell_weight0[l-1][j][i+shift]
-                                + cell_weight0[l-1][j+shift][i]
-                                + cell_weight0[l-1][j+shift][i+shift];
+                                + cell_weight0[l-1][j][i+offset]
+                                + cell_weight0[l-1][j+offset][i]
+                                + cell_weight0[l-1][j+offset][i+offset];
         cell_position0[l][j][i] /= cell_weight0[l][j][i];
       }
     }

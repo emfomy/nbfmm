@@ -32,7 +32,7 @@ float2 kernelFunction(
     const float2 position_source,
     const float  weight_source
 ) {
-  const float epsilon = 1;
+  const float epsilon = 1e-1;
   float2 distance = make_float2(position_source.x - position_target.x, position_source.y - position_target.y);
   float r = sqrt(distance.x * distance.x + distance.y * distance.y);
   float tmp = weight_source / (r*r*r + epsilon);

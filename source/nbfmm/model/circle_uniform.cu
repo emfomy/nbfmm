@@ -13,7 +13,7 @@
 using namespace std;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// Generate uniform circle shape points
+/// Generate uniform circle shape particles
 ///
 /// @param[in]   num_particle       the number of particles.
 /// @param[in]   center_position    the center position.
@@ -50,7 +50,7 @@ __global__ void generateModelCircleUniformDevice(
 //
 namespace nbfmm {
 
-// Generate uniform circle shape points
+// Generate uniform circle shape particles
 void generateModelCircleUniform(
     const int     num_particle,
     const float2  center_position,

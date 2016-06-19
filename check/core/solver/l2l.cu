@@ -25,13 +25,13 @@ void TestNbfmmSolver::l2l() {
   // Compute effects
   for ( auto l = num_level-1; l > 0; --l ) {
     int cell_size = 1 << l;
-    int shift = cell_size / 2;
+    int offset = cell_size / 2;
     for ( auto j = 0; j < base_dim; j += cell_size ) {
       for ( auto i = 0; i < base_dim; i += cell_size ) {
-        cell_effect0[l-1][j][i]             += cell_effect0[l][j][i];
-        cell_effect0[l-1][j][i+shift]       += cell_effect0[l][j][i];
-        cell_effect0[l-1][j+shift][i]       += cell_effect0[l][j][i];
-        cell_effect0[l-1][j+shift][i+shift] += cell_effect0[l][j][i];
+        cell_effect0[l-1][j][i]               += cell_effect0[l][j][i];
+        cell_effect0[l-1][j][i+offset]        += cell_effect0[l][j][i];
+        cell_effect0[l-1][j+offset][i]        += cell_effect0[l][j][i];
+        cell_effect0[l-1][j+offset][i+offset] += cell_effect0[l][j][i];
       }
     }
   }
