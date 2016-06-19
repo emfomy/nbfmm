@@ -11,8 +11,9 @@
 #include <cstdlib>
 #include <iostream>
 #include <nbfmm/core.hpp>
-#include <nbfmm/utility.hpp>
 #include <nbfmm/display.hpp>
+#include <nbfmm/model.hpp>
+#include <nbfmm/utility.hpp>
 #include <SyncedMemory.h>
 
 using namespace std;
@@ -57,7 +58,42 @@ int main( int argc, char const *argv[] ) {
   }
   putchar('\r'); fflush(stdout);
 
-  asteroids.initialize();
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  // const float2 center_position = (make_float2(position_limits.x, position_limits.y) +
+  //                                 make_float2(position_limits.z, position_limits.w)) / 2;
+  // const float width  = (position_limits.z - position_limits.x)/2;
+  // const float height = (position_limits.w - position_limits.y)/2;
+
+  // asteroids.initialize(generateModelRectangle,
+  //     num_star, center_position, width, height, 6.0f, tick
+  // );
+
+  const int n1 = 5;
+  const int n2 = 3;
+  const float mu1 = float(n1) / (n1+n2);
+  const float mu2 = float(n2) / (n1+n2);
+
+  const float2 center_position1 = (make_float2(position_limits.x, position_limits.y) * (3*mu1+2*mu2) +
+                                   make_float2(position_limits.z, position_limits.w) * (3*mu1+4*mu2)) / 6;
+  const float2 center_position2 = (make_float2(position_limits.z, position_limits.w) * (3*mu2+2*mu1) +
+                                   make_float2(position_limits.x, position_limits.y) * (3*mu2+4*mu1)) / 6;
+  const float radius = (position_limits.w - position_limits.y)/16;
+
+  // asteroids.initialize(generateModelDisk,
+  //     num_star, center_position1, radius, 3.0f, tick
+  // );
+
+  asteroids.initialize(generateModelDoubleDisk,
+      num_star*mu1, num_star*mu2, center_position1, center_position2, radius*mu1, radius*mu2, 3.0f, tick
+  );
+
+  // asteroids.initialize(generateModelDoubleDiskCenter,
+  //     num_star*mu1, num_star*mu2, center_position1, center_position2, radius*mu1, radius*mu2, 1.0f,
+  //     num_star*mu1, num_star*mu1, tick
+  // );
+
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   int FRAME_SIZE = width*height*3/2;
   MemoryBuffer<uint8_t> frameb(FRAME_SIZE);

@@ -59,6 +59,8 @@ class Stars {
   /// the display limits
   const float4 display_limits_;
 
+ public:
+
   /// current position of stars
   float2* gpuptr_position_cur_;
 
@@ -82,7 +84,10 @@ class Stars {
   ~Stars();
 
   /// Initialize
-  void initialize();
+  template<typename Func, typename... Args>
+  void initialize(Func func, Args... args) {
+    func(args..., gpuptr_position_cur_, gpuptr_position_pre_, gpuptr_weight_);
+  }
 
   /// Update
   void update();

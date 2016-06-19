@@ -14,11 +14,10 @@
 #include <cstdlib>
 #include <curand.h>
 #include <curand_kernel.h>
-#include <nbfmm/utility.hpp>
-#include <nbfmm/model.hpp>
 #include <thrust/device_ptr.h>
 #include <thrust/find.h>
 #include <thrust/sort.h>
+#include <nbfmm/utility.hpp>
 
 __global__ void update_kernel(int num_star,float2* gpuptr_position_cur,float2* gpuptr_position_pre,float2* gpuptr_acceleration, float tick)
 {
@@ -143,45 +142,6 @@ __global__ void deletion_check_kernel(int num_star, float2* gpuptr_position_cur,
     } else {
       elimination[idx] = 0;
     }
-}
-
-void nbfmm::Stars::initialize()
-{
-  auto position_limits = position_limits_;
-
-  // const float2 center_position = (make_float2(position_limits.x, position_limits.y) +
-  //                                 make_float2(position_limits.z, position_limits.w)) / 2;
-  // const float width  = (position_limits.z - position_limits.x)/2;
-  // const float height = (position_limits.w - position_limits.y)/2;
-
-  // nbfmm::generateModelRectangle(
-  //     num_star_, center_position, width, height, 6.0f, tick_, gpuptr_position_cur_, gpuptr_position_pre_, gpuptr_weight_
-  // );
-
-  const int n1 = 5;
-  const int n2 = 3;
-  const float mu1 = float(n1) / (n1+n2);
-  const float mu2 = float(n2) / (n1+n2);
-
-  const float2 center_position1 = (make_float2(position_limits.x, position_limits.y) * (3*mu1+2*mu2) +
-                                   make_float2(position_limits.z, position_limits.w) * (3*mu1+4*mu2)) / 6;
-  const float2 center_position2 = (make_float2(position_limits.z, position_limits.w) * (3*mu2+2*mu1) +
-                                   make_float2(position_limits.x, position_limits.y) * (3*mu2+4*mu1)) / 6;
-  const float radius = (position_limits.w - position_limits.y)/16;
-
-  // nbfmm::generateModelDisk(
-  //     num_star_, center_position1, radius, 3.0f, tick_, gpuptr_position_cur_, gpuptr_position_pre_, gpuptr_weight_
-  // );
-
-  nbfmm::generateModelDoubleDisk(
-      num_star_*mu1, num_star_*mu2, center_position1, center_position2, radius*mu1, radius*mu2, 3.0f, tick_,
-      gpuptr_position_cur_, gpuptr_position_pre_, gpuptr_weight_
-  );
-
-  // nbfmm::generateModelDoubleDiskCenter(
-  //     num_star_*mu1, num_star_*mu2, center_position1, center_position2, radius*mu1, radius*mu2, 1.0f,
-  //     num_star_*mu1, num_star_*mu1, tick_, gpuptr_position_cur_, gpuptr_position_pre_, gpuptr_weight_
-  // );
 }
 //update
 void nbfmm::Stars::update()
