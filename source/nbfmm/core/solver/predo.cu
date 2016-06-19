@@ -11,6 +11,9 @@
 #include <nbfmm/core.hpp>
 #include <nbfmm/utility.hpp>
 
+/// @addtogroup impl_core
+/// @{
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Compute cell index of each particle
 ///
@@ -96,11 +99,10 @@ __global__ void permuteInputVector(
   weight[idx]   = weight_origin[perm[idx]];
 }
 
-//  The namespace NBFMM
-namespace nbfmm {
+/// @}
 
 // Solve system
-void Solver::predo(
+void nbfmm::Solver::predo(
     const int     num_particle,
     const float2* gpuptr_position_origin,
     const float*  gpuptr_weight_origin
@@ -125,11 +127,9 @@ void Solver::predo(
   thrust::sort_by_key(thrust_index, thrust_index+num_particle, thrust_perm);
 
   // Extract heads of cell index of each cell
-  extractHead<<<(num_particle/block_dim)+1, kMaxBlockDim>>>(num_particle, base_dim_, gpuptr_index_, gpuptr_head_);
+  extractHead<<<grid_dim, block_dim>>>(num_particle, base_dim_, gpuptr_index_, gpuptr_head_);
 
   // Permute input vectors
   permuteInputVector<<<grid_dim, block_dim>>>(num_particle, gpuptr_perm_,
                                               gpuptr_position_origin, gpuptr_weight_origin, gpuptr_position_, gpuptr_weight_);
 }
-
-}  // namespace nbfmm

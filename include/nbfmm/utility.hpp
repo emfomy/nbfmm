@@ -12,3 +12,5 @@
 #include <nbfmm/utility/operator.hpp>
 
 #endif  // NBFMM_UTILITY_HPP_
+
+/// @defgroup  impl_utility  Utility implementation

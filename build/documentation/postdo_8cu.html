@@ -30,7 +30,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">NBFMM
-   &#160;<span id="projectnumber">1.0.0</span>
+   &#160;<span id="projectnumber">1.1.1</span>
    </div>
    <div id="projectbrief">N-Body simulation using Fast Multipole Method</div>
   </td>
@@ -46,6 +46,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="modules.html"><span>Modules</span></a></li>
       <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
@@ -94,7 +95,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#namespaces">Namespaces</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">postdo.cu File Reference</div>  </div>
@@ -106,75 +106,19 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="textblock"><code>#include &lt;<a class="el" href="core_8hpp_source.html">nbfmm/core.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="utility_8hpp_source.html">nbfmm/utility.hpp</a>&gt;</code><br />
 </div><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
-Namespaces</h2></td></tr>
-<tr class="memitem:namespacenbfmm"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacenbfmm.html">nbfmm</a></td></tr>
-<tr class="memdesc:namespacenbfmm"><td class="mdescLeft">&#160;</td><td class="mdescRight">The namespace NBFMM. <br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a159b141593acbbbfd3713f98f5fb32e7"><td class="memItemLeft" align="right" valign="top">__global__ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="postdo_8cu.html#a159b141593acbbbfd3713f98f5fb32e7">permuteOutputVector</a> (const int num_particle, const int *perm, float2 *effect_origin, const float2 *effect)</td></tr>
-<tr class="memdesc:a159b141593acbbbfd3713f98f5fb32e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Permute output vector.  <a href="#a159b141593acbbbfd3713f98f5fb32e7">More...</a><br /></td></tr>
-<tr class="separator:a159b141593acbbbfd3713f98f5fb32e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga159b141593acbbbfd3713f98f5fb32e7"><td class="memItemLeft" align="right" valign="top">__global__ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__impl__core.html#ga159b141593acbbbfd3713f98f5fb32e7">permuteOutputVector</a> (const int num_particle, const int *perm, float2 *effect_origin, const float2 *effect)</td></tr>
+<tr class="memdesc:ga159b141593acbbbfd3713f98f5fb32e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Permute output vector.  <a href="group__impl__core.html#ga159b141593acbbbfd3713f98f5fb32e7">More...</a><br /></td></tr>
+<tr class="separator:ga159b141593acbbbfd3713f98f5fb32e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Do postliminary works. </p>
 <dl class="section author"><dt>Author</dt><dd>Mu Yang <a href="#" onclick="location.href='mai'+'lto:'+'emf'+'om'+'y@g'+'ma'+'il.'+'co'+'m'; return false;">emfom<span style="display: none;">.nosp@m.</span>y@gm<span style="display: none;">.nosp@m.</span>ail.c<span style="display: none;">.nosp@m.</span>om</a> </dd></dl>
-</div><h2 class="groupheader">Function Documentation</h2>
-<a class="anchor" id="a159b141593acbbbfd3713f98f5fb32e7"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">__global__ void permuteOutputVector </td>
-          <td>(</td>
-          <td class="paramtype">const int&#160;</td>
-          <td class="paramname"><em>num_particle</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const int *&#160;</td>
-          <td class="paramname"><em>perm</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">float2 *&#160;</td>
-          <td class="paramname"><em>effect_origin</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const float2 *&#160;</td>
-          <td class="paramname"><em>effect</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Permute output vector. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">num_particle</td><td>the number of particles. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">perm</td><td>the particle permutation indices. </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">effect_origin</td><td>the original particle effects. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">effect</td><td>the particle effects. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-</div><!-- contents -->
+</div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jun 14 2016 16:52:06 for NBFMM by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Jun 20 2016 05:33:38 for NBFMM by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.11
 </small></address>

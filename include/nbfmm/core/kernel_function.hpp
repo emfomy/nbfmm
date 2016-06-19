@@ -11,7 +11,7 @@
 #include <nbfmm/config.hpp>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//  The namespace NBFMM
+//  The NBFMM namespace
 //
 namespace nbfmm {
 
@@ -32,14 +32,11 @@ float2 kernelFunction(
     const float2 position_source,
     const float  weight_source
 ) {
+  const float epsilon = 1e-1;
   float2 distance = make_float2(position_source.x - position_target.x, position_source.y - position_target.y);
   float r = sqrt(distance.x * distance.x + distance.y * distance.y);
-  if ( r < 1e-8 ) {
-    return make_float2(0.0f, 0.0f);
-  } else {
-    float tmp = weight_source / (r*r*r);
-    return make_float2(distance.x * tmp, distance.y * tmp);
-  }
+  float tmp = weight_source / (r*r*r + epsilon);
+  return make_float2(distance.x * tmp, distance.y * tmp);
 }
 
 }  // namespace nbfmm

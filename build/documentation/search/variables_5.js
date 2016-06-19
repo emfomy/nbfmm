@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['position_5flimits_5f',['position_limits_',['../classnbfmm_1_1_solver.html#ae6b25556004ec3d5f53937ab323607c5',1,'nbfmm::Solver']]]
+  ['kmaxblockdim',['kMaxBlockDim',['../namespacenbfmm.html#ac41da170a13c86fbed4a0055e30ebe0a',1,'nbfmm']]],
+  ['kmaxgriddim',['kMaxGridDim',['../namespacenbfmm.html#ad5155c3519c5fa17fd7ede8f12a1e163',1,'nbfmm']]]
 ];

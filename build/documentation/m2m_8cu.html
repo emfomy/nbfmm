@@ -30,7 +30,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">NBFMM
-   &#160;<span id="projectnumber">1.0.0</span>
+   &#160;<span id="projectnumber">1.1.1</span>
    </div>
    <div id="projectbrief">N-Body simulation using Fast Multipole Method</div>
   </td>
@@ -46,6 +46,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="modules.html"><span>Modules</span></a></li>
       <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
@@ -94,7 +95,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#namespaces">Namespaces</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">m2m.cu File Reference</div>  </div>
@@ -106,75 +106,19 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="textblock"><code>#include &lt;<a class="el" href="core_8hpp_source.html">nbfmm/core.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="utility_8hpp_source.html">nbfmm/utility.hpp</a>&gt;</code><br />
 </div><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
-Namespaces</h2></td></tr>
-<tr class="memitem:namespacenbfmm"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacenbfmm.html">nbfmm</a></td></tr>
-<tr class="memdesc:namespacenbfmm"><td class="mdescLeft">&#160;</td><td class="mdescRight">The namespace NBFMM. <br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a4031f10bf4ce664b358daf099c6921fa"><td class="memItemLeft" align="right" valign="top">__global__ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="m2m_8cu.html#a4031f10bf4ce664b358daf099c6921fa">m2mDevice</a> (const int cell_size, const int base_dim, float2 *level_position, float *level_weight)</td></tr>
-<tr class="memdesc:a4031f10bf4ce664b358daf099c6921fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute multipole to multipole.  <a href="#a4031f10bf4ce664b358daf099c6921fa">More...</a><br /></td></tr>
-<tr class="separator:a4031f10bf4ce664b358daf099c6921fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga4031f10bf4ce664b358daf099c6921fa"><td class="memItemLeft" align="right" valign="top">__global__ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__impl__core.html#ga4031f10bf4ce664b358daf099c6921fa">m2mDevice</a> (const int cell_size, const int base_dim, float2 *level_position, float *level_weight)</td></tr>
+<tr class="memdesc:ga4031f10bf4ce664b358daf099c6921fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute multipole to multipole.  <a href="group__impl__core.html#ga4031f10bf4ce664b358daf099c6921fa">More...</a><br /></td></tr>
+<tr class="separator:ga4031f10bf4ce664b358daf099c6921fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Compute multipole to multipole. </p>
 <dl class="section author"><dt>Author</dt><dd>Mu Yang <a href="#" onclick="location.href='mai'+'lto:'+'emf'+'om'+'y@g'+'ma'+'il.'+'co'+'m'; return false;">emfom<span style="display: none;">.nosp@m.</span>y@gm<span style="display: none;">.nosp@m.</span>ail.c<span style="display: none;">.nosp@m.</span>om</a> </dd></dl>
-</div><h2 class="groupheader">Function Documentation</h2>
-<a class="anchor" id="a4031f10bf4ce664b358daf099c6921fa"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">__global__ void m2mDevice </td>
-          <td>(</td>
-          <td class="paramtype">const int&#160;</td>
-          <td class="paramname"><em>cell_size</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const int&#160;</td>
-          <td class="paramname"><em>base_dim</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">float2 *&#160;</td>
-          <td class="paramname"><em>level_position</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">float *&#160;</td>
-          <td class="paramname"><em>level_weight</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Compute multipole to multipole. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">cell_size</td><td>the size of cells in the current level per side. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">base_dim</td><td>the number of cells in the base level per side. </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">level_position</td><td>the cell positions of current level. </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">level_weight</td><td>the cell weights of current level. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-</div><!-- contents -->
+</div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jun 14 2016 16:52:05 for NBFMM by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Jun 20 2016 05:33:38 for NBFMM by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.11
 </small></address>

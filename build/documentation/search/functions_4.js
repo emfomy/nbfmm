@@ -1,7 +1,5 @@
 var searchData=
 [
-  ['m2l',['m2l',['../classnbfmm_1_1_solver.html#aad12010c2b53e264b7c608a9c14e581d',1,'nbfmm::Solver']]],
-  ['m2ldevice',['m2lDevice',['../m2l_8cu.html#a6b164bbca861bf77889b5961cd135667',1,'m2l.cu']]],
-  ['m2m',['m2m',['../classnbfmm_1_1_solver.html#a9f66db4f9427cd880100b79ede424865',1,'nbfmm::Solver']]],
-  ['m2mdevice',['m2mDevice',['../m2m_8cu.html#a4031f10bf4ce664b358daf099c6921fa',1,'m2m.cu']]]
+  ['initialize',['initialize',['../classnbfmm_1_1_stars.html#ac5b35aed14b114ba23af92dfd9429773',1,'nbfmm::Stars::initialize(Func func, Args...args)'],['../classnbfmm_1_1_stars.html#abc9e36d3454da7e0bd1402c6889b312b',1,'nbfmm::Stars::initialize()']]],
+  ['initializedevice',['initializeDevice',['../group__impl__display.html#gad98865fa3f39811bf342e6ec5896c83b',1,'initialize.cu']]]
 ];

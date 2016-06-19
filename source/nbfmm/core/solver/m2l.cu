@@ -8,6 +8,9 @@
 #include <nbfmm/core.hpp>
 #include <nbfmm/utility.hpp>
 
+/// @addtogroup impl_core
+/// @{
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Compute multipole to local
 ///
@@ -56,11 +59,14 @@ __global__ void m2lDevice(
   cell_level_effect[target_idx] = target_effect;
 }
 
-//  The namespace NBFMM
-namespace nbfmm {
+/// @}
 
 // M2L
-void Solver::m2l() {
+void nbfmm::Solver::m2l() {
+  if ( num_level_ <= 0 ) {
+    return;
+  }
+
   int level_dim = base_dim_;
   int cell_size = 1;
   for ( auto level = 0; level < num_level_; ++level, level_dim /= 2, cell_size *= 2 ) {
@@ -68,10 +74,8 @@ void Solver::m2l() {
     const int grid_dim_side  = (level_dim < kMaxBlockDim) ? 1 : (level_dim / block_dim_side);
     const dim3 block_dim(block_dim_side, block_dim_side);
     const dim3 grid_dim(grid_dim_side, grid_dim_side);
-    const int shift = level * base_dim_ * base_dim_;
+    const int offset = level * base_dim_ * base_dim_;
     m2lDevice<<<block_dim, grid_dim>>>(base_dim_, level_dim, cell_size,
-                                       gpuptr_cell_position_ + shift, gpuptr_cell_weight_ + shift, gpuptr_cell_effect_ + shift);
+                                       gpuptr_cell_position_ + offset, gpuptr_cell_weight_ + offset, gpuptr_cell_effect_ + offset);
   }
 }
-
-}  // namespace nbfmm

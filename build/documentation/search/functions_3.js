@@ -1,7 +1,19 @@
 var searchData=
 [
-  ['l2l',['l2l',['../classnbfmm_1_1_solver.html#aaadf0df4c5b0d220a57b7bfbf5a43079',1,'nbfmm::Solver']]],
-  ['l2ldevice',['l2lDevice',['../l2l_8cu.html#a23ab0b03df123fc3f8d0dda71e70ed32',1,'l2l.cu']]],
-  ['l2p',['l2p',['../classnbfmm_1_1_solver.html#a5e209178b2c2516410c58ae3fdce273c',1,'nbfmm::Solver']]],
-  ['l2pdevice',['l2pDevice',['../l2p_8cu.html#ae211876dc72259cf22023f71160a6a89',1,'l2p.cu']]]
+  ['generatecircle',['generateCircle',['../namespacenbfmm_1_1model.html#a916ba4185a98b73e5d4f0e11a8b4fe19',1,'nbfmm::model']]],
+  ['generatecircledevice',['generateCircleDevice',['../group__impl__model.html#ga114ff6cfb0ac953559cecc958da610f3',1,'circle.cu']]],
+  ['generatecircleuniform',['generateCircleUniform',['../namespacenbfmm_1_1model.html#a9d1745e6533ebcb0b2cb8e75c99c5973',1,'nbfmm::model']]],
+  ['generatecircleuniformdevice',['generateCircleUniformDevice',['../group__impl__model.html#ga049bf3a6bc42a1adb60e1a444e5e08ee',1,'circle_uniform.cu']]],
+  ['generatedisk',['generateDisk',['../namespacenbfmm_1_1model.html#aa73833bc820b9c869f98fd942a2f3836',1,'nbfmm::model']]],
+  ['generatediskcenter',['generateDiskCenter',['../namespacenbfmm_1_1model.html#a30c806797e2b621c2e1db6f71bc07cba',1,'nbfmm::model']]],
+  ['generatediskcenterdevice',['generateDiskCenterDevice',['../group__impl__model.html#gad7e8864bf3bc2b26a9d543668617c3fa',1,'disk_center.cu']]],
+  ['generatediskdevice',['generateDiskDevice',['../group__impl__model.html#ga3ceb8cd3e58c739520e95372b2ab8c2a',1,'disk.cu']]],
+  ['generatediskstatic',['generateDiskStatic',['../namespacenbfmm_1_1model.html#ad6db5f2443b91703dd5a29e96a69b2f1',1,'nbfmm::model']]],
+  ['generatediskstaticdevice',['generateDiskStaticDevice',['../group__impl__model.html#gad437b2dc043e0e31c1a0498941c12adc',1,'disk_static.cu']]],
+  ['generatedoubledisk',['generateDoubleDisk',['../namespacenbfmm_1_1model.html#a469deef887a9e916814baf879ed68606',1,'nbfmm::model']]],
+  ['generatedoublediskcenter',['generateDoubleDiskCenter',['../namespacenbfmm_1_1model.html#a37e64a913b7dc4fe3fa9e318ccccaeb2',1,'nbfmm::model']]],
+  ['generatedoublediskcenterdevice',['generateDoubleDiskCenterDevice',['../group__impl__model.html#ga23a94e9bc1af6d03868777d3687aa5f1',1,'double_disk_center.cu']]],
+  ['generatedoublediskdevice',['generateDoubleDiskDevice',['../group__impl__model.html#ga40c861c75642680fd35de108f3807b91',1,'double_disk.cu']]],
+  ['generaterectangle',['generateRectangle',['../namespacenbfmm_1_1model.html#a670c13442904e26cd5fd811f40724ecd',1,'nbfmm::model']]],
+  ['generaterectangledevice',['generateRectangleDevice',['../group__impl__model.html#ga2edf02d86c8f4f58ef49c4321d08d86a',1,'rectangle.cu']]]
 ];

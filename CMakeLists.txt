@@ -6,22 +6,23 @@ cmake_minimum_required(VERSION 3.0)
 
 # Set version number
 set(NBFMM_VERSION_MAJOR 1)
-set(NBFMM_VERSION_MINOR 0)
-set(NBFMM_VERSION_PATCH 0)
+set(NBFMM_VERSION_MINOR 1)
+set(NBFMM_VERSION_PATCH 1)
 
 # Set Makefile
 set(CMAKE_COLOR_MAKEFILE ON)
-if(CMAKE_BUILD_TYPE STREQUAL Debug)
-  set(CMAKE_VERBOSE_MAKEFILE ON)
-endif()
+# set(CMAKE_VERBOSE_MAKEFILE ON)
 
 # CUDA
 find_package(CUDA 7.5 REQUIRED)
 set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS};-O2;-arch=sm_35;-std=c++11)
 set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS};-Xcompiler;-Wall,-Wextra)
-set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS};-isystem;${CUDA_INCLUDE_DIRS})
+foreach(dir IN LISTS CUDA_INCLUDE_DIRS)
+  set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS};-isystem;"${dir}")
+endforeach()
+set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS};-isystem;"${PROJECT_SOURCE_DIR}/external/include")
 include_directories("${PROJECT_SOURCE_DIR}/include" "${PROJECT_BINARY_DIR}/include")
-link_directories("${PROJECT_BINARY_DIR}/library")
+link_directories("${PROJECT_BINARY_DIR}/library" "${PROJECT_BINARY_DIR}/external/library")
 
 # CPPUNIT root
 set(CPPUNIT_ROOT "" CACHE PATH "The root path of CppUnit.")
@@ -45,6 +46,6 @@ message(STATUS "Looking for CppUnit libraries - found")
 # Add subdirectories
 add_subdirectory(include)
 add_subdirectory(library)
-add_subdirectory(demo)
+add_subdirectory(main)
 add_subdirectory(check)
 add_subdirectory(doxygen)
