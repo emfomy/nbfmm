@@ -32,8 +32,7 @@ Solver::Solver(
   cudaMalloc(&gpuptr_index_,         max_num_particle_ * sizeof(int2));
   cudaMalloc(&gpuptr_perm_,          max_num_particle_ * sizeof(int));
   cudaMalloc(&gpuptr_head_,          num_cell_p1_      * sizeof(int));
-#pragma warning
-  if ( num_level_ < 2 ) {
+  if ( num_level_ < 2 ) { /// @todo Reduce buffer size
     cudaMalloc(&gpuptr_cell_position_, base_dim_ * base_dim_ * 2 * sizeof(float2));
     cudaMalloc(&gpuptr_cell_effect_,   base_dim_ * base_dim_ * 2 * sizeof(float2));
     cudaMalloc(&gpuptr_cell_weight_,   base_dim_ * base_dim_ * 2 * sizeof(float));
