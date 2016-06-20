@@ -57,9 +57,9 @@ int main( int argc, char const *argv[] ) {
   }
   putchar('\r'); fflush(stdout);
 
-  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Stars asteroids(fmm_level, num_star, width, height, fps, tick, grav_const, size_scale, position_limits, display_limits);
 
-  // Stars asteroids(fmm_level, num_star, width, height, fps, tick, grav_const, size_scale, position_limits, display_limits);
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   // const float2 center_position = (make_float2(display_limits.x, display_limits.y) +
   //                                 make_float2(display_limits.z, display_limits.w)) / 2;
