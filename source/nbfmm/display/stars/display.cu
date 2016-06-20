@@ -224,7 +224,7 @@ void nbfmm::Stars::display( uint8_t* board ) {
 
   const int block_dim = kMaxBlockDim;
   const int grid_dim  = ((num_star_-1)/block_dim)+1;
-  displayDevice<<<grid_dim,block_dim>>>(num_star_, width_, height_, size_scale_, grav_const_, display_limits_,
+  displayDevice<<<grid_dim,block_dim>>>(num_star_, width_, height_, grav_const_, size_scale_, display_limits_,
                                         gpuptr_position_cur_, gpuptr_weight_, board);
 
   prune();
