@@ -22,9 +22,9 @@
 /// @param[out]  position_previous  the previous particle positions.
 ///
 __global__ void generateDoubleDiskDevice(
-    const int  num_particle,
-    float2     offset,
-    float2*    position_previous
+    const int num_particle,
+    float2    offset,
+    float2*   position_previous
 ) {
   const int idx = threadIdx.x + blockIdx.x * blockDim.x;
   if ( idx >= num_particle ) {
@@ -37,18 +37,18 @@ __global__ void generateDoubleDiskDevice(
 
 // Generate double disk shape particles
 void nbfmm::model::generateDoubleDisk(
-    const int     num_particle1,
-    const int     num_particle2,
-    const float2  center_position1,
-    const float2  center_position2,
-    const float   radius1,
-    const float   radius2,
-    const float   weight,
-    const float   eccentricity,
-    const float   tick,
-    float2*       gpuptr_position_current,
-    float2*       gpuptr_position_previous,
-    float*        gpuptr_weight_current
+    const int    num_particle1,
+    const int    num_particle2,
+    const float2 center_position1,
+    const float2 center_position2,
+    const float  radius1,
+    const float  radius2,
+    const float  weight,
+    const float  eccentricity,
+    const float  tick,
+    float2*      gpuptr_position_current,
+    float2*      gpuptr_position_previous,
+    float*       gpuptr_weight_current
 ) {
   assert(eccentricity >= 0);
 

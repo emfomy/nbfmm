@@ -12,7 +12,7 @@ fps        = 60
 num_second = 10
 
 fmm_level     = 4
-num_star      = 10000
+num_star      = 1000
 pos_width     = 16
 pos_height    = 12
 display_scale = 0.5

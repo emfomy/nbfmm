@@ -26,14 +26,14 @@
 /// @param[out]  weight_ptr         the particle weights.
 ///
 __global__ void generateCircleUniformDevice(
-    const int     num_particle,
-    const float2  center_position,
-    const float   radius,
-    const float   weight,
-    const float   angle_difference,
-    float2*       position_current,
-    float2*       position_previous,
-    float*        weight_ptr
+    const int    num_particle,
+    const float2 center_position,
+    const float  radius,
+    const float  weight,
+    const float  angle_difference,
+    float2*      position_current,
+    float2*      position_previous,
+    float*       weight_ptr
 ) {
   const int idx = threadIdx.x + blockIdx.x * blockDim.x;
 
@@ -41,25 +41,25 @@ __global__ void generateCircleUniformDevice(
     return;
   }
 
-  const float  angle_current  = (2.0f * M_PI * idx) / num_particle;
-  const float  angle_previous = angle_current - angle_difference;
-  position_current[idx]       = center_position + radius * make_float2(cosf(angle_current),  sinf(angle_current));
-  position_previous[idx]      = center_position + radius * make_float2(cosf(angle_previous), sinf(angle_previous));
-  weight_ptr[idx]             = weight;
+  const float angle_current  = (2.0f * M_PI * idx) / num_particle;
+  const float angle_previous = angle_current - angle_difference;
+  position_current[idx]      = center_position + radius * make_float2(cosf(angle_current),  sinf(angle_current));
+  position_previous[idx]     = center_position + radius * make_float2(cosf(angle_previous), sinf(angle_previous));
+  weight_ptr[idx]            = weight;
 }
 
 /// @}
 
 // Generate uniform circle shape particles
 void nbfmm::model::generateCircleUniform(
-    const int     num_particle,
-    const float2  center_position,
-    const float   radius,
-    const float   weight,
-    const float   tick,
-    float2*       gpuptr_position_current,
-    float2*       gpuptr_position_previous,
-    float*        gpuptr_weight
+    const int    num_particle,
+    const float2 center_position,
+    const float  radius,
+    const float  weight,
+    const float  tick,
+    float2*      gpuptr_position_current,
+    float2*      gpuptr_position_previous,
+    float*       gpuptr_weight
 ) {
   assert( num_particle > 0 );
   assert( radius > 0 );
@@ -72,5 +72,5 @@ void nbfmm::model::generateCircleUniform(
   const float angle_difference = acos(1.0 - effect.x * tick * tick / radius / 2.0f);
 
   generateCircleUniformDevice<<<grid_dim, block_dim>>>(num_particle, center_position, radius, weight, angle_difference,
-                                                            gpuptr_position_current, gpuptr_position_previous, gpuptr_weight);
+                                                       gpuptr_position_current, gpuptr_position_previous, gpuptr_weight);
 }

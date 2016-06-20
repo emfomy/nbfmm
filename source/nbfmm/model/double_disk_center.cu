@@ -21,9 +21,9 @@
 /// @param[out]  position_previous  the previous particle positions.
 ///
 __global__ void generateDoubleDiskCenterDevice(
-    const int  num_particle,
-    float2     offset,
-    float2*    position_previous
+    const int num_particle,
+    float2    offset,
+    float2*   position_previous
 ) {
   const int idx = threadIdx.x + blockIdx.x * blockDim.x;
   if ( idx >= num_particle ) {

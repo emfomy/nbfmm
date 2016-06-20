@@ -29,15 +29,15 @@
 /// @param[out]  weight_ptr         the particle weights.
 ///
 __global__ void generateDiskCenterDevice(
-    const int     num_particle,
-    const float2  center_position,
-    const float   max_radius,
-    const float   weight,
-    const float   center_weight,
-    const float   tick,
-    float2*       position_current,
-    float2*       position_previous,
-    float*        weight_ptr
+    const int    num_particle,
+    const float2 center_position,
+    const float  max_radius,
+    const float  weight,
+    const float  center_weight,
+    const float  tick,
+    float2*      position_current,
+    float2*      position_previous,
+    float*       weight_ptr
 ) {
   const int idx = threadIdx.x + blockIdx.x * blockDim.x;
 
@@ -69,15 +69,15 @@ __global__ void generateDiskCenterDevice(
 
 // Generate disk shape particles with a large particle at center
 void nbfmm::model::generateDiskCenter(
-    const int     num_particle,
-    const float2  center_position,
-    const float   radius,
-    const float   weight,
-    const float   center_weight,
-    const float   tick,
-    float2*       gpuptr_position_current,
-    float2*       gpuptr_position_previous,
-    float*        gpuptr_weight
+    const int    num_particle,
+    const float2 center_position,
+    const float  radius,
+    const float  weight,
+    const float  center_weight,
+    const float  tick,
+    float2*      gpuptr_position_current,
+    float2*      gpuptr_position_previous,
+    float*       gpuptr_weight
 ) {
   assert( num_particle > 0 );
   assert( radius > 0 );
@@ -87,5 +87,5 @@ void nbfmm::model::generateDiskCenter(
   const int grid_dim  = ((num_particle-1)/block_dim)+1;
 
   generateDiskCenterDevice<<<grid_dim, block_dim>>>(num_particle, center_position, radius, weight, center_weight, tick,
-                                                         gpuptr_position_current, gpuptr_position_previous, gpuptr_weight);
+                                                    gpuptr_position_current, gpuptr_position_previous, gpuptr_weight);
 }
