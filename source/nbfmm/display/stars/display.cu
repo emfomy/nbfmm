@@ -19,7 +19,6 @@
 /// @param[in]   num_star        the number of stars.
 /// @param[in]   width           the frame width.
 /// @param[in]   height          the frame height.
-/// @param[in]   grav_const      the gravitational constant.
 /// @param[in]   size_scale      the scale of star size.
 /// @param[in]   display_limits  the limits of display positions. [x_min, y_min, x_max, y_max].
 /// @param[in]   position        the star positions.
@@ -31,7 +30,6 @@ __global__ void displayDevice(
   const int     num_star,
   const int     width,
   const int     height,
-  const float   grav_const,
   const float   size_scale,
   const float4  display_limits,
   const float2* position,
@@ -48,13 +46,13 @@ __global__ void displayDevice(
   const float unit_height = (display_limits.w - display_limits.y) / height;
   const int x    = floor((position[idx].x - display_limits.x) / unit_width);
   const int y    = floor((display_limits.w - position[idx].y) / unit_height);
-  const int size = floor(sqrt(weight[idx] / grav_const) / size_scale);
+  const int size = floor(sqrt(weight[idx]) / size_scale);
 
   board += x + y * width;
 
   if ( 0 <= x && x < width && 0 <= y && y <= height ) {
     board[ 0 + 0 * width] = 255;
-    if ( size >= 1 ) {
+    if ( size > 1 ) {
       if ( x >= 1 ) {
         board[-1 + 0 * width] = 255;
       }
@@ -68,7 +66,7 @@ __global__ void displayDevice(
         board[ 0 + 1 * width] = 255;
       }
     }
-    if ( size >= 2 ) {
+    if ( size > 2 ) {
       if ( x >= 1 && y >= 1 ) {
         board[-1 - 1 * width] = 255;
       }
@@ -82,7 +80,7 @@ __global__ void displayDevice(
         board[ 1 + 1 * width] = 255;
       }
     }
-    if ( size >= 3 ) {
+    if ( size > 3 ) {
       if ( x >= 2 ) {
         board[-2 + 0 * width] = 255;
       }
@@ -96,7 +94,7 @@ __global__ void displayDevice(
         board[ 0 + 2 * width] = 255;
       }
     }
-    if ( size >= 4 ) {
+    if ( size > 4 ) {
       if ( x >= 2 && y >= 1 ) {
         board[-2 - 1 * width] = 255;
       }
@@ -122,7 +120,7 @@ __global__ void displayDevice(
         board[ 1 + 2 * width] = 255;
       }
     }
-    if ( size >= 5 ) {
+    if ( size > 5 ) {
       if ( x >= 3 ) {
         board[-3 + 0 * width] = 255;
       }
@@ -148,7 +146,7 @@ __global__ void displayDevice(
         board[ 2 + 2 * width] = 255;
       }
     }
-    if ( size >= 6 ) {
+    if ( size > 6 ) {
       if ( x >= 3 && y >= 1 ) {
         board[-3 - 1 * width] = 255;
       }
@@ -174,7 +172,7 @@ __global__ void displayDevice(
         board[ 1 + 3 * width] = 255;
       }
     }
-    if ( size >= 7 ) {
+    if ( size > 7 ) {
       if ( x >= 4 ) {
         board[-4 + 0 * width] = 255;
       }
@@ -224,7 +222,7 @@ void nbfmm::Stars::display( uint8_t* board ) {
 
   const int block_dim = kMaxBlockDim;
   const int grid_dim  = ((num_star_-1)/block_dim)+1;
-  displayDevice<<<grid_dim,block_dim>>>(num_star_, width_, height_, grav_const_, size_scale_, display_limits_,
+  displayDevice<<<grid_dim,block_dim>>>(num_star_, width_, height_, size_scale_, display_limits_,
                                         gpuptr_position_cur_, gpuptr_weight_, board);
 
   prune();

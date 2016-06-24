@@ -55,9 +55,9 @@ __global__ void generateDiskCenterDevice(
   curandState s;
   curand_init(0, idx, 0, &s);
 
+  const float  total_weight     = weight * (idx-1) + center_weight;
   const float  radius           = (float(idx+1) / num_particle) * max_radius;
-  const float2 effect           = nbfmm::kernelFunction(make_float2(0.0f, 0.0f), make_float2(radius, 0.0f),
-                                                        weight * (idx-1) + center_weight);
+  const float2 effect           = nbfmm::kernelFunction(make_float2(0.0f, 0.0f), make_float2(radius, 0.0f), total_weight);
   const float  angle_difference = acos(1.0 - effect.x * tick * tick / radius / 2.0f);
   const float  angle_current    = 2.0f * M_PI * curand_uniform(&s);
   const float  angle_previous   = angle_current - angle_difference;

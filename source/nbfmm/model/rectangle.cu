@@ -29,15 +29,15 @@
 /// @param[out]  weight             the particle weights.
 ///
 __global__ void generateRectangleDevice(
-    const int     num_particle,
-    const float2  center_position,
-    const float   width,
-    const float   height,
-    const float   max_weight,
-    const float   tick,
-    float2*       position_current,
-    float2*       position_previous,
-    float*        weight
+    const int    num_particle,
+    const float2 center_position,
+    const float  width,
+    const float  height,
+    const float  max_weight,
+    const float  tick,
+    float2*      position_current,
+    float2*      position_previous,
+    float*       weight
 ) {
   const int idx = threadIdx.x + blockIdx.x * blockDim.x;
 
@@ -59,15 +59,15 @@ __global__ void generateRectangleDevice(
 
 // Generate rectangle shape particles
 void nbfmm::model::generateRectangle(
-    const int     num_particle,
-    const float2  center_position,
-    const float   width,
-    const float   height,
-    const float   max_weight,
-    const float   tick,
-    float2*       gpuptr_position_current,
-    float2*       gpuptr_position_previous,
-    float*        gpuptr_weight
+    const int    num_particle,
+    const float2 center_position,
+    const float  width,
+    const float  height,
+    const float  max_weight,
+    const float  tick,
+    float2*      gpuptr_position_current,
+    float2*      gpuptr_position_previous,
+    float*       gpuptr_weight
 ) {
   assert( num_particle > 0 );
   assert( width > 0 );

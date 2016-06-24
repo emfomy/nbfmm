@@ -6,6 +6,7 @@
 ///
 
 #include <nbfmm/display/stars.hpp>
+#include <cmath>
 
 // The namespace NBFMM
 namespace nbfmm {
@@ -27,8 +28,7 @@ Stars::Stars(
     width_(width),
     height_(height),
     fps_(fps),
-    tick_(tick),
-    grav_const_(grav_const),
+    tick_(tick * sqrt(grav_const)),
     size_scale_(size_scale),
     position_limits_(position_limits),
     display_limits_(display_limits)
@@ -38,7 +38,6 @@ Stars::Stars(
   assert(height_ > 0);
   assert(fps_ > 0);
   assert(tick_ > 0);
-  assert(grav_const_ > 0);
   assert(size_scale_ > 0);
   assert(position_limits_.x < position_limits_.z && position_limits_.y < position_limits_.w);
   assert(display_limits_.x  < display_limits_.z  && display_limits_.y  < display_limits_.w);

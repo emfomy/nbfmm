@@ -36,20 +36,20 @@ __global__ void generateDoubleDiskCenterDevice(
 
 // Generate double disk shape particles with a large particle at each center
 void nbfmm::model::generateDoubleDiskCenter(
-    const int     num_particle1,
-    const int     num_particle2,
-    const float2  center_position1,
-    const float2  center_position2,
-    const float   radius1,
-    const float   radius2,
-    const float   weight,
-    const float   center_weight1,
-    const float   center_weight2,
-    const float   eccentricity,
-    const float   tick,
-    float2*       gpuptr_position_current,
-    float2*       gpuptr_position_previous,
-    float*        gpuptr_weight_current
+    const int    num_particle1,
+    const int    num_particle2,
+    const float2 center_position1,
+    const float2 center_position2,
+    const float  radius1,
+    const float  radius2,
+    const float  weight,
+    const float  center_weight1,
+    const float  center_weight2,
+    const float  eccentricity,
+    const float  tick,
+    float2*      gpuptr_position_current,
+    float2*      gpuptr_position_previous,
+    float*       gpuptr_weight_current
 ) {
   generateDiskCenter(num_particle1, center_position1, radius1, weight, center_weight1, tick,
                     gpuptr_position_current, gpuptr_position_previous, gpuptr_weight_current);
