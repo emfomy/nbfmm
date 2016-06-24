@@ -5,7 +5,7 @@ set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS};-Xcompiler;-fopenmp)
 
 # Set target
 cuda_add_executable(nbfmm_main main.cu)
-target_link_libraries(nbfmm_main ${NBFMM_LIBRARY} ${GOMP_LIBRARY})
+target_link_libraries(nbfmm_main -Wl,--start-group ${NBFMM_LIBRARY} -Wl,--end-group ${GOMP_LIBRARY})
 
 # Add rule 'run'
 file(GLOB scripts ${CMAKE_CURRENT_SOURCE_DIR}/script/*.py)
@@ -37,7 +37,7 @@ set_directory_properties(
 
 # Set target
 cuda_add_executable(nbfmm_demo demo.cu)
-target_link_libraries(nbfmm_demo ${NBFMM_LIBRARY} ${GOMP_LIBRARY})
+target_link_libraries(nbfmm_demo -Wl,--start-group ${NBFMM_LIBRARY} ${GOMP_LIBRARY})
 
 # Add rule 'demo'
 add_custom_target(

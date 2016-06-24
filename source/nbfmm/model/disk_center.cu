@@ -49,6 +49,7 @@ __global__ void generateDiskCenterDevice(
     position_current[idx]  = center_position;
     position_previous[idx] = center_position;
     weight_ptr[idx]        = center_weight;
+    return;
   }
 
   curandState s;

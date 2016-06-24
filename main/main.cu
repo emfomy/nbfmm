@@ -76,25 +76,26 @@ int main( int argc, char const *argv[] ) {
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   if ( !strcmp(model, "circle") ) {
-    if ( argc <= 15 ) {
-      cout << "Usage: " << argv[0] << " ... circle <radius> <weight>" << endl << endl;
+    if ( argc <= 16 ) {
+      cout << "Usage: " << argv[0] << " ... circle <radius> <weight> <center weight>" << endl << endl;
       abort();
     }
-    const float radius   = atof(argv[14]);
-    const float weight   = atof(argv[15]);
+    const float radius        = atof(argv[14]);
+    const float weight        = atof(argv[15]);
+    const float weight_center = atof(argv[16]);
 
-    printf("Model Circle: radius = %.2f, weight = %.2f\n\n", radius, weight);
+    printf("Model Circle: radius = %.2f, weight = %.2f, center weight = %.2f\n\n", radius, weight, weight_center);
 
-    stars.initialize(model::generateCircle,
-      num_star, center_position, radius, weight
+    stars.initialize(model::generateCircleCenter,
+      num_star, center_position, radius, weight, weight_center
     );
   } else if ( !strcmp(model, "disk") ) {
     if ( argc <= 15 ) {
       cout << "Usage: " << argv[0] << " ... disk <radius> <weight>" << endl << endl;
       abort();
     }
-    const float radius   = atof(argv[14]);
-    const float weight   = atof(argv[15]);
+    const float radius = atof(argv[14]);
+    const float weight = atof(argv[15]);
 
     printf("Model Disk: radius = %.2f, weight = %.2f\n\n", radius, weight);
 

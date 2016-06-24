@@ -23,4 +23,4 @@ foreach(dir IN LISTS dirs)
   endforeach()
 endforeach()
 
-set(NBFMM_LIBRARY -Wl,--start-group ${libraries} -Wl,--end-group PARENT_SCOPE)
+set(NBFMM_LIBRARY ${libraries} PARENT_SCOPE)
