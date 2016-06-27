@@ -76,35 +76,77 @@ int main( int argc, char const *argv[] ) {
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   if ( !strcmp(model, "circle") ) {
-    if ( argc <= 15 ) {
-      cout << "Usage: " << argv[0] << " ... circle <radius> <weight>" << endl << endl;
+    if ( argc <= 16 ) {
+      cout << "Usage: " << argv[0] << " ... circle <radius> <weight> <center weight>" << endl << endl;
       abort();
     }
-    const float radius   = atof(argv[14]);
-    const float weight   = atof(argv[15]);
+    const float radius        = atof(argv[14]);
+    const float weight        = atof(argv[15]);
+    const float weight_center = atof(argv[16]);
 
-    printf("Model Circle: radius = %.2f, weight = %.2f\n\n", radius, weight);
+    printf("Model Circle: radius = %.2f, weight = %.2f, center weight = %.2f\n\n", radius, weight, weight_center);
 
-    stars.initialize(model::generateCircle,
-      num_star, center_position, radius, weight
+    stars.initialize(model::generateCircleCenter,
+      num_star, center_position, radius, weight, weight_center
+    );
+  } else if ( !strcmp(model, "circle-uniform") ) {
+    if ( argc <= 16 ) {
+      cout << "Usage: " << argv[0] << " ... circle-uniform <radius> <weight> <center weight>" << endl << endl;
+      abort();
+    }
+    const float radius        = atof(argv[14]);
+    const float weight        = atof(argv[15]);
+    const float weight_center = atof(argv[16]);
+
+    printf("Model Uniform Circle: radius = %.2f, weight = %.2f, center weight = %.2f\n\n", radius, weight, weight_center);
+
+    stars.initialize(model::generateCircleUniformCenter,
+      num_star, center_position, radius, weight, weight_center
     );
   } else if ( !strcmp(model, "disk") ) {
     if ( argc <= 15 ) {
       cout << "Usage: " << argv[0] << " ... disk <radius> <weight>" << endl << endl;
       abort();
     }
-    const float radius   = atof(argv[14]);
-    const float weight   = atof(argv[15]);
+    const float radius = atof(argv[14]);
+    const float weight = atof(argv[15]);
 
     printf("Model Disk: radius = %.2f, weight = %.2f\n\n", radius, weight);
 
     stars.initialize(model::generateDisk,
       num_star, center_position, radius, weight
     );
-  } else if ( !strcmp(model, "doubledisk") ) {
+  } else if ( !strcmp(model, "disk-center") ) {
+    if ( argc <= 16 ) {
+      cout << "Usage: " << argv[0] << " ... disk-center <radius> <weight> <center weight>" << endl << endl;
+      abort();
+    }
+    const float radius        = atof(argv[14]);
+    const float weight        = atof(argv[15]);
+    const float weight_center = atof(argv[16]);
+
+    printf("Model Centered Disk: radius = %.2f, weight = %.2f, center weight = %.2f\n\n", radius, weight, weight_center);
+
+    stars.initialize(model::generateDiskCenter,
+      num_star, center_position, radius, weight, weight_center
+    );
+  } else if ( !strcmp(model, "disk-static") ) {
+    if ( argc <= 15 ) {
+      cout << "Usage: " << argv[0] << " ... disk-static <radius> <weight>" << endl << endl;
+      abort();
+    }
+    const float radius        = atof(argv[14]);
+    const float weight        = atof(argv[15]);
+
+    printf("Model Centered Disk: radius = %.2f, weight = %.2f\n\n", radius, weight);
+
+    stars.initialize(model::generateDiskStatic,
+      num_star, center_position, radius, weight
+    );
+  } else if ( !strcmp(model, "double-disk") ) {
     if ( argc <= 19 ) {
       cout << "Usage: " << argv[0] <<
-              " ... doubledisk <proportion 1> <proportion 2> <radius 1> <radius 2> <weight> <eccentricity>" << endl << endl;
+              " ... double-disk <proportion 1> <proportion 2> <radius 1> <radius 2> <weight> <eccentricity>" << endl << endl;
       abort();
     }
     const float n1           = atof(argv[14]);
@@ -116,7 +158,7 @@ int main( int argc, char const *argv[] ) {
     const float weight       = atof(argv[18]);
     const float eccentricity = atof(argv[19]);
 
-    assert(p1 >= 0 && p2 >= 0);
+    assert(n1 >= 0 && n2 >= 0);
 
     const float2 center_position1 = (make_float2(display_limits.x, display_limits.y) * (1*p1+0*p2) +
                                      make_float2(display_limits.z, display_limits.w) * (1*p1+2*p2)) / 2;
@@ -128,6 +170,38 @@ int main( int argc, char const *argv[] ) {
 
     stars.initialize(model::generateDoubleDisk,
       num_star * p1, num_star * p2, center_position1, center_position2, radius1, radius2, weight, eccentricity
+    );
+  } else if ( !strcmp(model, "double-disk-center") ) {
+    if ( argc <= 20 ) {
+      cout << "Usage: " << argv[0] <<
+              " ... double-disk-center <proportion 1> <proportion 2> <radius 1> <radius 2>"
+              " <weight> <center weight> <eccentricity>" << endl << endl;
+      abort();
+    }
+    const float n1             = atof(argv[14]);
+    const float n2             = atof(argv[15]);
+    const float p1             = n1 / (n1+n2);
+    const float p2             = n2 / (n1+n2);
+    const float radius1        = atof(argv[16]);
+    const float radius2        = atof(argv[17]);
+    const float weight         = atof(argv[18]);
+    const float weight_center1 = atof(argv[19]);
+    const float weight_center2 = atof(argv[20]);
+    const float eccentricity   = atof(argv[21]);
+
+    assert(n1 >= 0 && n2 >= 0);
+
+    const float2 center_position1 = (make_float2(display_limits.x, display_limits.y) * (1*p1+0*p2) +
+                                     make_float2(display_limits.z, display_limits.w) * (1*p1+2*p2)) / 2;
+    const float2 center_position2 = (make_float2(display_limits.z, display_limits.w) * (1*p2+0*p1) +
+                                     make_float2(display_limits.x, display_limits.y) * (1*p2+2*p1)) / 2;
+
+    printf("Model Double Disk: proportion = %.2f / %.2f, radius = %.2f / %.2f, weight = %.2f, eccentricity = %.2f\n\n",
+           n1, n2, radius1, radius2, weight, eccentricity);
+
+    stars.initialize(model::generateDoubleDiskCenter,
+      num_star * p1, num_star * p2, center_position1, center_position2, radius1, radius2,
+      weight, weight_center1, weight_center1, eccentricity
     );
   } else if ( !strcmp(model, "rectangle") ) {
     if ( argc <= 16 ) {

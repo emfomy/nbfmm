@@ -45,9 +45,6 @@ class Stars {
   /// The step size in time
   const float tick_;
 
-  /// The gravitational constant
-  const float grav_const_;
-
   /// The scale of star size
   const float size_scale_;
 
@@ -114,7 +111,6 @@ class Stars {
   template <typename Func, typename... Args>
   void initialize(Func func, Args... args) {
     func(args..., tick_, gpuptr_position_cur_, gpuptr_position_pre_, gpuptr_weight_);
-    initialize();
   }
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -135,11 +131,6 @@ class Stars {
   /// Remove out-of-range stars
   ///
   void prune();
-
-  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  /// Initialize the stars: apply gravitational constant on star weights
-  ///
-  void initialize();
 };
 
 }  // namespace nbfmm
