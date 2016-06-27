@@ -71,7 +71,7 @@ int main() {
   solver.solve(num_particle, gpuptr_position, gpuptr_weight, gpuptr_effect);
   cudaMemcpy(effect,   gpuptr_effect,   num_particle * sizeof(float2), cudaMemcpyDeviceToHost);
 
-#pragma warning
+  // Reorder index
   int2 index_sorted[max_num_particle];
   int2 index[max_num_particle];
   int  perm[max_num_particle];
@@ -89,29 +89,6 @@ int main() {
            effect0[i].x, effect0[i].y, effect[i].x, effect[i].y);
   }
   printf("\n");
-
-// #pragma warning
-//   const int base_dim = solver.base_dim_;
-//   const int total_num_cell = base_dim * base_dim * num_level;
-//   float2 cell_position[num_level][base_dim][base_dim];
-//   float2 cell_effect[num_level][base_dim][base_dim];
-//   float  cell_weight[num_level][base_dim][base_dim];
-//   cudaMemcpy(cell_position, solver.gpuptr_cell_position_, total_num_cell * sizeof(float2), cudaMemcpyDeviceToHost);
-//   cudaMemcpy(cell_effect,   solver.gpuptr_cell_effect_,   total_num_cell * sizeof(float2), cudaMemcpyDeviceToHost);
-//   cudaMemcpy(cell_weight,   solver.gpuptr_cell_weight_,   total_num_cell * sizeof(float),  cudaMemcpyDeviceToHost);
-
-//   // Display cell data
-//   for ( auto l = 0; l < num_level; ++l ) {
-//     int cell_size = 1 << l;
-//     for ( auto j = 0; j < base_dim; j += cell_size ) {
-//       for ( auto i = 0; i < base_dim; i += cell_size ) {
-//         printf("#%2d (%4d, %4d): (%12.4f, %12.4f) * %12.4f -> (%12.4f, %12.4f)\n", l, i, j,
-//                cell_position[l][j][i].x,  cell_position[l][j][i].y,  cell_weight[l][j][i],
-//                cell_effect[l][j][i].x,    cell_effect[l][j][i].y);
-//       }
-//     }
-//   }
-//   printf("\n");
 
   // Free memory
   cudaFree(gpuptr_position);

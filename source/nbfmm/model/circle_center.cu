@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// @file    source/nbfmm/model/circle.cu
+/// @file    source/nbfmm/model/circle_center.cu
 /// @brief   The implementation of the generator for circle shape with a large particle at center.
 ///
 /// @author  Mu Yang <emfomy@gmail.com>

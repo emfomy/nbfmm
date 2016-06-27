@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// @file    source/nbfmm/model/circle_uniform.cu
+/// @file    source/nbfmm/model/circle_uniform_center.cu
 /// @brief   The implementation of generator for uniform circle shape with a large particle at center.
 ///
 /// @author  Mu Yang <emfomy@gmail.com>
