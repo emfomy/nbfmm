@@ -6,14 +6,14 @@
 ///
 
 #include <nbfmm/model.hpp>
-#include <cstdlib>
 #include <cmath>
 #include <curand_kernel.h>
 #include <thrust/device_vector.h>
 #include <nbfmm/core/kernel_function.hpp>
 #include <nbfmm/utility.hpp>
 
-using namespace std;
+/// @addtogroup impl_model
+/// @{
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Generate rectangle shape particles
@@ -28,18 +28,19 @@ using namespace std;
 /// @param[out]  position_previous  the previous particle positions.
 /// @param[out]  weight             the particle weights.
 ///
-__global__ void generateModelRectangleDevice(
-    const int     num_particle,
-    const float2  center_position,
-    const float   width,
-    const float   height,
-    const float   max_weight,
-    const float   tick,
-    float2*       position_current,
-    float2*       position_previous,
-    float*        weight
+__global__ void generateRectangleDevice(
+    const int    num_particle,
+    const float2 center_position,
+    const float  width,
+    const float  height,
+    const float  max_weight,
+    const float  tick,
+    float2*      position_current,
+    float2*      position_previous,
+    float*       weight
 ) {
   const int idx = threadIdx.x + blockIdx.x * blockDim.x;
+
   if ( idx >= num_particle ) {
     return;
   }
@@ -47,29 +48,26 @@ __global__ void generateModelRectangleDevice(
   curandState s;
   curand_init(0, idx, 0, &s);
 
-  const float2 position = center_position + make_float2(curand_uniform(&s) * width  - width/2,
-                                                        curand_uniform(&s) * height - height/2);
-  position_current[idx]  = center_position;
-  position_previous[idx] = center_position;
+  const float2 position = center_position + make_float2((curand_uniform(&s) - 0.5f) * width,
+                                                        (curand_uniform(&s) - 0.5f) * height);
+  position_current[idx]  = position;
+  position_previous[idx] = position;
   weight[idx]            = max_weight * curand_uniform(&s);
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//  The namespace NBFMM.
-//
-namespace nbfmm {
+/// @}
 
 // Generate rectangle shape particles
-void generateModelRectangle(
-    const int     num_particle,
-    const float2  center_position,
-    const float   width,
-    const float   height,
-    const float   max_weight,
-    const float   tick,
-    float2*       gpuptr_position_current,
-    float2*       gpuptr_position_previous,
-    float*        gpuptr_weight
+void nbfmm::model::generateRectangle(
+    const int    num_particle,
+    const float2 center_position,
+    const float  width,
+    const float  height,
+    const float  max_weight,
+    const float  tick,
+    float2*      gpuptr_position_current,
+    float2*      gpuptr_position_previous,
+    float*       gpuptr_weight
 ) {
   assert( num_particle > 0 );
   assert( width > 0 );
@@ -79,8 +77,6 @@ void generateModelRectangle(
   const int block_dim = kMaxBlockDim;
   const int grid_dim  = ((num_particle-1)/block_dim)+1;
 
-  generateModelRectangleDevice<<<grid_dim, block_dim>>>(num_particle, center_position, width, height, max_weight, tick,
-                                                        gpuptr_position_current, gpuptr_position_previous, gpuptr_weight);
-}
-
+  generateRectangleDevice<<<grid_dim, block_dim>>>(num_particle, center_position, width, height, max_weight, tick,
+                                                   gpuptr_position_current, gpuptr_position_previous, gpuptr_weight);
 }

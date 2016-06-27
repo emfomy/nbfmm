@@ -6,14 +6,12 @@ cmake_minimum_required(VERSION 3.0)
 
 # Set version number
 set(NBFMM_VERSION_MAJOR 1)
-set(NBFMM_VERSION_MINOR 1)
+set(NBFMM_VERSION_MINOR 2)
 set(NBFMM_VERSION_PATCH 0)
 
 # Set Makefile
 set(CMAKE_COLOR_MAKEFILE ON)
-if(CMAKE_BUILD_TYPE STREQUAL Debug)
-  set(CMAKE_VERBOSE_MAKEFILE ON)
-endif()
+# set(CMAKE_VERBOSE_MAKEFILE ON)
 
 # CUDA
 find_package(CUDA 7.5 REQUIRED)

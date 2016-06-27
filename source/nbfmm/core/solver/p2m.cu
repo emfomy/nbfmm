@@ -10,6 +10,9 @@
 #include <nbfmm/core.hpp>
 #include <nbfmm/utility.hpp>
 
+/// @addtogroup impl_core
+/// @{
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Compute particle to multipole weighting
 ///
@@ -70,11 +73,10 @@ __global__ void p2mAssigning(
   gpuptr_cell_weight[index_to_assign]   = gpuptr_cell_weight[index_temp];
 }
 
-//  The namespace NBFMM
-namespace nbfmm {
+/// @}
 
 // P2M
-void Solver::p2m( const int num_particle ) {
+void nbfmm::Solver::p2m( const int num_particle ) {
   if ( num_level_ <= 0 ) {
     return;
   }
@@ -106,5 +108,3 @@ void Solver::p2m( const int num_particle ) {
   p2mAssigning<<<grid_dim_cell, block_dim_cell>>>(base_dim_, buffer_int2_length, gpuptr_buffer_int2_,
                                                   gpuptr_cell_position_, gpuptr_cell_weight_);
 }
-
-}  // namespace nbfmm

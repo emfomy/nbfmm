@@ -8,6 +8,9 @@
 #include <nbfmm/core.hpp>
 #include <nbfmm/utility.hpp>
 
+/// @addtogroup impl_core
+/// @{
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Permute output vector
 ///
@@ -29,11 +32,10 @@ __global__ void permuteOutputVector(
   effect_origin[perm[idx]] = effect[idx];
 }
 
-//  The namespace NBFMM
-namespace nbfmm {
+/// @}
 
 // Solve system
-void Solver::postdo(
+void nbfmm::Solver::postdo(
     const int     num_particle,
     float2*       gpuptr_effect_origin
 ) {
@@ -41,5 +43,3 @@ void Solver::postdo(
   const int grid_dim  = ((num_particle-1)/block_dim)+1;
   permuteOutputVector<<<grid_dim, block_dim>>>(num_particle, gpuptr_perm_, gpuptr_effect_origin, gpuptr_effect_);
 }
-
-}  // namespace nbfmm

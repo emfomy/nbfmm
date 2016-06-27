@@ -7,7 +7,7 @@
 
 #include <nbfmm/core/solver.hpp>
 
-//  The namespace NBFMM
+// The NBFMM namespace
 namespace nbfmm {
 
 // Default constructor
@@ -19,7 +19,8 @@ Solver::Solver(
     base_dim_(1 << (num_level+1)),
     num_cell_p1_(base_dim_*base_dim_+1),
     max_num_particle_(max_num_particle),
-    position_limits_(position_limits) {
+    position_limits_(position_limits)
+{
   assert(num_level >= 0);
   assert(base_dim_ < kMaxBlockDim);
   assert(max_num_particle > 0 && max_num_particle < kMaxGridDim);
@@ -31,8 +32,7 @@ Solver::Solver(
   cudaMalloc(&gpuptr_index_,         max_num_particle_ * sizeof(int2));
   cudaMalloc(&gpuptr_perm_,          max_num_particle_ * sizeof(int));
   cudaMalloc(&gpuptr_head_,          num_cell_p1_      * sizeof(int));
-#pragma warning
-  if ( num_level_ < 2 ) {
+  if ( num_level_ < 2 ) { /// @todo Reduce buffer size
     cudaMalloc(&gpuptr_cell_position_, base_dim_ * base_dim_ * 2 * sizeof(float2));
     cudaMalloc(&gpuptr_cell_effect_,   base_dim_ * base_dim_ * 2 * sizeof(float2));
     cudaMalloc(&gpuptr_cell_weight_,   base_dim_ * base_dim_ * 2 * sizeof(float));
