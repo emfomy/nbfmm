@@ -107,12 +107,12 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a916ba4185a98b73e5d4f0e11a8b4fe19"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacenbfmm_1_1model.html#a916ba4185a98b73e5d4f0e11a8b4fe19">generateCircle</a> (const int num_particle, const float2 center_position, const float radius, const float weight, const float tick, float2 *gpuptr_position_current, float2 *gpuptr_position_previous, float *gpuptr_weight)</td></tr>
-<tr class="memdesc:a916ba4185a98b73e5d4f0e11a8b4fe19"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate circle shape particles.  <a href="#a916ba4185a98b73e5d4f0e11a8b4fe19">More...</a><br /></td></tr>
-<tr class="separator:a916ba4185a98b73e5d4f0e11a8b4fe19"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9d1745e6533ebcb0b2cb8e75c99c5973"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacenbfmm_1_1model.html#a9d1745e6533ebcb0b2cb8e75c99c5973">generateCircleUniform</a> (const int num_particle, const float2 center_position, const float radius, const float weight, const float tick, float2 *gpuptr_position_current, float2 *gpuptr_position_previous, float *gpuptr_weight)</td></tr>
-<tr class="memdesc:a9d1745e6533ebcb0b2cb8e75c99c5973"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate uniform circle shape particles.  <a href="#a9d1745e6533ebcb0b2cb8e75c99c5973">More...</a><br /></td></tr>
-<tr class="separator:a9d1745e6533ebcb0b2cb8e75c99c5973"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6a92fa99291cb94eb82ffda5434f38c7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacenbfmm_1_1model.html#a6a92fa99291cb94eb82ffda5434f38c7">generateCircleCenter</a> (const int num_particle, const float2 center_position, const float radius, const float weight, const float center_weight, const float tick, float2 *gpuptr_position_current, float2 *gpuptr_position_previous, float *gpuptr_weight)</td></tr>
+<tr class="memdesc:a6a92fa99291cb94eb82ffda5434f38c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate circle shape particles with a large particle at center.  <a href="#a6a92fa99291cb94eb82ffda5434f38c7">More...</a><br /></td></tr>
+<tr class="separator:a6a92fa99291cb94eb82ffda5434f38c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2cc18baeeec0e91537b5c32e3a115932"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacenbfmm_1_1model.html#a2cc18baeeec0e91537b5c32e3a115932">generateCircleUniformCenter</a> (const int num_particle, const float2 center_position, const float radius, const float weight, const float center_weight, const float tick, float2 *gpuptr_position_current, float2 *gpuptr_position_previous, float *gpuptr_weight)</td></tr>
+<tr class="memdesc:a2cc18baeeec0e91537b5c32e3a115932"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate uniform circle shape particles with a large particle at center.  <a href="#a2cc18baeeec0e91537b5c32e3a115932">More...</a><br /></td></tr>
+<tr class="separator:a2cc18baeeec0e91537b5c32e3a115932"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa73833bc820b9c869f98fd942a2f3836"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacenbfmm_1_1model.html#aa73833bc820b9c869f98fd942a2f3836">generateDisk</a> (const int num_particle, const float2 center_position, const float radius, const float weight, const float tick, float2 *gpuptr_position_current, float2 *gpuptr_position_previous, float *gpuptr_weight)</td></tr>
 <tr class="memdesc:aa73833bc820b9c869f98fd942a2f3836"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate disk shape particles.  <a href="#aa73833bc820b9c869f98fd942a2f3836">More...</a><br /></td></tr>
 <tr class="separator:aa73833bc820b9c869f98fd942a2f3836"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -135,12 +135,12 @@ Functions</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The model namespace. </p>
 </div><h2 class="groupheader">Function Documentation</h2>
-<a class="anchor" id="a916ba4185a98b73e5d4f0e11a8b4fe19"></a>
+<a class="anchor" id="a6a92fa99291cb94eb82ffda5434f38c7"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void nbfmm::model::generateCircle </td>
+          <td class="memname">void nbfmm::model::generateCircleCenter </td>
           <td>(</td>
           <td class="paramtype">const int&#160;</td>
           <td class="paramname"><em>num_particle</em>, </td>
@@ -162,6 +162,12 @@ Functions</h2></td></tr>
           <td></td>
           <td class="paramtype">const float&#160;</td>
           <td class="paramname"><em>weight</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const float&#160;</td>
+          <td class="paramname"><em>center_weight</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -195,13 +201,14 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Generate circle shape particles. </p>
+<p>Generate circle shape particles with a large particle at center. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">num_particle</td><td>the number of particles. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">center_position</td><td>the center position. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">radius</td><td>the radius. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">weight</td><td>the weight. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">center_weight</td><td>the weight of center particle. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">tick</td><td>the step size in time. </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">gpuptr_position_current</td><td>the device pointer of current particle positions. </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">gpuptr_position_previous</td><td>the device pointer of previous particle positions. </td></tr>
@@ -212,12 +219,12 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a9d1745e6533ebcb0b2cb8e75c99c5973"></a>
+<a class="anchor" id="a2cc18baeeec0e91537b5c32e3a115932"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void nbfmm::model::generateCircleUniform </td>
+          <td class="memname">void nbfmm::model::generateCircleUniformCenter </td>
           <td>(</td>
           <td class="paramtype">const int&#160;</td>
           <td class="paramname"><em>num_particle</em>, </td>
@@ -239,6 +246,12 @@ Functions</h2></td></tr>
           <td></td>
           <td class="paramtype">const float&#160;</td>
           <td class="paramname"><em>weight</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const float&#160;</td>
+          <td class="paramname"><em>center_weight</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -272,13 +285,14 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Generate uniform circle shape particles. </p>
+<p>Generate uniform circle shape particles with a large particle at center. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">num_particle</td><td>the number of particles. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">center_position</td><td>the center position. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">radius</td><td>the radius. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">weight</td><td>the weight. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">center_weight</td><td>the weight of center particle. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">tick</td><td>the step size in time. </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">gpuptr_position_current</td><td>the device pointer of current particle positions. </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">gpuptr_position_previous</td><td>the device pointer of previous particle positions. </td></tr>
@@ -838,7 +852,7 @@ Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Jun 20 2016 16:34:06 for NBFMM by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Jun 28 2016 03:51:44 for NBFMM by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.11
 </small></address>

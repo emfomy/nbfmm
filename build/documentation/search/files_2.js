@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['initialize_2ecu',['initialize.cu',['../initialize_8cu.html',1,'']]]
+  ['kernel_5ffunction_2ehpp',['kernel_function.hpp',['../kernel__function_8hpp.html',1,'']]]
 ];

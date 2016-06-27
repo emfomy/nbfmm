@@ -94,12 +94,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ga1f324bda3d3428775a6d8fe05f4d253f"><td class="memItemLeft" align="right" valign="top">__global__ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__impl__display.html#ga1f324bda3d3428775a6d8fe05f4d253f">displayDevice</a> (const int num_star, const int width, const int height, const float grav_const, const float size_scale, const float4 display_limits, const float2 *position, const float *weight, uint8_t *board)</td></tr>
-<tr class="memdesc:ga1f324bda3d3428775a6d8fe05f4d253f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Display the stars.  <a href="#ga1f324bda3d3428775a6d8fe05f4d253f">More...</a><br /></td></tr>
-<tr class="separator:ga1f324bda3d3428775a6d8fe05f4d253f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gad98865fa3f39811bf342e6ec5896c83b"><td class="memItemLeft" align="right" valign="top">__global__ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__impl__display.html#gad98865fa3f39811bf342e6ec5896c83b">initializeDevice</a> (const int num_star, const float grav_const, float *weight)</td></tr>
-<tr class="memdesc:gad98865fa3f39811bf342e6ec5896c83b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Update the stars.  <a href="#gad98865fa3f39811bf342e6ec5896c83b">More...</a><br /></td></tr>
-<tr class="separator:gad98865fa3f39811bf342e6ec5896c83b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac993f0a70131b17d8182f638ce61a867"><td class="memItemLeft" align="right" valign="top">__global__ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__impl__display.html#gac993f0a70131b17d8182f638ce61a867">displayDevice</a> (const int num_star, const int width, const int height, const float size_scale, const float4 display_limits, const float2 *position, const float *weight, uint8_t *board)</td></tr>
+<tr class="memdesc:gac993f0a70131b17d8182f638ce61a867"><td class="mdescLeft">&#160;</td><td class="mdescRight">Display the stars.  <a href="#gac993f0a70131b17d8182f638ce61a867">More...</a><br /></td></tr>
+<tr class="separator:gac993f0a70131b17d8182f638ce61a867"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga46e0c4592af54bacda05e3885f7b1f20"><td class="memItemLeft" align="right" valign="top">__global__ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__impl__display.html#ga46e0c4592af54bacda05e3885f7b1f20">pruneDevice</a> (const int num_star, const float4 position_limits, const float2 *position, bool *elimination)</td></tr>
 <tr class="memdesc:ga46e0c4592af54bacda05e3885f7b1f20"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove out-of-range stars.  <a href="#ga46e0c4592af54bacda05e3885f7b1f20">More...</a><br /></td></tr>
 <tr class="separator:ga46e0c4592af54bacda05e3885f7b1f20"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -109,7 +106,7 @@ Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <h2 class="groupheader">Function Documentation</h2>
-<a class="anchor" id="ga1f324bda3d3428775a6d8fe05f4d253f"></a>
+<a class="anchor" id="gac993f0a70131b17d8182f638ce61a867"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -130,12 +127,6 @@ Functions</h2></td></tr>
           <td></td>
           <td class="paramtype">const int&#160;</td>
           <td class="paramname"><em>height</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const float&#160;</td>
-          <td class="paramname"><em>grav_const</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -181,54 +172,11 @@ Functions</h2></td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">num_star</td><td>the number of stars. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">width</td><td>the frame width. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">height</td><td>the frame height. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">grav_const</td><td>the gravitational constant. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">size_scale</td><td>the scale of star size. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">display_limits</td><td>the limits of display positions. [x_min, y_min, x_max, y_max]. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">position</td><td>the star positions. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">weight</td><td>the star weights. </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">board</td><td>the frame board </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a class="anchor" id="gad98865fa3f39811bf342e6ec5896c83b"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">__global__ void initializeDevice </td>
-          <td>(</td>
-          <td class="paramtype">const int&#160;</td>
-          <td class="paramname"><em>num_star</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const float&#160;</td>
-          <td class="paramname"><em>grav_const</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">float *&#160;</td>
-          <td class="paramname"><em>weight</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Update the stars. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">num_star</td><td>the number of stars. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">grav_const</td><td>the gravitational constant </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">weight</td><td>the star weights. </td></tr>
   </table>
   </dd>
 </dl>
@@ -343,7 +291,7 @@ Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Jun 20 2016 16:34:06 for NBFMM by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Jun 28 2016 03:51:44 for NBFMM by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.11
 </small></address>

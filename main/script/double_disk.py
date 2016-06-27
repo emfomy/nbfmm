@@ -19,7 +19,7 @@ display_scale = 0.8
 grav_const    = 1
 size_scale    = 1
 
-model        = 'doubledisk'
+model        = 'double-disk'
 proportion1  = 5
 proportion2  = 3
 radius       = min(pos_width, pos_height) * display_scale / 16

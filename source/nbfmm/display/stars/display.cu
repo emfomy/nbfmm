@@ -19,7 +19,6 @@
 /// @param[in]   num_star        the number of stars.
 /// @param[in]   width           the frame width.
 /// @param[in]   height          the frame height.
-/// @param[in]   grav_const      the gravitational constant.
 /// @param[in]   size_scale      the scale of star size.
 /// @param[in]   display_limits  the limits of display positions. [x_min, y_min, x_max, y_max].
 /// @param[in]   position        the star positions.
@@ -31,7 +30,6 @@ __global__ void displayDevice(
   const int     num_star,
   const int     width,
   const int     height,
-  const float   grav_const,
   const float   size_scale,
   const float4  display_limits,
   const float2* position,
@@ -48,7 +46,7 @@ __global__ void displayDevice(
   const float unit_height = (display_limits.w - display_limits.y) / height;
   const int x    = floor((position[idx].x - display_limits.x) / unit_width);
   const int y    = floor((display_limits.w - position[idx].y) / unit_height);
-  const int size = floor(sqrt(weight[idx] / grav_const) / size_scale);
+  const int size = floor(sqrt(weight[idx]) / size_scale);
 
   board += x + y * width;
 
@@ -224,7 +222,7 @@ void nbfmm::Stars::display( uint8_t* board ) {
 
   const int block_dim = kMaxBlockDim;
   const int grid_dim  = ((num_star_-1)/block_dim)+1;
-  displayDevice<<<grid_dim,block_dim>>>(num_star_, width_, height_, grav_const_, size_scale_, display_limits_,
+  displayDevice<<<grid_dim,block_dim>>>(num_star_, width_, height_, size_scale_, display_limits_,
                                         gpuptr_position_cur_, gpuptr_weight_, board);
 
   prune();

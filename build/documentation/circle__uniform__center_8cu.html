@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.11"/>
-<title>NBFMM: source/nbfmm/model/circle.cu File Reference</title>
+<title>NBFMM: source/nbfmm/model/circle_uniform_center.cu File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -98,31 +98,30 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div class="summary">
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
-<div class="title">circle.cu File Reference</div>  </div>
+<div class="title">circle_uniform_center.cu File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>The implementation of circle shape generator.  
+<p>The implementation of generator for uniform circle shape with a large particle at center.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;<a class="el" href="model_8hpp_source.html">nbfmm/model.hpp</a>&gt;</code><br />
 <code>#include &lt;cmath&gt;</code><br />
-<code>#include &lt;curand_kernel.h&gt;</code><br />
 <code>#include &lt;<a class="el" href="kernel__function_8hpp_source.html">nbfmm/core/kernel_function.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="utility_8hpp_source.html">nbfmm/utility.hpp</a>&gt;</code><br />
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ga114ff6cfb0ac953559cecc958da610f3"><td class="memItemLeft" align="right" valign="top">__global__ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__impl__model.html#ga114ff6cfb0ac953559cecc958da610f3">generateCircleDevice</a> (const int num_particle, const float2 center_position, const float radius, const float weight, const float angle_difference, float2 *position_current, float2 *position_previous, float *weight_ptr)</td></tr>
-<tr class="memdesc:ga114ff6cfb0ac953559cecc958da610f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate circle shape particles.  <a href="group__impl__model.html#ga114ff6cfb0ac953559cecc958da610f3">More...</a><br /></td></tr>
-<tr class="separator:ga114ff6cfb0ac953559cecc958da610f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac3102ca5a0d95c2cf3f5748f0ae28a1a"><td class="memItemLeft" align="right" valign="top">__global__ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__impl__model.html#gac3102ca5a0d95c2cf3f5748f0ae28a1a">generateCircleUniformCenterDevice</a> (const int num_particle, const float2 center_position, const float radius, const float weight, const float center_weight, const float angle_difference, float2 *position_current, float2 *position_previous, float *weight_ptr)</td></tr>
+<tr class="memdesc:gac3102ca5a0d95c2cf3f5748f0ae28a1a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate uniform circle shape particles.  <a href="group__impl__model.html#gac3102ca5a0d95c2cf3f5748f0ae28a1a">More...</a><br /></td></tr>
+<tr class="separator:gac3102ca5a0d95c2cf3f5748f0ae28a1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>The implementation of circle shape generator. </p>
+<div class="textblock"><p>The implementation of generator for uniform circle shape with a large particle at center. </p>
 <dl class="section author"><dt>Author</dt><dd>Mu Yang <a href="#" onclick="location.href='mai'+'lto:'+'emf'+'om'+'y@g'+'ma'+'il.'+'co'+'m'; return false;">emfom<span style="display: none;">.nosp@m.</span>y@gm<span style="display: none;">.nosp@m.</span>ail.c<span style="display: none;">.nosp@m.</span>om</a> </dd></dl>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Jun 20 2016 16:34:06 for NBFMM by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Jun 28 2016 03:51:44 for NBFMM by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.11
 </small></address>

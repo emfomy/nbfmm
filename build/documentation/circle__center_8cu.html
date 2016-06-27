@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.11"/>
-<title>NBFMM: source/nbfmm/display/stars/initialize.cu File Reference</title>
+<title>NBFMM: source/nbfmm/model/circle_center.cu File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -91,39 +91,38 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_b2f33c71d4aa5e7af42a1ca61ff5af1b.html">source</a></li><li class="navelem"><a class="el" href="dir_5c2a286f234a627050a3879e3033d0f6.html">nbfmm</a></li><li class="navelem"><a class="el" href="dir_2b94a9fd81881c7fb29c7a24d855ce0c.html">display</a></li><li class="navelem"><a class="el" href="dir_ed9c0fb58f3b1bcab4130b3e1712641d.html">stars</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_b2f33c71d4aa5e7af42a1ca61ff5af1b.html">source</a></li><li class="navelem"><a class="el" href="dir_5c2a286f234a627050a3879e3033d0f6.html">nbfmm</a></li><li class="navelem"><a class="el" href="dir_79aba4fab6b6e51d8740ca8e64b198f7.html">model</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
-<div class="title">initialize.cu File Reference</div>  </div>
+<div class="title">circle_center.cu File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>Initialize the stars: apply gravitational constant on star weights.  
+<p>The implementation of the generator for circle shape with a large particle at center.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;<a class="el" href="stars_8hpp_source.html">nbfmm/display/stars.hpp</a>&gt;</code><br />
+<div class="textblock"><code>#include &lt;<a class="el" href="model_8hpp_source.html">nbfmm/model.hpp</a>&gt;</code><br />
+<code>#include &lt;cmath&gt;</code><br />
+<code>#include &lt;curand_kernel.h&gt;</code><br />
+<code>#include &lt;<a class="el" href="kernel__function_8hpp_source.html">nbfmm/core/kernel_function.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="utility_8hpp_source.html">nbfmm/utility.hpp</a>&gt;</code><br />
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:gad98865fa3f39811bf342e6ec5896c83b"><td class="memItemLeft" align="right" valign="top">__global__ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__impl__display.html#gad98865fa3f39811bf342e6ec5896c83b">initializeDevice</a> (const int num_star, const float grav_const, float *weight)</td></tr>
-<tr class="memdesc:gad98865fa3f39811bf342e6ec5896c83b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Update the stars.  <a href="group__impl__display.html#gad98865fa3f39811bf342e6ec5896c83b">More...</a><br /></td></tr>
-<tr class="separator:gad98865fa3f39811bf342e6ec5896c83b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga2d46f87ae5a4b63e094397af24792f1c"><td class="memItemLeft" align="right" valign="top">__global__ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__impl__model.html#ga2d46f87ae5a4b63e094397af24792f1c">generateCircleCenterDevice</a> (const int num_particle, const float2 center_position, const float radius, const float weight, const float center_weight, const float angle_difference, float2 *position_current, float2 *position_previous, float *weight_ptr)</td></tr>
+<tr class="memdesc:ga2d46f87ae5a4b63e094397af24792f1c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate circle shape particles.  <a href="group__impl__model.html#ga2d46f87ae5a4b63e094397af24792f1c">More...</a><br /></td></tr>
+<tr class="separator:ga2d46f87ae5a4b63e094397af24792f1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Initialize the stars: apply gravitational constant on star weights. </p>
-<dl class="section author"><dt>Author</dt><dd>Mu Yang <a href="#" onclick="location.href='mai'+'lto:'+'emf'+'om'+'y@g'+'ma'+'il.'+'co'+'m'; return false;">emfom<span style="display: none;">.nosp@m.</span>y@gm<span style="display: none;">.nosp@m.</span>ail.c<span style="display: none;">.nosp@m.</span>om</a> </dd>
-<dd>
-Yung-Kang Lee <a href="#" onclick="location.href='mai'+'lto:'+'bla'+'st'+'eg@'+'gm'+'ail'+'.c'+'om'; return false;">blast<span style="display: none;">.nosp@m.</span>eg@g<span style="display: none;">.nosp@m.</span>mail.<span style="display: none;">.nosp@m.</span>com</a> </dd>
-<dd>
-Da-Wei Chang <a href="#" onclick="location.href='mai'+'lto:'+'dav'+'id'+'zan'+'83'+'0@g'+'ma'+'il.'+'co'+'m'; return false;">david<span style="display: none;">.nosp@m.</span>zan8<span style="display: none;">.nosp@m.</span>30@gm<span style="display: none;">.nosp@m.</span>ail.<span style="display: none;">.nosp@m.</span>com</a> </dd></dl>
+<div class="textblock"><p>The implementation of the generator for circle shape with a large particle at center. </p>
+<dl class="section author"><dt>Author</dt><dd>Mu Yang <a href="#" onclick="location.href='mai'+'lto:'+'emf'+'om'+'y@g'+'ma'+'il.'+'co'+'m'; return false;">emfom<span style="display: none;">.nosp@m.</span>y@gm<span style="display: none;">.nosp@m.</span>ail.c<span style="display: none;">.nosp@m.</span>om</a> </dd></dl>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Jun 20 2016 16:34:06 for NBFMM by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Jun 28 2016 03:51:44 for NBFMM by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.11
 </small></address>
